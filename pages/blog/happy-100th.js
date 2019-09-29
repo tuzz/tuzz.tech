@@ -4,7 +4,7 @@ const Happy100th = () => (
   <Layout title="Happy 100th, tuzz!">
     <h1>Happy 100th, tuzz! &nbsp;🎉</h1>
 
-    <time dateTime="2019-09-29" pubdate="pubdate">
+    <time dateTime="2019-09-29">
       Published September 29, 2019 by {" "}
       <a href="https://twitter.com/chrispatuzzo" target="_blank">Chris Patuzzo</a>
     </time>
