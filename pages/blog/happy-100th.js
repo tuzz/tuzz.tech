@@ -10,9 +10,10 @@ const Happy100th = () => (
     </time>
 
     <p>
-    No, I'm not 100 years old. This blog marks my 100th personal repository on
-    GitHub. An arbitrary milestone that bears no real significance other than as
-    testament to my endless tinkering, insatiable curiosity and belief that
+    No, I’m not 100 years old. This blog marks {" "}
+    <a href="https://github.com/tuzz/tuzz.tech">my 100th personal repository</a> {" "}
+    on GitHub. An arbitrary milestone that bears no real significance other than
+    as testament to my endless tinkering, insatiable curiosity and belief that
     making things is perhaps the best way to really understand something.
     </p>
 
