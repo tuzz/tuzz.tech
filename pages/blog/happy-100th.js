@@ -1,7 +1,7 @@
 import Layout from "../../components/layout";
 
 const Happy100th = () => (
-  <Layout>
+  <Layout title="Happy 100th, tuzz!">
     <h1>Happy 100th, tuzz! &nbsp;🎉</h1>
 
     <time dateTime="2019-09-29" pubdate="pubdate">
