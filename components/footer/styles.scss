@@ -1,0 +1,18 @@
+.footer {
+  height: 4rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  color: #aaa;
+  font-size: 0.9rem;
+
+  a {
+    color: #aaa;
+    text-decoration: none;
+  }
+
+  p {
+    flex: 1;
+  }
+}
