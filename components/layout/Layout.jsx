@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Analytics from "../analytics";
 import NavBar from "../nav_bar";
 import Footer from "../footer";
 import css from "./styles.scss";
@@ -6,6 +7,8 @@ import css from "./styles.scss";
 import "./reset.scss";
 
 const Layout = ({ children, title }) => <>
+  <Analytics />
+
   <Head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} - tuzz.tech</title>
