@@ -1,7 +1,9 @@
-import Layout from "../components/layout";
+import Head from "next/head";
 
 const Index = () => (
-  <p>Hello, World!</p>
+  <Head>
+    <meta http-equiv="Refresh" content="0; url=/blog/happy-100th" />
+  </Head>
 );
 
 export default Index;
