@@ -3,7 +3,7 @@ body {
 }
 
 .layout {
-  width: 40rem;
+  max-width: 40rem;
   padding-right: 18.75rem;
   margin: auto;
   background: #fbfaf8;
@@ -25,6 +25,7 @@ body {
     font-size: 3rem;
     padding-top: 5rem;
     border-bottom: 1px solid #eee;
+    line-height: 1.5;
   }
 
   time {
@@ -69,13 +70,7 @@ body {
   }
 
   aside {
-    position: absolute;
-    right: 1.875rem;
-    width: 15rem;
-    border-left: 0.5rem solid #f0e9db;
-    padding-left: 1.375rem;
     color: #868279;
-    line-height: 1.4;
 
     p {
       margin: 1.2rem 0;
@@ -89,17 +84,70 @@ body {
         padding-bottom: 0;
       }
     }
+  }
+}
 
-    a {
-      opacity: 0.9;
+@media (min-width: 801px) {
+  .layout {
+    aside {
+      position: absolute;
+      right: 1.875rem;
+      width: 15rem;
+      border-left: 0.5rem solid #f0e9db;
+      padding-left: 1.375rem;
+      color: #868279;
+      line-height: 1.4;
+
+      a {
+        opacity: 0.9;
+      }
+
+      &:global(.raise-1-line)  { margin-top: -1.5rem; }
+      &:global(.raise-1-lines) { margin-top: -1.5rem; }
+      &:global(.raise-2-lines) { margin-top: -3.0rem; }
+      &:global(.raise-3-lines) { margin-top: -4.5rem; }
+      &:global(.raise-4-lines) { margin-top: -6.0rem; }
+      &:global(.raise-5-lines) { margin-top: -7.5rem; }
+      &:global(.raise-6-lines) { margin-top: -9.0rem; }
+    }
+  }
+}
+
+@media (max-width: 940px) {
+  .layout {
+    h1 {
+      font-size: 2.4rem;
+      padding-top: 4rem;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .layout {
+    padding-right: 0;
+
+    aside {
+      background: #faf8f5;
+      padding: 0.625rem;
+      border: 1px solid #f7f4ed;
+      border-radius: 3px;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .layout {
+    h1 {
+      font-size: 2rem;
+      padding-top: 3rem;
     }
 
-    &:global(.raise-1-line)  { margin-top: -1.5rem; }
-    &:global(.raise-1-lines) { margin-top: -1.5rem; }
-    &:global(.raise-2-lines) { margin-top: -3.0rem; }
-    &:global(.raise-3-lines) { margin-top: -4.5rem; }
-    &:global(.raise-4-lines) { margin-top: -6.0rem; }
-    &:global(.raise-5-lines) { margin-top: -7.5rem; }
-    &:global(.raise-6-lines) { margin-top: -9.0rem; }
+    time {
+      font-size: 0.9rem;
+    }
+  }
+
+  .content {
+    padding: 0 1.25rem;
   }
 }

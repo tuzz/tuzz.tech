@@ -5,4 +5,11 @@
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 0.9rem;
   color: #868279;
+  line-height: 1.5;
+}
+
+@media (max-width: 550px) {
+  .nav_bar {
+    padding: 0.8rem 1.25rem;
+  }
 }

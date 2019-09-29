@@ -60,7 +60,7 @@ const Happy100th = () => (
       <p>At time of writing, it’s the global climate strike.</p>
 
       <p>
-      <i>The resistance</i> is a reference to <br/>
+      <i>The resistance</i> is a reference to {" "}
       <a href="https://www.goodreads.com/book/show/1319.The_War_of_Art" target="_blank">The War of Art</a>.
       </p>
     </aside>
