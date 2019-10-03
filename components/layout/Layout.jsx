@@ -15,13 +15,13 @@ const Layout = ({ children, title }) => <>
   </Head>
 
   <div className={css.layout}>
-    <NavBar />
-
     <div className={css.content}>
-      {children}
-    </div>
+      <NavBar />
 
-    <NavBar />
+      {children}
+
+      <NavBar />
+    </div>
   </div>
 
   <Footer />

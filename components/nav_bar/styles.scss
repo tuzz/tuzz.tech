@@ -2,15 +2,25 @@
 
 .nav_bar {
   background: $primary_100;
+  margin: 0 -2.5rem;
   padding: 0.8rem 2.5rem;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-size: 0.9rem;
   color: $neutral_700;
-  line-height: 1.5;
+
+  &:first-child {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid $primary_200;
+  }
+
+  &:last-child {
+    margin-top: 3rem;
+    border-top: 1px solid $primary_200;
+  }
 }
 
 @media (max-width: 550px) {
   .nav_bar {
+    margin: 0 -1.25rem;
     padding: 0.8rem 1.25rem;
   }
 }

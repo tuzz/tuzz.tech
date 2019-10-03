@@ -11,7 +11,7 @@ const Happy100th = () => (
 
     <p>
     No, I’m not 100 years old. This blog marks {" "}
-    <a href="https://github.com/tuzz/tuzz.tech">my 100th personal repository</a> {" "}
+    <a href="https://github.com/tuzz/tuzz.tech" target="_blank">my 100th personal repository</a> {" "}
     on GitHub. An arbitrary milestone that bears no real significance other than
     as testament to my endless tinkering, insatiable curiosity and belief that
     making things is perhaps the best way to really understand something.
@@ -32,7 +32,7 @@ const Happy100th = () => (
     Those sleepless nights my brain won’t switch off, exploring the twisting
     avenues on some project. The occasions I’m frantically scribbling away,
     working through the minutiae of an esoteric problem. Or the intense lucidity
-    and feeling of purpose that arises from programming for hours at a time.
+    and feelings of purpose that arise from programming for hours at a time.
     </p>
 
     <aside className="raise-2-lines">
@@ -125,7 +125,7 @@ const Happy100th = () => (
     <aside className="raise-5-lines">
       <p>
       I spent a while deciding what to put here. These are biased towards
-      projects with visuals but I work on plenty interesting things where the
+      projects with visuals but I work on plenty of interesting things where the
       only output is a terminal.
       </p>
     </aside>
