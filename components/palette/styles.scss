@@ -1,0 +1,81 @@
+@import "../layout/color.scss";
+
+.section {
+  margin: 4em;
+
+  p {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+  }
+
+  div {
+    display: inline-block;
+    width: 7em;
+    height: 5em;
+    line-height: 5em;
+    margin-right: 1em;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0.2em $neutral_500;
+    text-align: center;
+  }
+}
+
+.primary_900 { background: $primary_900; }
+.primary_800 { background: $primary_800; }
+.primary_700 { background: $primary_700; }
+.primary_600 { background: $primary_600; }
+.primary_500 { background: $primary_500; }
+.primary_400 { background: $primary_400; }
+.primary_300 { background: $primary_300; }
+.primary_200 { background: $primary_200; }
+.primary_100 { background: $primary_100; }
+
+.neutral_900 { background: $neutral_900; }
+.neutral_800 { background: $neutral_800; }
+.neutral_700 { background: $neutral_700; }
+.neutral_600 { background: $neutral_600; }
+.neutral_500 { background: $neutral_500; }
+.neutral_400 { background: $neutral_400; }
+.neutral_300 { background: $neutral_300; }
+.neutral_200 { background: $neutral_200; }
+.neutral_100 { background: $neutral_100; }
+
+.accent1_900 { background: $accent1_900; }
+.accent1_800 { background: $accent1_800; }
+.accent1_700 { background: $accent1_700; }
+.accent1_600 { background: $accent1_600; }
+.accent1_500 { background: $accent1_500; }
+.accent1_400 { background: $accent1_400; }
+.accent1_300 { background: $accent1_300; }
+.accent1_200 { background: $accent1_200; }
+.accent1_100 { background: $accent1_100; }
+
+.accent2_900 { background: $accent2_900; }
+.accent2_800 { background: $accent2_800; }
+.accent2_700 { background: $accent2_700; }
+.accent2_600 { background: $accent2_600; }
+.accent2_500 { background: $accent2_500; }
+.accent2_400 { background: $accent2_400; }
+.accent2_300 { background: $accent2_300; }
+.accent2_200 { background: $accent2_200; }
+.accent2_100 { background: $accent2_100; }
+
+.accent3_900 { background: $accent3_900; }
+.accent3_800 { background: $accent3_800; }
+.accent3_700 { background: $accent3_700; }
+.accent3_600 { background: $accent3_600; }
+.accent3_500 { background: $accent3_500; }
+.accent3_400 { background: $accent3_400; }
+.accent3_300 { background: $accent3_300; }
+.accent3_200 { background: $accent3_200; }
+.accent3_100 { background: $accent3_100; }
+
+.accent4_900 { background: $accent4_900; }
+.accent4_800 { background: $accent4_800; }
+.accent4_700 { background: $accent4_700; }
+.accent4_600 { background: $accent4_600; }
+.accent4_500 { background: $accent4_500; }
+.accent4_400 { background: $accent4_400; }
+.accent4_300 { background: $accent4_300; }
+.accent4_200 { background: $accent4_200; }
+.accent4_100 { background: $accent4_100; }

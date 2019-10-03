@@ -1,14 +1,16 @@
+@import "../layout/color.scss";
+
 .footer {
   height: 4rem;
   text-align: center;
   display: flex;
   align-items: center;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  color: #aaa;
+  color: $neutral_500;
   font-size: 0.9rem;
 
   a {
-    color: #aaa;
+    color: $neutral_500;
     text-decoration: none;
   }
 

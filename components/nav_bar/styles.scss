@@ -1,10 +1,11 @@
+@import "../layout/color.scss";
+
 .nav_bar {
-  background: #faf7f0;
-  background: #f0f7fa;
+  background: $primary_100;
   padding: 0.8rem 2.5rem;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 0.9rem;
-  color: #868279;
+  color: $neutral_700;
   line-height: 1.5;
 }
 
