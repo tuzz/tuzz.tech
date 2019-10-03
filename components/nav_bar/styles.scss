@@ -3,9 +3,16 @@
 .nav_bar {
   background: $primary_100;
   margin: 0 -2.5rem;
-  padding: 0.8rem 2.5rem;
+  padding: 0.5rem 2.5rem;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   color: $neutral_700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  a:not([href]) {
+    color: $neutral_500 !important;
+  }
 
   &:first-child {
     margin-bottom: 3rem;
@@ -18,9 +25,36 @@
   }
 }
 
+.breadcrumbs {
+  font-size: 0.95rem;
+
+  a:before {
+    content: " / ";
+    color: $neutral_700;
+  }
+
+  a:first-child:before {
+    content: "";
+  }
+}
+
+.links {
+  a {
+    margin-left: 2rem;
+  }
+
+  a:first-child {
+    margin-left: 0;
+  }
+}
+
 @media (max-width: 550px) {
   .nav_bar {
     margin: 0 -1.25rem;
-    padding: 0.8rem 1.25rem;
+    padding: 0.5rem 1.25rem;
+  }
+
+  .links a {
+    margin-left: 1.5rem;
   }
 }

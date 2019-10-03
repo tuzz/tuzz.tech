@@ -6,7 +6,7 @@ import css from "./styles.scss";
 
 import "./reset.scss";
 
-const Layout = ({ children, title }) => <>
+const Layout = ({ children, title, navigation }) => <>
   <Analytics />
 
   <Head>
@@ -16,11 +16,11 @@ const Layout = ({ children, title }) => <>
 
   <div className={css.layout}>
     <div className={css.content}>
-      <NavBar />
+      <NavBar navigation={navigation} />
 
       {children}
 
-      <NavBar />
+      <NavBar navigation={navigation} />
     </div>
   </div>
 

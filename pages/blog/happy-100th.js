@@ -1,7 +1,19 @@
 import Layout from "../../components/layout";
 
+const navigation = {
+  breadcrumbs: [
+    { text: "tuzz.tech", href: "/" },
+    { text: "blog", href: "/blog" },
+  ],
+
+  links: [
+    { text: "← Previous" },
+    { text: "Next Article →" },
+  ]
+}
+
 const Happy100th = () => (
-  <Layout title="Happy 100th, tuzz!">
+  <Layout title="Happy 100th, tuzz!" navigation={navigation}>
     <h1>Happy 100th, tuzz! &nbsp;🎉</h1>
 
     <time dateTime="2019-09-29">
