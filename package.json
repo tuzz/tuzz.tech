@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@mdx-js/loader": "^1.5.0",
+    "@next/mdx": "^9.0.7",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "next": "^9.0.7",
