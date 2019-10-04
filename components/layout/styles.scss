@@ -1,6 +1,6 @@
 @import "./color.scss";
 
-body{
+body {
   background-color: $neutral_200;
 }
 
@@ -87,6 +87,7 @@ body{
   }
 }
 
+
 @media (max-width: 940px) {
   .layout {
     h1 {
@@ -104,15 +105,13 @@ body{
       width: 15rem;
       padding-left: 1.375rem;
       line-height: 1.4;
-
-      &:global(.raise-1-line)  { margin-top: -1.5rem; }
-      &:global(.raise-1-lines) { margin-top: -1.5rem; }
-      &:global(.raise-2-lines) { margin-top: -3.0rem; }
-      &:global(.raise-3-lines) { margin-top: -4.5rem; }
-      &:global(.raise-4-lines) { margin-top: -6.0rem; }
-      &:global(.raise-5-lines) { margin-top: -7.5rem; }
-      &:global(.raise-6-lines) { margin-top: -9.0rem; }
+      opacity: 0;
     }
+  }
+
+  :global(.asides-aligned) .layout aside {
+    opacity: 1;
+    transition: opacity 0.3s;
   }
 }
 
