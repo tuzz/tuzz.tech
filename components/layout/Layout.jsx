@@ -28,7 +28,6 @@ const Layout = ({ children, title, navigation }) => <>
   <Footer />
 
   <ExternalLinks />
-  <script src="/asides.js"></script>
 </>;
 
 export default Layout;

@@ -108,11 +108,6 @@ body {
       opacity: 0;
     }
   }
-
-  :global(.asides-aligned) .layout aside {
-    opacity: 1;
-    transition: opacity 0.3s;
-  }
 }
 
 @media (max-width: 800px) {
