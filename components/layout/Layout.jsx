@@ -2,6 +2,7 @@ import Head from "next/head";
 import Analytics from "../analytics";
 import NavBar from "../nav_bar";
 import Footer from "../footer";
+import ExternalLinks from "../external_links";
 import css from "./styles.scss";
 
 import "./reset.scss";
@@ -25,6 +26,8 @@ const Layout = ({ children, title, navigation }) => <>
   </div>
 
   <Footer />
+
+  <ExternalLinks />
 </>;
 
 export default Layout;
