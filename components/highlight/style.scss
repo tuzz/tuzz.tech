@@ -1,0 +1,28 @@
+@import "../layout/color.scss";
+
+:global {
+  @import "./prism.scss";
+
+  // Code blocks:
+  pre[class*="language-"] {
+    font-size: 13px;
+    background: $neutral_100;
+
+    .token-line {
+      display: block;
+      height: 1.3rem;
+    }
+  }
+
+  // Inline code:
+  :not(pre) > code[class*="language-"] {
+    font-size: 13px;
+    background: $neutral_250;
+    padding: 0.1rem 0.2rem;
+    white-space: nowrap;
+  }
+
+   a code[class*="language-"] {
+     color: $primary_700;
+  }
+}

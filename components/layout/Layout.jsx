@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Analytics from "../analytics";
 import NavBar from "../nav_bar";
+import Highlight from "../highlight";
 import Footer from "../footer";
 import ExternalLinks from "../external_links";
 import css from "./styles.scss";
@@ -19,7 +20,9 @@ const Layout = ({ children, title, navigation }) => <>
     <div className={css.content}>
       <NavBar navigation={navigation} />
 
-      {children}
+      <Highlight.Markdown>
+        {children}
+      </Highlight.Markdown>
 
       <NavBar navigation={navigation} />
     </div>
