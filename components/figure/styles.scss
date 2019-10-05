@@ -1,0 +1,13 @@
+@import "../layout/color.scss";
+
+.figure {
+  figcaption {
+    color: $neutral_800;
+    font-style: italic;
+  }
+
+  .arrow {
+    color: $accent1_500;
+    margin: 0 0.5rem 0 2rem;
+  }
+}
