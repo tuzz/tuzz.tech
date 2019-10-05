@@ -1,20 +1,29 @@
 import css from "./styles.scss";
 
-const Figure = ({ src, children, href, alt }) => {
-  href = href || src;
-  alt = alt || children;
+const Figure = ({ children, href }) => {
+  const [figure, caption] = children;
 
   return (
     <figure className={css.figure}>
       <a href={href}>
-        <img src={src} alt={alt} />
+        {figure}
       </a>
 
       <figcaption>
-        <span className={css.arrow}>▲</span> {children}
+        <span className={css.arrow}>▲</span> {caption}
       </figcaption>
     </figure>
   );
 };
+
+Figure.Video = ({ src, children }) => (
+  <Figure href={src}>
+    <video muted autoPlay loop>
+      <source src={src} type="video/mp4" />
+    </video>
+
+    {children}
+  </Figure>
+);
 
 export default Figure;

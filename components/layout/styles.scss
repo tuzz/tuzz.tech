@@ -89,6 +89,10 @@ body {
     margin: 0.75rem 0; // half a line
   }
 
+  video {
+    width: 100%;
+  }
+
   aside {
     color: $neutral_700;
     border-left: 0.5rem solid $neutral_300;
