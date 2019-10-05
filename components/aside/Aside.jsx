@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import useDebounce from "../../hooks/use_debounce";
 
 const Aside = ({ target, children, moveDown }) => {
   const [listener, setListener] = useState(null);
   const [style, setStyle] = useState(null);
 
-  const alignNextToTarget = () => {
+  const alignNextToTarget = useDebounce(() => {
     const current = target.current;
     if (!current) return; // Handle a race condition.
 
@@ -12,7 +13,7 @@ const Aside = ({ target, children, moveDown }) => {
     const offset = window.scrollY + rectangle.top;
 
     setStyle({ top: offset, opacity: 1, transition: "opacity 0.3s", marginTop: moveDown });
-  };
+  }, 50);
 
   const removeListener = () => {
     if (listener) {
