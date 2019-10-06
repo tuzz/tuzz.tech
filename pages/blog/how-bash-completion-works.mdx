@@ -3,7 +3,7 @@ import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import { createRef } from "react";
 
-export let r;
+export let r, r2;
 
 export const navigation = {
   breadcrumbs: [
@@ -24,6 +24,9 @@ export const navigation = {
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
 </time>
 
+<span ref={r = createRef()} />
+<span ref={r2 = createRef()} />
+
 <div className="note">
 This is the first of two parts on Bash completion. Part two
 is <a href="/blog/adding-bash-completion">here</a>.
@@ -33,40 +36,53 @@ is <a href="/blog/adding-bash-completion">here</a>.
 Bash completion for <a href="https://github.com/tuzz/zz">‘The tuzz automation tool’</a>
 </Figure.Video>
 
+<Aside target={r}>
+
+In this part, we’ll look at the basic mechanics of Bash completion.
+
+In part two, we’ll see how this works in practice for my automation tool.
+
+</Aside>
+
+<Aside target={r2} moveDown={282}>
+I think ‘completion’ and ‘auto-completion’ mean the same in this context. I’ll
+use the former for brevity.
+</Aside>
+
 Over the years I’ve developed a command-line tool I use for routine tasks such
 as provisioning my machine, generating project templates and managing secrets.
 The tool is written in Ruby and I invoke it with the `zz` command.
 
 Most of <span ref={r = createRef()}>what</span> it does is fairly
-straightforward and the clever bits are often delegated to something else. For
-example, `zz provision` is really just a wrapper that installs and runs Chef
+straightforward. The clever bits are usually delegated to something else. For
+example, `zz provision` is really just a wrapper that installs and runs Chef,
 while passing various options to it.
 
 <Aside target={r}>
 
 It uses [chef-solo](https://docs.chef.io/chef_solo.html) which is a slimmed down
-version of Chef to run on a single node. No server needed.
+version of Chef that runs on a single node. No server needed.
 
 </Aside>
 
 Recently, I added Bash completion to my tool. I’ve wanted this for a while, but
-I decided to add it now in preparation
-for <span ref={r = createRef()}>secrets management.</span> For example, I want to
-be able to type `zz secret --read amaz<TAB><TAB> ` and have it auto-complete to
-`zz secret --read amazon/`.  Perhaps hitting `<TAB>` again will list all
-secrets under this path, e.g. username, password, access_key, etc.
+decided to add it now in preparation for <span ref={r = createRef()}>secrets
+management.</span> For example, I want to be able to type `zz secret --read
+amaz<TAB><TAB> ` and have it complete to `zz secret --read amazon/`.  Perhaps
+hitting `<TAB>` again will list all secrets under this path, e.g. username,
+password, access_key, etc.
 
 <Aside target={r}>
 
 I haven’t actually implemented secrets management yet. Currently, I’m running
 `gpg --encrypt` and `--decrypt` a lot so hopefully I’ll find time to add this
-soon.
+feature soon.
 
 </Aside>
 
 ## The mechanics
 
-In <span ref={r = createRef()}>Bash</span>, auto-completion is handled through the `complete` ‘built-in’:
+In <span ref={r = createRef()}>Bash</span>, completion is handled through the `complete` ‘built-in’:
 
 ```bash
 $ type complete
@@ -89,9 +105,14 @@ type is a shell builtin
 This command allows you to register a method of completion for a command. For
 example, an `rgb` command might register its known colors:
 
+<Figure.Code>
+
 ```bash
 $ complete -W "red green blue yellow purple pink orange" color
 ```
+
+Setting a hardcoded list of completions
+</Figure.Code>
 
 You could then complete color names:
 
@@ -106,16 +127,19 @@ $ color pi<TAB> # completes to pink
 ```
 
 The `-W` switch configures a static list of completions that are printed in
-alphabetical order. It’s just one of many methods to
-do <span ref={r = createRef()}>completion.</span>
+alphabetical order. It’s just one of the many methods of <span ref={r = createRef()}>completion.</span>
 
 <Aside target={r}><p>
 It’s also the simplest.
 </p></Aside>
 
-### Registered completions
+### Listing completion methods
 
-To list commands with registered completions, run `complete` without arguments:
+To see which commands have completion methods, run `complete` without arguments:
+
+<span ref={r = createRef()} />
+
+<Figure.Code>
 
 ```bash
 $ complete
@@ -124,27 +148,39 @@ complete -F _nodenv nodenv
 complete -F _rbenv rbenv
 ```
 
-Here you can see `nodenv` and `rbenv` support completion. They use the `-F`
-switch to specify functions to handle their completion, namely `_nodenv` and
-`_rbenv`. It seems to be a convention to prefix these Bash functions with an
-underscore.
+Listing all registered completion methods
+</Figure.Code>
 
-When you complete one of these commands, their output is context-aware:
+
+<Aside target={r} moveDown={12}><p>
+If you try to complete commands without registered methods, Bash uses its
+default behaviour and lists files in the current directory.
+</p></Aside>
+
+Here you can see `nodenv` and `rbenv` support completion. They use the `-F`
+switch to specify functions to handle their completion, <span ref={r =
+createRef()}>namely</span> `_nodenv` and `_rbenv`. When you complete one of
+these commands, their output is context-aware:
 
 ```bash
 $ rbenv install 2.5<TAB><TAB>
 2.5.0          2.5.0-rc1      2.5.1          2.5.2          2.5.3
 ```
+<Aside target={r}>
 
-That’s helpful! `rbenv` has kindly listed which Ruby 2.5.x versions are available
+It seems to be a convention to name these Bash functions `_<command>`.
+
+</Aside>
+
+That’s helpful! `rbenv` has kindly listed which Ruby **2.5.x** versions are available
 to install. We could find this out from `rbenv install --list` but that’s
-innefficient because we’d have to clear our current command then re-type it.
+inefficient because we’d have to clear our current command then re-type it.
 
 ## How completion _functions_ work
 
 When a function is registered as the method of completion with the `-F` switch,
 it must comply with an ‘interface’ of sorts. When the function is called, Bash
-sets some environment variables that can be used by the completion function.
+sets some environment variables to be used by the completion function.
 
 They <span ref={r = createRef()}>tell</span> it the contents of the
 command-line, the cursor position, etc. For example, `$COMP_LINE` contains the
@@ -157,7 +193,7 @@ completions to print for the command.
 <Aside target={r}>
 
 Using environment variables as a means of passing information back and forth
-seems kind of awkward. Bash is pretty old, though.
+seems kind of awkward. Bash _is_ pretty old, though.
 
 </Aside>
 
@@ -165,6 +201,10 @@ seems kind of awkward. Bash is pretty old, though.
 
 Everybody loves FizzBuzz, right? Let’s demonstrate Bash completion with a custom
 function that *magically* completes the next term in the sequence:
+
+<span ref={r = createRef()} />
+
+<Figure.Code>
 
 ```bash
 function _fizzbuzz () {
@@ -181,10 +221,26 @@ function _fizzbuzz () {
 complete -F _fizzbuzz fizzbuzz
 ```
 
+Setting a Bash function to complete `fizzbuzz`
+</Figure.Code>
+
+<Aside target={r} moveDown={25}>
+
+In Bash, you can access elements in an array, or get its length like this:
+
+```bash
+first=${SOME_ARRAY[0]}
+second=${SOME_ARRAY[1]}
+
+length=${#MY_ARRAY[@]}
+```
+
+</Aside>
+
 Our <span ref={r = createRef()}>command</span> is called `fizzbuzz` so we name
-our completion function `_fizzbuzz`, as is the convention. We first set `length`
-to the number of words on the command-line and `number` to one minus this,
-since `fizzbuzz` itself counts as a word.
+our completion function `_fizzbuzz`, as per the convention. We first set the
+`length` variable to the number of words on the command-line and `number` to
+one less, since ‘`fizzbuzz`’ itself counts as a word.
 
 We’ve probably all seen FizzBuzz before so let’s skip the modulo logic. The
 important part is to set `$COMPREPLY` - in this case, to an array of the next
@@ -192,8 +248,8 @@ term in the sequence.
 
 
 Now, if we type `fizzbuzz <TAB><TAB>`, Bash completion kicks in and as if by
-*magic* the next term in the sequence is appended to the current command-line.
-Our `fizzbuzz` command doesn’t actually exist but that doesn’t seem to matter!
+*magic* the next term is appended to the current command-line.  Our `fizzbuzz`
+command doesn’t actually exist but that doesn’t seem to matter!
 
 <Aside target={r}>
 
@@ -213,20 +269,31 @@ have so it’s probably fine?
 </Aside>
 
 <span ref={r = createRef()} />
+<span ref={r2 = createRef()} />
 
 <Figure.Video src="/videos/fizzbuzz-completion.mp4">
 Using Bash completion to generate the FizzBuzz sequence
 </Figure.Video>
 
-<Aside target={r} moveDown={180}>
+
+<Aside target={r} moveDown={90}>
 
 If the completion function returns a single option, Bash immediately completes
 it without prompting us.
 
 That means we can hold down `<TAB>` to continuously complete the FizzBuzz
-sequence. Neat!
+sequence. Hooray!
 
 </Aside>
+
+
+<Aside target={r2} moveDown={320}>
+
+Surely this is the best way to implement FizzBuzz in a coding interview? Or
+maybe [this](https://github.com/tuzz/fizzquinebuzz)?
+
+</Aside>
+
 
 As you can see, there’s plenty of fun to be had! In
 [part two](/blog/adding-bash-completion) we’ll implement Bash completion for my

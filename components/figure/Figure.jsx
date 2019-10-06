@@ -1,13 +1,13 @@
 import css from "./styles.scss";
 
-const Figure = ({ children, href }) => {
+const Figure = ({ children, href, className }) => {
   const [figure, caption] = children;
 
+  const inner = href ? <a href={href}>{figure}</a> : figure;
+
   return (
-    <figure className={css.figure}>
-      <a href={href}>
-        {figure}
-      </a>
+    <figure className={`${className} ${css.figure}`}>
+      {inner}
 
       <figcaption>
         <span className={css.arrow}>▲</span>
@@ -19,10 +19,16 @@ const Figure = ({ children, href }) => {
 
 Figure.Video = ({ src, children }) => (
   <Figure href={src}>
-    <video muted autoPlay loop>
+    <video muted autoPlay playsInline loop>
       <source src={src} type="video/mp4" />
     </video>
 
+    {children}
+  </Figure>
+);
+
+Figure.Code = ({ children }) => (
+  <Figure className={css.code}>
     {children}
   </Figure>
 );

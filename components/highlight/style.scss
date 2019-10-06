@@ -20,6 +20,14 @@
     background: $neutral_250;
     padding: 0.1rem 0.2rem;
     white-space: nowrap;
+
+    .token-line:after {
+      content: " ";
+    }
+
+    .token-line:last-child:after {
+      content: "";
+    }
   }
 
   a code[class*="language-"] {

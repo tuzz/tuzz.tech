@@ -4,13 +4,33 @@
   margin: 2rem 0 1.5rem 0;
 
   figcaption {
-    color: $neutral_800;
+    color: $neutral_700;
     font-style: italic;
     display: flex;
+
+    a {
+      opacity: 0.9;
+    }
+
+    code {
+      background: $neutral_200;
+    }
+
+    p {
+      margin: 0;
+    }
   }
 
   .arrow {
     color: $accent1_500;
     margin: 0 0.5rem 0 2rem;
+  }
+
+  &.code {
+    margin: 1.5rem 0;
+
+    pre {
+      margin-bottom: 0.5rem;
+    }
   }
 }
