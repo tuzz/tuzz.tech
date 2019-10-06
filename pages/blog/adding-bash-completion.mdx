@@ -30,11 +30,11 @@ is <a href="/blog/how-bash-completion-works">here</a>.
 </div>
 
 <Figure.Video src="/videos/zz-completion.mp4">
-A reminder of what we're trying to achieve.
+A reminder of what we’re trying to achieve.
 </Figure.Video>
 
 In part one we looked at the basic mechanics of Bash completion. In this part
-we'll walk through its implementation for my automation tool.
+we’ll walk through its implementation for my automation tool.
 
 I use `zz` every day to carry out routine tasks like provisioning my machine
 and generating project templates. The animation above shows some example use
@@ -62,16 +62,16 @@ complete -F _zz zz
 My philosophy with these things is to ‘get the hell out of `<OBSCURE THING>`’
 as soon as possible and handle the result in a more conventional way. In this
 case, I want to use my trusty friend _Ruby_ to determine the list of
-completions. This may as well be _just another_ `zz` command since I'll need
+completions. This may as well be _just another_ `zz` command since I’ll need
 access to its context.
 
 The <span ref={r = createRef()}>file</span> is written to
-`/usr/local/bin/zz-completion.bash` and I source it in my `~/.profile`. I'm
+`/usr/local/bin/zz-completion.bash` and I source it in my `~/.profile`. I’m
 actually using `zz provision` to ensure this file exists and that it’s sourced
 in my profile. Now on to the tool-specific behaviour&hellip;
 
 <Aside target={r}><p>
-I'm particularly fond of this kind of ‘bootstrapping’ since it pushes the tool
+I’m particularly fond of this kind of ‘bootstrapping’ since it pushes the tool
 in to the realms of self-reference.
 </p></Aside>
 
@@ -79,9 +79,9 @@ in to the realms of self-reference.
 
 My first goal was to implement completion for commands and options. The
 idea being, if I type `zz prov<TAB>`, that would complete to `zz provision`
-and if I type `zz <TAB><TAB>`, I'd be reminded of all available commands.
+and if I type `zz <TAB><TAB>`, I’d be reminded of all available commands.
 
-The same goes for options. If I type `zz provision --li<TAB>`, I'd like that to
+The same goes for options. If I type `zz provision --li<TAB>`, I’d like that to
 complete to `zz provision --list` and `zz provision --<TAB><TAB>` would
 remind me of options for the `provision` command.
 
@@ -89,12 +89,12 @@ This <span ref={r = createRef()}>behaviour</span> is implemented in
 [this commit](https://github.com/tuzz/zz/commit/046b31d5715661329da8f25eef37de2596a2e59e).
 
 <Aside target={r}><p>
-It's probably easier to look at the tests rather than the implementation.
+It’s probably easier to look at the tests rather than the implementation.
 </p></Aside>
 
-It gets complicated and I could have simplified it further but I'm happy it's
+It gets complicated and I could have simplified it further but I’m happy it’s
 tested and can be refactored later. I decided to split the code up by the
-‘type’ of completion, i.e. whether it's the name of a command, an option, or
+‘type’ of completion, i.e. whether it’s the name of a command, an option, or
 its <span ref={r = createRef()}>arguments</span>.
 
 <Aside target={r}><p>
@@ -118,9 +118,9 @@ first position and filters commands that start with that prefix.
 
 <span ref={r = createRef()} />
 
-I made it so these methods can return `false` if this type of completion isn't
+I made it so these methods can return `false` if this type of completion isn’t
 relevant. For example, if the user has already typed `provision` (a command), it
-doesn't make sense to complete the name of a command since we already have that:
+doesn’t make sense to complete the name of a command since we already have that:
 
 <Aside target={r}>
 
@@ -155,21 +155,21 @@ My original use-case was to complete `zz secret --read amaz` to `zz secret
 
 Conceptually, it would be nice if `--read` was ‘responsible’ for
 determining the list of completions. Perhaps it looks at the file system or
-[Hashicorp's Vault](https://www.vaultproject.io/) to decide.
+[Hashicorp’s Vault](https://www.vaultproject.io/) to decide.
 
-I haven't <span ref={r = createRef()}>implemented</span> the `secret` command
+I haven’t <span ref={r = createRef()}>implemented</span> the `secret` command
 yet, but I can still add support for option completion, for when I do.  [This
 commit](https://github.com/tuzz/zz/commit/fddbf52238d3e4ab490750f08148b98a6d20b8d1)
 implements `#complete_option_arg` which delegates completion to a Ruby `proc`
 set on an option.
 
 <Aside target={r}><p>
-The details here don't matter. The key is to make option responsible for
+The details here don’t matter. The key is to make option responsible for
 producing its completions.
 </p></Aside>
 
 We <span ref={r = createRef()}>can</span> now implement completion for options
-by providing a block when they are created. For example, here's how we do that
+by providing a block when they are created. For example, here’s how we do that
 for `template --type`:
 
 ```ruby
@@ -226,9 +226,9 @@ surprising.
 
 For example, if we decided to return `ruby` and `rust` as completions for `zz
 provision --only vim,ru`, Bash would immediately replace the last word with
-`ru` since that's the common prefix, dropping `vim` from the start of the list.
+`ru` since that’s the common prefix, dropping `vim` from the start of the list.
 
-That's why we have copy the list in each completion:
+That’s why we have copy the list in each completion:
 
 ```bash
 $ zz provision --only vim,ru<TAB><TAB>
@@ -243,32 +243,32 @@ vim,ruby,aws   vim,ruby,chrome   vim,ruby,dock   # ...many more
 ```
 
 Ideally, we want it to just return the names of available recipes without all
-the noise but we can't do that because Bash will replace our list by the common
+the noise but we can’t do that because Bash will replace our list by the common
 prefix of the recipe names. Oh dear!
 
 ### Reducing noise
 
-Well, actually we can use our knowledge of the above and anticipate Bash's
-completion behaviour. If there's no common prefix of recipe names, we can
-return a nice clean list that doesn't repeat itself:
+Well, actually we can use our knowledge of the above and anticipate Bash’s
+completion behaviour. If there’s no common prefix of recipe names, we can
+return a nice clean list that doesn’t repeat itself:
 
 ```bash
 $ zz provision --only vim,ruby<TAB><TAB>
 aws   chrome   dock   drive   dropbox   ffmpeg   # ...
 ```
 
-That's what this lines is for:
+That’s what this lines is for:
 
 ```ruby
 return recipes if list == [prefix]
 ```
 
-My implementation's a bit simpler in that it just checks for an exact match
+My implementation’s a bit simpler in that it just checks for an exact match
 between the prefix and the filtered list of recipes. This has the desired
 effect and completing `vim,ruby` or `vim,` now displays the full list of
 recipes.
 
-This could be smarter and check this ‘common prefix’ more directly, but it's
+This could be smarter and check this ‘common prefix’ more directly, but it’s
 already pretty complicated. Here are some unit test for this behaviour:
 
 ```ruby
@@ -287,7 +287,7 @@ expect(complete.call(["Chrome"])).to eq ["chrome", "chromedriver"]
 
 ## Closing remarks
 
-It's been fun to understand the mechanics of feature we often don't think about.
+It’s been fun to understand the mechanics of feature we often don’t think about.
 Bash completion adds a friendly touch that can make our command-line tools
 easier to use through back-and-forth interactions with the user.
 
@@ -296,12 +296,12 @@ experience, accessibility and interface design. We should strive to build
 completion behaviour that helps users navigate our tools and discover its
 features.
 
-For those implementing this behaviour, it's helpful to know we can ‘escape’ out
+For those implementing this behaviour, it’s helpful to know we can ‘escape’ out
 to our favourite programming languages without too much difficulty. This blog
-post has been about Bash because that's what I use, but the concepts should be
-applicable wherever it's implemented - though the mechanics will be different.
+post has been about Bash because that’s what I use, but the concepts should be
+applicable wherever it’s implemented - though the mechanics will be different.
 
-Finally, I'd be interested to hear if you come up with some nvoel way to use
+Finally, I’d be interested to hear if you come up with some nvoel way to use
 completion. [Tweet at me](https://twitter.com/chrispatuzzo) if you write your
 own choose-your-own adventure game with it, or some wacky chess program.
 
