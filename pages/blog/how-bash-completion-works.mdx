@@ -1,3 +1,5 @@
+import Head from "next/head";
+import VideoMeta from "../../components/video_meta";
 import Layout from "../../components/layout";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
@@ -16,9 +18,25 @@ export const navigation = {
   ]
 };
 
+export const title = "How bash completion works";
+export const path = "/blog/how-bash-completion-works";
+export const description = "In this first article on Bash completion, we’ll look at how it works under the hood.";
+
+<Head>
+  <meta property="og:title" content={title} />
+  <meta property="og:url" content={`https://tuzz.tech${path}`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="article" />
+
+  <meta name="description" content={description} />
+  <meta name="keywords" content="Chris Patuzzo,Bash,Ruby,Chef,completion,auto-completion,complete,auto-complete,how it works,behaviour,rbenv,nodenv,FizzBuzz" />
+
+  <VideoMeta path="/videos/fizzbuzz-completion.mp4" width={820} height={646} />
+</Head>
+
 <Layout title="How Bash completion works" navigation={navigation}>
 
-# How Bash completion works
+<h1>{title}</h1>
 
 <time dateTime="2019-10-05">Published October 6, 2019 by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>

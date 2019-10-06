@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Layout from "../../components/layout";
 import Aside from "../../components/aside";
 import { createRef } from "react";
@@ -15,9 +16,23 @@ export const navigation = {
   ]
 };
 
-<Layout title="Happy 100th, tuzz!" navigation={navigation}>
+export const title = "Happy 100th, tuzz!";
+export const path = "/blog/happy-100th";
+export const description = "I’ve decided to start a blog to talk about my side projects.";
 
-# Happy 100th, tuzz! &nbsp;🎉
+<Head>
+  <meta property="og:title" content={title} />
+  <meta property="og:url" content={`https://tuzz.tech${path}`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="article" />
+
+  <meta name="description" content={description} />
+  <meta name="keywords" content="Chris Patuzzo,GitHub,Side Projects,Hobby,Computer Science,Sentient,Neural Network,3D,Game Engine,Puzzle,Problem" />
+</Head>
+
+<Layout title={title} navigation={navigation}>
+
+<h1>{title} &nbsp;🎉</h1>
 
 <time dateTime="2019-09-29">Published September 29, 2019 by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
