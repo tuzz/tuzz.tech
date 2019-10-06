@@ -35,6 +35,13 @@ const Aside = ({ target, children, moveDown }) => {
     return removeListener;
   }, [target]);
 
+  useEffect(() => {
+    const delays = [200, 1000, 5000, 15000, 30000];
+
+    const timeouts = delays.map(d => window.setTimeout(alignNextToTarget, d));
+
+    return () => timeouts.forEach(t => window.clearTimeout(t));
+  }, []);
 
   return <aside style={style}>{children}</aside>;
 };
