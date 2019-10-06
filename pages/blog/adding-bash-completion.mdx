@@ -1,4 +1,5 @@
 import Head from "next/head";
+import ImageMeta from "../../components/image_meta";
 import VideoMeta from "../../components/video_meta";
 import Layout from "../../components/layout";
 import Aside from "../../components/aside";
@@ -31,7 +32,8 @@ export const description = "In this second article on Bash completion, we’ll s
   <meta name="description" content={description} />
   <meta name="keywords" content="Chris Patuzzo,Bash,Ruby,completion,auto-completion,complete,auto-complete,behaviour" />
 
-  <VideoMeta path="/videos/zz-completion.mp4" width={1362} height={646} />
+  <ImageMeta path="/images/zz-completion.gif" width={1012} height={480} type="gif" />
+  <VideoMeta path="/videos/zz-completion.mp4" width={1362} height={646} type="mp4" />
 </Head>
 
 <Layout title="Adding Bash completion to my tool" navigation={navigation}>
