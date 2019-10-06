@@ -213,7 +213,7 @@ have so it's probably fine?
 Using Bash completion to generate the FizzBuzz sequence
 </Figure.Video>
 
-<Aside target={r} moveDown="16.5rem">
+<Aside target={r} moveDown={180}>
 
 If the completion function returns a single option, Bash immediately completes
 it without prompting us.
@@ -392,7 +392,7 @@ def auto_complete_recipe_list(args)
 end
 ```
 
-<Aside target={r} moveDown="3rem">
+<Aside target={r} moveDown={55}>
 
 Implemented in [this commit](https://github.com/tuzz/zz/commit/62dbff256963d8ff0a8e23f54e0b5969fd277ba5).
 
@@ -402,9 +402,9 @@ That mysterious `return` statement is explained below.
 
 ### A few ‘gotchas’
 
-Bash sometimes tries to be helpful. For example, if all the available
-completions start with the same prefix, Bash replaces the word at the end of
-the command-line with that prefix. Usually this is helpful, but it can be
+Bash sometimes tries to be helpful. For example, if all available completions
+start with the same prefix, Bash replaces the word at the end of the
+command-line with that prefix. Usually this is helpful, but it can be
 surprising.
 
 For example, if we decided to return `ruby` and `rust` as completions for `zz
@@ -429,7 +429,7 @@ Ideally, we want it to just return the names of available recipes without all
 the noise but we can't do that because Bash will replace our list by the common
 prefix of the recipe names. Oh dear!
 
-### Reducing the noise
+### Reducing noise
 
 Well, actually we can use our knowledge of the above and anticipate Bash's
 completion behaviour. If there's no common prefix of recipe names, we can

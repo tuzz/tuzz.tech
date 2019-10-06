@@ -22,7 +22,13 @@
     white-space: nowrap;
   }
 
-   a code[class*="language-"] {
-     color: $primary_700;
+  a code[class*="language-"] {
+    color: $primary_700;
+  }
+}
+
+@media (max-width: 800px) {
+  aside code[class*="language-"] {
+    background: $neutral_300;
   }
 }

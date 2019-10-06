@@ -50,7 +50,7 @@ body {
     margin-top: 2rem;
   }
 
-  img {
+  img, video {
     width: 100%;
   }
 
@@ -61,7 +61,7 @@ body {
     font-size: 1.05rem;
   }
 
-  p {
+  p, pre {
     margin: 1.5rem 0;
   }
 
@@ -89,15 +89,11 @@ body {
     margin: 0.75rem 0; // half a line
   }
 
-  video {
-    width: 100%;
-  }
-
   aside {
     color: $neutral_700;
     border-left: 0.5rem solid $neutral_300;
 
-    p {
+    p, pre {
       margin: 1.2rem 0;
 
       &:first-child {
@@ -122,6 +118,14 @@ body {
       font-size: 2.4rem;
       padding-top: 1rem;
     }
+
+    h2 {
+      font-size: 1.7rem;
+    }
+
+    h3 {
+      font-size: 1.4rem;
+    }
   }
 }
 
@@ -144,8 +148,8 @@ body {
     border: none;
 
     aside {
-      margin: 0 -1.25rem;
-      padding: 0.5rem 0.75rem;
+      margin: 0 -1.25rem 0 -1.0rem;
+      padding: 0.5rem 1.25rem 0.5rem 0.75rem;
       background: $neutral_200;
     }
   }
@@ -156,6 +160,16 @@ body {
     h1 {
       font-size: 2rem;
       padding-top: 0;
+    }
+
+    h2 {
+      margin-left: -1.0rem;
+      padding-left: 0.5rem;
+    }
+
+    h3 {
+      margin-left: -1.0rem;
+      padding-left: 0.5rem;
     }
 
     time {

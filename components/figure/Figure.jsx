@@ -10,7 +10,8 @@ const Figure = ({ children, href }) => {
       </a>
 
       <figcaption>
-        <span className={css.arrow}>▲</span> {caption}
+        <span className={css.arrow}>▲</span>
+        <span>{caption}</span>
       </figcaption>
     </figure>
   );

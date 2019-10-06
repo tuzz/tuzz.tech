@@ -1,9 +1,12 @@
 @import "../layout/color.scss";
 
 .figure {
+  margin: 2rem 0 1.5rem 0;
+
   figcaption {
     color: $neutral_800;
     font-style: italic;
+    display: flex;
   }
 
   .arrow {
