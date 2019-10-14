@@ -3,9 +3,14 @@
 :global {
   @import "./prism.scss";
 
+  code[class*="language-"],
+  pre[class*="language-"] {
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 13px;
+  }
+
   // Code blocks:
   pre[class*="language-"] {
-    font-size: 13px;
     background: $neutral_100;
 
     .token-line {
@@ -16,7 +21,6 @@
 
   // Inline code:
   :not(pre) > code[class*="language-"] {
-    font-size: 13px;
     background: $neutral_250;
     padding: 0.1rem 0.2rem;
     white-space: nowrap;
@@ -38,5 +42,12 @@
 @media (max-width: 800px) {
   aside code[class*="language-"] {
     background: $neutral_300;
+  }
+}
+
+@media (max-width: 550px) {
+  code[class*="language-"],
+  pre[class*="language-"] {
+    font-size: 12px;
   }
 }

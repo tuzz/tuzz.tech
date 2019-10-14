@@ -81,12 +81,13 @@ body {
 
   ul {
     list-style-type: square;
-    padding-left: 2rem;
+    padding-left: 1.75rem;
     margin-bottom: 1.5rem;
   }
 
   li {
-    margin: 0.75rem 0; // half a line
+    padding-left: 0.25rem;
+    margin: 0.75rem 0;
   }
 
   :global(.note) {
@@ -155,7 +156,7 @@ body {
     border: none;
 
     aside {
-      margin: 0 -1.25rem 0 -1.0rem;
+      margin: 0 -1.25rem;
       padding: 0.5rem 1.25rem 0.5rem 0.75rem;
       background: $neutral_200;
     }
@@ -165,26 +166,51 @@ body {
 @media (max-width: 550px) {
   .layout {
     h1 {
-      font-size: 2rem;
+      font-size: 1.65rem;
       padding-top: 0;
     }
 
-    h2 {
-      margin-left: -1.0rem;
-      padding-left: 0.5rem;
+    h2, h3 {
+      font-size: 1.45rem;
+      border: none;
+      margin-left: 0;
+      margin-right: 0;
+      padding: 0;
+      margin-top: 2rem;
     }
 
     h3 {
-      margin-left: -1.0rem;
-      padding-left: 0.5rem;
+      font-size: 1.4rem;
+      border: none;
     }
 
     time {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+    }
+
+    :global(.note) {
+      font-size: 0.85rem;
+      padding: 0.4rem 0.5rem;
+      line-height: 1.4;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+    }
+
+    aside {
+      border: none;
+      padding: 0.5rem 0.75rem;
+      margin: 0 -0.75rem;
+      font-size: 0.85rem;
+
+      p, pre, ul {
+        margin: 1rem 0;
+      }
     }
   }
 
   .content {
-    padding: 0 1.25rem;
+    padding: 0 0.75rem;
   }
 }

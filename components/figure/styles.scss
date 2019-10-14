@@ -23,7 +23,8 @@
 
   .arrow {
     color: $accent1_500;
-    margin: 0 0.5rem 0 2rem;
+    margin: 0 0.5rem 0 1.5rem;
+    font-style: normal;
   }
 
   &.code {
@@ -31,6 +32,16 @@
 
     pre {
       margin-bottom: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .figure {
+    font-size: 0.85rem;
+
+    .arrow {
+      margin-left: 0.75rem;
     }
   }
 }
