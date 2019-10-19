@@ -85,9 +85,31 @@ body {
     margin-bottom: 1.5rem;
   }
 
+  ol {
+    counter-reset: c;
+    margin-left: 0.4rem;
+
+    li {
+      counter-increment: c;
+
+      &:before {
+        content: counter(c) '.';
+        font-weight: bold;
+        margin-right: 0.6rem;
+        color: $neutral_800;
+      }
+    }
+  }
+
   li {
     padding-left: 0.25rem;
     margin: 0.75rem 0;
+  }
+
+  blockquote {
+    border-left: 0.3rem solid $neutral_300;
+    padding-left: 0.9rem;
+    color: $neutral_700;
   }
 
   :global(.note) {
@@ -111,6 +133,10 @@ body {
       &:last-child {
         margin-bottom: 0;
       }
+    }
+
+    strong {
+      color: $neutral_700;
     }
 
     a {

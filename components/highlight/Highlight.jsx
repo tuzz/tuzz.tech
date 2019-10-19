@@ -32,7 +32,7 @@ const Highlight = ({ className, children, inline }) => {
   );
 
   return (
-    <Renderer Prism={Prism} code={children.trim()} language={language}>
+    <Renderer Prism={Prism} code={children.trimRight()} language={language}>
       {inline ? renderCode : renderBlock }
     </Renderer>
   )

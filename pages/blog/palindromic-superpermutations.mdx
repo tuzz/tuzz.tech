@@ -1,0 +1,445 @@
+import Head from "next/head";
+import ImageMeta from "../../components/image_meta";
+import VideoMeta from "../../components/video_meta";
+import Layout from "../../components/layout";
+import Aside from "../../components/aside";
+import Figure from "../../components/figure";
+import { createRef } from "react";
+
+export let r;
+
+export const navigation = {
+  breadcrumbs: [
+    { text: "tuzz.tech", href: "/" },
+    { text: "blog", href: "/blog" },
+  ],
+  links: [
+    { text: "← Previous", href: "/blog/adding-bash-completion" },
+    { text: "Next Article →" },
+  ]
+};
+
+export const title = "Searching for palindromic superpermutations";
+export const path = "/blog/palindromic-superpermutations";
+export const description = "I wrote a search algorithm to tackle a challenging combinatorial problem.";
+
+<Head>
+  <meta property="og:title" content={title} />
+  <meta property="og:url" content={`https://tuzz.tech${path}`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="article" />
+
+  <meta name="description" content={description} />
+  <meta name="keywords" content="Chris Patuzzo,superpermutation,search algorithm,depth first,Chaffin method,palindrome,branch and bound,incremental search,combinatorics" />
+
+  <ImageMeta path="/images/chaffin-search.gif" width={800} height={435} type="gif" />
+  <VideoMeta path="/videos/chaffin-search.mp4" width={1280} height={696} type="mp4" />
+</Head>
+
+<Layout title={title} navigation={navigation}>
+
+<h1>{title}</h1>
+
+<time dateTime="2019-10-20">Published October 20, 2019 by {" "}
+<a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
+</time>
+
+<div className="note">
+This is the first of two parts. The second will be available in a week or so.
+</div>
+
+<Figure.Video src="/videos/chaffin-search.mp4">
+Running my Rust-powered search algorithm
+</Figure.Video>
+
+A superpermutation is a string of numbers that contains every permutation of
+those numbers. For example, ‘123121321’ contains all <span ref={r =
+createRef()}>six</span> permutations of three numbers:
+
+<Aside target={r}>
+123, 231, 312, 213, 132 and 321.
+</Aside>
+
+One way to construct a superpermutation is to concatenate all N! permutations
+together but this is wasteful. We’d end up with a <span ref={r =
+createRef()}>string</span> of length 18 instead of 9:
+
+<Aside target={r}>
+‘123231312213132321’
+</Aside>
+
+The _trick_ is to try and overlap permutations as much as possible. <span
+ref={r = createRef()}>Most</span> of the time, when we add a character this
+also add a permutation, but not always. A ‘greedy’ algorithm works fairly well
+to find _short_ strings, but they might not be optimal.
+
+<Aside target={r}>
+A ‘greedy’ approach is short sighted in that it picks characters that seem like
+good choices now but end up costing more in the long run.
+</Aside>
+
+So the question is: **how short can these strings be?**
+
+Many people are trying to figure that out, either constructively, by
+exhaustive search for the shortest string, or non-constructively, by proof of
+its exact <span ref={r = createRef()}>length</span>. Ideally, we’d come up with
+an efficient process to build the shortest possible string.
+
+<Aside target={r}>
+
+It might be this problem is [NP-hard](https://en.wikipedia.org/wiki/NP-hardness) and no efficient process exists.
+
+</Aside>
+
+I’m certainly no mathematician so I won’t tackle a proof, but I do know some
+things about writing efficient search algorithms. In this article I’ll explain
+my recent attempt to find **minimal <span ref={r =
+createRef()}>superpermutations</span>** - in this case, those that happen to be
+palindromes.
+
+<Aside target={r}>
+A palindrome is a string that’s the same forwards and backwards.
+</Aside>
+
+Along the way I wrote some C and Rust code. I’ll focus on the high-level
+approach in this article and save a detailed walk-through of the code for the
+next.
+
+### Why palindromes?
+
+In general, minimal superpermutations need not be palindromes. It so <span
+ref={r = createRef()}>happens</span> for N=1 to 4 they _are_, but no one has
+proved whether or not this is always true. In fact, for N=5 there are
+[_eight_ shortest strings](https://raw.githubusercontent.com/superpermutators/superperm/master/superpermutations/5/153-chaffin.txt)
+tied at 153 characters - one of which is a palindrome.
+
+<Aside target={r}>
+
+For N=6, no one knows! The best strings so far have 872 characters, none of
+which are palindromes.
+
+</Aside>
+
+I decided to limit my search to palindromes because I think there’s fair chance
+the <span ref={r = createRef()}>shortest</span> superpermutation _is_ a
+palindrome and this lets us reduce the search space, making the problem more
+tractable. **Otherwise, the search might never finish.**
+
+<Aside target={r}>
+
+For the last few a months a [large distributed search](http://www.supermutations.net/ChaffinMethodResults/)
+has been trying to solve the general case for N=6.
+
+</Aside>
+
+Actually, I wholly expect the search not to finish anyway - even with this
+limitation. I’m going to run it for a month or two on the N=6 problem to see
+how far it gets, but I have low expectations. The [combinatorial
+abyss](https://twitter.com/chrispatuzzo/status/1067403432674435072) is vast and
+unforgiving.
+
+### No repetition
+
+There’s one more assumption I’m going to make about minimal superpermutations.
+That is: they do not contain the same permutation more than once. In other
+words, each and every permutation appears exactly once in the string, with no
+repetition.
+
+Again, there’s no proof of this, but there’s mounting evidence this is the case.
+For the N=6 problem, [more than ten
+thousand](https://docs.google.com/spreadsheets/d/1m8mHizDHoDpT-9ohCiqmfKyQI6gmhuyuzb7TC7362Ko/edit#gid=0)
+strings have been found with the shortest known length of 872. As far as I’m
+aware none of these repeat a permutation.
+
+With <span ref={r = createRef()}>this</span> assumption in place, we can prune
+strings from our search that contain repetition - reducing the search space.
+This improves our chances of success.
+
+<Aside target={r}>
+It might seem arbitrary to do this. We’ll see shortly how the benefits of this
+assumption are compounded when searching for palindromes.
+</Aside>
+
+## How it works
+
+At a high level, the algorithm works by searching for the shortest string that
+contains exactly half the permutations. This string must also have the special
+property that its reversal contains precisely the _other half_ of the
+permutations (the ones it’s missing).
+
+When this string is <span ref={r = createRef()}>glued</span> together with its
+reversal, it forms a palindrome that is a superpermutation - a string that
+contains all N! permutations.
+
+<Aside target={r}>
+We overlap the last character of the string with the first of its reversal.
+</Aside>
+
+For example, ‘12312’ contains 123, 231 and 312 which are three of the six
+permutations for N=3. Its reversal ‘21321’ contains 213, 132 and 321 which are
+precisely the _other three_ permutations it’s missing so it has the property we
+want.
+
+That means we can glue ‘12312’ and ‘21321’ together to obtain <span ref={r =
+createRef()}>‘123121321’</span> which now contains all N! permutations - making
+a (palindromic) superpermutation.
+
+<Aside target={r}>
+We overlap the ‘2’ in the middle.
+</Aside>
+
+### Depth-first search
+
+The <span ref={r = createRef()}>search</span> is depth first, starting from the
+12...N permutation. This can be thought of as the root node of a search tree.
+At each step, we ‘expand’ one string by adding a single character to the end of
+it. This adds a child node to the search tree.
+
+<Aside target={r}>
+The code doesn’t explicitly build a search tree. It manifests itself through
+recursive function calls. I just find it useful to think in this way.
+</Aside>
+
+From Wikipedia: “A depth-first search explores as far as possible along each
+branch before backtracking.” When we translate that definition to this problem,
+it means we should expand longer and longer strings before backtracking to
+expand shorter ones:
+
+<span ref={r = createRef()} />
+
+<Figure.Code>
+
+```bash
+                1234
+                /  \
+             12341  (not expanded yet)
+             /
+          123412
+          /
+      1234121
+       /
+     ...
+```
+
+A depth-first search starting from the ‘1234’ root node
+</Figure.Code>
+
+<Aside target={r} moveDown={30}>
+
+**Why depth-first search?**
+
+The main reason is to find long strings early on in the search to learn about
+the problem’s structure.
+
+We’ll see in the ‘Chaffin’ section how to use these learnings to our advantage
+to speed up the search.
+
+In other projects, I’ve tried different algorithms
+([A*](https://en.wikipedia.org/wiki/A*_search_algorithm),
+reduction to [SAT](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem)) which I
+might write about later.
+
+</Aside>
+
+There’s still the question of when to backtrack. This is where our ‘No repeats’
+assumption comes into play. When a string is expanded, we check:
+
+1. Is the tail of the string a permutation?
+2. If so, have we seen it before?
+
+If the answer is _yes_ we <span ref={r = createRef()}>backtrack</span>. There’s
+no point expanding the string further since we’re not interested in
+superpermutations that contain repetition.
+
+<Aside target={r}>
+Backtracking is really good! It eliminates regions of search space that
+can’t possibly bear fruit.
+</Aside>
+
+### The magic
+
+However, we can go one step further! We know we’re going to glue this string to
+its reversal. That means **all permutations seen so far will be seen again** -
+but in reverse. Our assumption is each permutation appears once in the
+_entirety_ of the string.
+
+That means **we can check the tail of the string a second time**. If we’ve seen
+its reversal before we can backtrack as well. This pre-empts the repetition
+that _would occur_ when the string is glued later. This lets us eliminate even
+more <span ref={r = createRef()}>strings!</span>
+
+<Aside target={r}>
+We can see the future.
+</Aside>
+
+Here’s what the code might look like:
+
+<span ref={r = createRef()} />
+
+<Figure.Code>
+
+```rust
+if permutations_seen[tail_of_string] {
+  return; // backtrack
+}
+
+tail_of_string.reverse();
+
+if permutations_seen[tail_of_string] {
+  return; // backtrack
+}
+```
+
+Backtracking if we’ve seen the tail of string in reverse
+</Figure.Code>
+
+<Aside target={r} moveDown={85}>
+
+In Rust, the [`.reverse()`](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.reverse) function mutates in place.
+
+</Aside>
+
+I think of this as the _magic_ of this approach. It’s this combination of ideas
+that initially motivated me to try writing the search algorithm. Whether or not
+it makes a significant dent in the problem remains to be seen but it’s worth a
+shot.
+
+Finally, there’s one last piece we need to supercharge the search algorithm.
+
+## The ‘Chaffin’ method
+
+The search incorporates a clever technique devised by Benjamin Chaffin. The
+basic idea is to break the problem into a <span ref={r =
+createRef()}>sequence</span> of subproblems. We can then use the solution to
+the first subproblem to speed up solving the second, and so on.
+
+<Aside target={r}>
+
+This is an example of [incremental heuristic search](https://en.wikipedia.org/wiki/Incremental_heuristic_search).
+
+</Aside>
+
+Each subproblem is stated in terms of ‘wasted’ characters. A wasted character
+is one that doesn’t add a new permutation itself but instead, prepares the
+string so the next character can add a permutation. Sometimes more than one in a
+row is needed.
+
+For <span ref={r = createRef()}>example</span>, when ‘1’ is appended to ‘12312’
+we get ‘123121’. The ‘1’ character is deemed _wasted_ because it doesn’t add a
+new permutation to the string. It does however prepare the string for a
+subsequent ‘3’ which adds the 213 permutation.
+
+<Aside target={r}>
+The term ‘wasted’ is a bit harsh since the character is useful, it just doesn’t
+add a new permutation.
+</Aside>
+
+Now that we understand wasted characters, subproblems are defined as:
+
+> How many permutations can fit into a string that has W wasted characters?
+
+The <span ref={r = createRef()}>algorithm</span> starts by solving the W=0 case
+by depth-first search. It enumerates all strings that do not waste any
+characters and counts how many permutations appear in them. The maximal count
+of permutations is the solution of the subproblem.
+
+<Aside target={r}>
+For W=0, the solution is always equal to N since that’s the longest string before
+we hit a cycle: ‘12312’
+</Aside>
+
+### Climbing a ladder
+
+The algorithm proceeds to solve the W=1 subproblem, using the solution of W=0 to
+speed up the search. <span ref={r = createRef()}>This</span> works by pruning
+strings that can’t possibly produce a maximal count of permutations because
+they’ve already wasted too many characters.
+
+<Aside target={r}>
+
+This is an example of [branch and
+bound](https://en.wikipedia.org/wiki/Branch_and_bound).
+
+</Aside>
+
+For <span ref={r = createRef()}>example</span>, when solving W=1, if we’ve seen
+‘12312132’ which contains five permutations, there’s no point expanding ‘1232’
+because we know from W=0 this string is doomed to failure. It can’t possible
+beat the string with five permutations.
+
+<Aside target={r}>
+‘1232’ contains one permutation and wastes one character. In the best case, W=0
+tells us we can add three permutations, totalling four.
+</Aside>
+
+We then proceed to solve W=2, W=3 and so on. At each step we refer back to all
+previous solutions to prune the search. The code looks something like this:
+
+<span ref={r = createRef()} />
+
+<Figure.Code>
+
+```rust
+let surplus_waste = W - current_waste;
+
+let max_perms = subproblem_solutions[surplus_waste];
+let best_perms = current_perms + max_perms;
+
+if best_perms <= *best_seen_so_far {
+  return; // prune this string
+}
+```
+
+Pruning strings by using solutions to previous subproblems
+</Figure.Code>
+
+<Aside target={r} moveDown={96}>
+
+`*best_seen_so_far` points to a value shared across all branches of the
+search. If we [passed by
+value](https://www.mathwarehouse.com/programming/passing-by-value-vs-by-reference-visual-explanation.php),
+neighbors wouldn’t see changes and we’d miss opportunities to prune.
+
+</Aside>
+
+A <span ref={r = createRef()}>(contrived)</span> analogy is to imagine
+climbing a ladder. The search algorithm is working on one of the rungs and is
+supported by preceding rungs to get its job done.
+
+<Aside target={r}>
+
+contrived != helpful
+
+</Aside>
+
+The addition of Chaffin’s method has a dramatic impact on the effectiveness of
+the <span ref={r = createRef()}>search</span>. For N=5, the search completes
+almost instantly. Without this code, it grinds to a halt. It would likely take
+a _very_ long time to finish the search.
+
+<Aside target={r}>
+
+I first read about Chaffin’s method in
+[this article](http://www.njohnston.ca/2014/08/all-minimal-superpermutations-on-five-symbols-have-been-found/) by Nathaniel Johnston.
+
+</Aside>
+
+### Onwards
+
+In part two I’ll walk through the code and go into much more detail about how
+the algorithm _actually_ works. I haven’t written part two yet so check back
+in a week or so. I’ll also announce its publication
+[on Twitter](https://twitter.com/chrispatuzzo).
+
+If you can’t wait, the <span ref={r = createRef()}>latest</span> iteration of
+my (scrappy) code is [here](https://github.com/tuzz/chaffin-variation-rust-v2).
+
+<Aside target={r}>
+
+There’s also
+[this](https://github.com/tuzz/chaffin-variation) and
+[this](https://github.com/tuzz/chaffin-variation-rust).
+
+</Aside>
+
+</Layout>
