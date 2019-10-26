@@ -1,0 +1,56 @@
+@import "../layout/color.scss";
+
+.aside {
+  position: absolute;
+  right: 1.875rem;
+  width: 15rem;
+  padding-left: 1.375rem;
+  border-left: 0.5rem solid $neutral_300;
+  color: $neutral_700;
+  line-height: 1.4;
+  opacity: 0;
+
+  p, pre, ul {
+    margin: 1.2rem 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  strong {
+    color: $neutral_700;
+  }
+
+  a {
+    opacity: 0.9;
+  }
+}
+
+@media (max-width: 800px) {
+  .aside {
+    position: static;
+    width: initial;
+    line-height: 1.666666666666667;
+    margin: 0 -1.25rem;
+    padding: 0.5rem 1.25rem 0.5rem 0.75rem;
+    background: $neutral_200;
+  }
+}
+
+@media (max-width: 550px) {
+  .aside {
+    border: none;
+    padding: 0.5rem 0.75rem;
+    margin: 0 -0.75rem;
+    font-size: 0.85rem;
+
+    p, pre, ul {
+      margin: 1rem 0;
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import useDebounce from "../../hooks/use_debounce";
+import css from "./styles.scss";
 
 const Aside = ({ target, children, moveDown }) => {
   moveDown = moveDown || 0;
@@ -43,7 +44,11 @@ const Aside = ({ target, children, moveDown }) => {
     return () => timeouts.forEach(t => window.clearTimeout(t));
   }, []);
 
-  return <aside style={style}>{children}</aside>;
+  return (
+    <aside className={css.aside} style={style}>
+      {children}
+    </aside>
+  );
 };
 
 export default Aside;
