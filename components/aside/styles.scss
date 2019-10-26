@@ -31,7 +31,7 @@
   }
 }
 
-@media (max-width: 800px) {
+@media screen and (max-width: 800px) {
   .aside {
     position: static;
     width: initial;
@@ -42,7 +42,7 @@
   }
 }
 
-@media (max-width: 550px) {
+@media screen and (max-width: 550px) {
   .aside {
     border: none;
     padding: 0.5rem 0.75rem;

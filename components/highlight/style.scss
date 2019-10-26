@@ -39,13 +39,13 @@
   }
 }
 
-@media (max-width: 800px) {
+@media screen and (max-width: 800px) {
   aside code[class*="language-"] {
     background: $neutral_300;
   }
 }
 
-@media (max-width: 550px) {
+@media screen and (max-width: 550px) {
   code[class*="language-"],
   pre[class*="language-"] {
     font-size: 12px;
