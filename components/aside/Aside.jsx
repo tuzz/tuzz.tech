@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-import useDebounce from "../../hooks/use_debounce";
 import css from "./styles.scss";
 
-const Aside = ({ target, children, moveDown }) => {
-  moveDown = moveDown || 0;
+import usePrint from "../../hooks/use_print";
+import useDebounce from "../../hooks/use_debounce";
+import useResize from "../../hooks/use_resize";
+import useDelays from "../../hooks/use_delays";
 
-  const [listener, setListener] = useState(null);
+const Aside = ({ target, children, moveDown = 0 }) => {
   const [style, setStyle] = useState(null);
 
-  const alignNextToTarget = useDebounce(() => {
+  const align = () => {
     const current = target.current;
     if (!current) return; // Handle a race condition.
 
@@ -16,33 +17,15 @@ const Aside = ({ target, children, moveDown }) => {
     const offset = window.scrollY + rectangle.top + moveDown;
 
     setStyle({ top: offset, opacity: 1, transition: "opacity 0.3s" });
-  }, 50);
-
-  const removeListener = () => {
-    if (listener) {
-      window.removeEventListener("resize", listener)
-    }
   };
 
-  useEffect(() => {
-    removeListener();
+  useEffect(align, []);
+  usePrint(align);
 
-    if (target.current) {
-      alignNextToTarget();
+  const alignSoon = useDebounce(align, 50);
 
-      window.addEventListener("resize", alignNextToTarget);
-    }
-
-    return removeListener;
-  }, [target]);
-
-  useEffect(() => {
-    const delays = [200, 1000, 5000, 15000, 30000];
-
-    const timeouts = delays.map(d => window.setTimeout(alignNextToTarget, d));
-
-    return () => timeouts.forEach(t => window.clearTimeout(t));
-  }, []);
+  useResize(alignSoon, [target]);
+  useDelays(alignSoon, [200, 1000, 5000, 15000, 30000]);
 
   return (
     <aside className={css.aside} style={style}>
