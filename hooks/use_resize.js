@@ -1,20 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-const useResize = (callback, dependencies = []) => {
-  const [listener, setListener] = useState(null);
-
-  const removeListener = () => {
-    if (listener) {
-      window.removeEventListener("resize", listener)
-    }
-  };
-
+const useResize = (callback) => {
   useEffect(() => {
-    removeListener();
-    setListener(window.addEventListener("resize", callback));
+    const listener = window.addEventListener("resize", callback);
 
-    return removeListener;
-  }, dependencies);
+    return () => window.removeEventListener("resize", listener)
+  }, []);
 };
 
 export default useResize;

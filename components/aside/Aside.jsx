@@ -24,7 +24,7 @@ const Aside = ({ target, children, moveDown = 0 }) => {
 
   const alignSoon = useDebounce(align, 50);
 
-  useResize(alignSoon, [target]);
+  useResize(alignSoon);
   useDelays(alignSoon, [200, 1000, 5000, 15000, 30000]);
 
   return (
