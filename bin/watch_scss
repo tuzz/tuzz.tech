@@ -1,0 +1,8 @@
+#!/bin/bash
+
+npx node-sass --watch                     \
+              --recursive                 \
+              --quiet                     \
+              --output-style expanded     \
+              --output public/examples    \
+              public/examples
