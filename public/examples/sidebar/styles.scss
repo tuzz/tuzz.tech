@@ -1,0 +1,17 @@
+main {
+  max-width: 20rem;       // The width of main content.
+  padding-right: 15rem;   // The width of the sidebar.
+  background: #eee;       // The color of the sidebar.
+  position: relative;
+
+  article {
+    padding: 1rem;
+    background: white;
+  }
+
+  aside {
+    position: absolute;
+    right: 1rem;
+    width: 13rem;         // sidebar width - 2x padding
+  }
+}
