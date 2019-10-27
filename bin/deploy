@@ -1,6 +1,7 @@
 #!/bin/bash
 
 rm -rf out .next                                                        && \
+  ./bin/compile_scss                                                    && \
   npx next build                                                        && \
   npx next export                                                       && \
   cd out                                                                && \
