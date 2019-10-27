@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import css from "./styles.scss";
 
 import useDebounce from "../../hooks/use_debounce";
@@ -10,6 +10,9 @@ const Frame = ({ src }) => {
   const [height, setHeight] = useState(0);
   const [scale, setScale] = useState(1);
   const [loading, setLoading] = useState(true);
+
+  // Render with no src first so we don't miss the onLoad event.
+  const [source, setSource] = useState(null);
 
   const frameRef = useRef();
   const objectRef = useRef();
@@ -41,6 +44,7 @@ const Frame = ({ src }) => {
   };
 
   useResize(useDebounce(scaleContent, 40));
+  useEffect(() => setSource(src), [src]);
 
   const fadeIn = loading ? {} : { opacity: 1, transition: "opacity 0.5s" };
 
@@ -49,7 +53,7 @@ const Frame = ({ src }) => {
 
   return (
     <div ref={frameRef} className={css.frame} style={outerStyle}>
-      <object ref={objectRef} data={src} onLoad={firstLoad} style={innerStyle} />
+      <iframe ref={objectRef} src={source} onLoad={firstLoad} style={innerStyle} />
       {loading && <div className={css.loading} />}
     </div>
   );
