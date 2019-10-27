@@ -1,0 +1,192 @@
+import Head from "next/head";
+import ImageMeta from "../../components/image_meta";
+import VideoMeta from "../../components/video_meta";
+import Layout from "../../components/layout";
+import Aside from "../../components/aside";
+import Figure from "../../components/figure";
+import Frame from "../../components/frame";
+import { createRef } from "react";
+
+export let r;
+
+export const navigation = {
+  breadcrumbs: [
+    { text: "tuzz.tech", href: "/" },
+    { text: "blog", href: "/blog" },
+  ],
+  links: [
+    { text: "← Previous", href: "/blog/palindromic-superpermutations" },
+    { text: "Next Article →" },
+  ]
+};
+
+export const title = "Building a commentary sidebar in React";
+export const path = "/blog/react-comments-sidebar";
+export const description = "TODO";
+
+<Head>
+  <meta property="og:title" content={title} />
+  <meta property="og:url" content={`https://tuzz.tech${path}`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="article" />
+
+  <meta name="description" content={description} />
+  <meta name="keywords" content="Chris Patuzzo,TODO" />
+</Head>
+
+<Layout title={title} navigation={navigation}>
+
+<h1>{title}</h1>
+
+<time dateTime="2019-10-26">Published October 26, 2019 by {" "}
+<a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
+</time>
+
+Over the past weeks, I've been building this blog and writing articles for it.
+I've spent a lot of time thinking about the reader. Who are they? Why are they
+here? It's often hard to know how much detail to go into and how much background
+knowledge to assume.
+
+On the one hand, people are busy. Attentions are short and time is precious. I'd
+do well to keep articles lean, focussed and to the point. But that _misses_ the
+point. People are here for enjoyment and just presenting the cold hard facts
+isn't going to cut it.
+
+I've settled on an approach I hope will cater to a variety of readers. I keep
+the main body of content concise and _on topic_ but enrich it with commentary on
+the side. This leaves room for elaboration, tangential remarks and all the
+whimsy I can <span ref={r = createRef()}>mustard</span>.
+
+<Aside target={r}><p>
+I'm so sorry.
+</p></Aside>
+
+However, this commentary hides complexity. When <span ref={r =
+createRef()}>viewed</span> on a large-enough screen, it's presented in a
+sidebar next to the main content. Ideally, comments sit as close as possible to
+the word or phrase they refer to. This helps flow and improves continuity.
+
+<Aside target={r}><p>
+When viewed on mobile, comments are presented in the main body of content but
+with softer styles to show they're supplementary.
+</p></Aside>
+
+In this article, I'll explain the mechanics of how this works in my React app.
+As you'll see, there's a lot to consider to make a robust, responsive and
+semantic <span ref={r = createRef()}>solution</span>.
+
+<Aside target={r}><p>
+... that's SEO and print friendly.
+</p></Aside>
+
+## Structuring the DOM
+
+Putting React to one side for a moment, let's first consider how to structure
+the DOM.  HTML5 has the perfect element for our needs:
+
+>The HTML `<aside>` element represents a portion of a document whose content is
+only indirectly related to the document's main content. Asides are frequently
+presented as sidebars or call-out boxes.
+&nbsp;_– [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside)_
+
+That leaves the question of whether to group all commentary together into <span
+ref={r = createRef()}>a</span> single `<aside>` or to have one per comment. I
+decided on the latter as I think this adds meaning. Comments are independent of
+each other so the DOM should reflect that.
+
+<Aside target={r}><p>
+It's also easier to intersperse comments with content using this approach which
+is useful for mobile.
+</p></Aside>
+
+Here's how that looks in code:
+
+<Figure.Code>
+
+```html
+<main>
+  <article>
+    <p>The article's first paragraph.</p>
+    <aside>A comment on the above.</aside>
+    <p>The article's second paragraph.</p>
+  </article>
+</main>
+```
+
+Comments interspersed with content
+</Figure.Code>
+
+### Laying things out
+
+As you can see above, there's no sidebar in the DOM. I think of a sidebar as a
+visual manifestation of the `<aside>` elements. It really ought to be a
+presentational concern.
+
+There are a number of CSS tools we could use to get the desired effect such as
+flexbox, floats, relative and absolute positioning. This seemed simplest to me:
+
+```css
+main {
+  max-width: 20rem;       // The width of main content.
+  padding-right: 15rem;   // The width of the sidebar.
+  background: #eee;       // The color of the sidebar.
+  position: relative;
+
+  article {
+    padding: 1rem;
+    background: white;
+  }
+
+  aside {
+    position: absolute;
+    right: 1rem;
+    width: 13rem;          // sidebar width - 2x padding
+  }
+}
+```
+
+<Frame src="/examples/sidebar/index.html" />
+
+
+
+<br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+
+
+- high-level component explanation
+  - getBoundingClientRect
+  - absolute positioning
+  - fade in once positioned
+  - useEffect to run immediately
+- what if content loading is slow?
+  - delays hook
+  - no ideal, but does the trick
+- resize hook
+  - dependent on target
+  - race condition
+  - could disable if below some width but I don't want coupling
+- debouncing
+  - more efficient, doesn't changes styles constantly
+  - didn't write the book, but link to gist
+  - still need to call align (not alignSoon) on page load
+- printing
+  - motivation
+    - i don't think anyone will print
+    - but i would like to provide offline pdfs - or maybe an ebook someday
+    - perhaps use electron-pdf or puppeteer - be nice to use the same pipeline
+    - might even help seo
+  - by default, won't actually show the sidebar because of pixel width (670?)
+  - once it doesn, the alignment is wrong... WHY?
+    - link to chrome bug - is this why?
+    - therefore, we need to explicitly tell it to re-align on print
+    - print events: before, after, media selector
+      - browser support?
+  - write another hook
+  - isn't perfect, but seems to work well enough in webkit
+    - of course, more work is needed to make it actually look nice when printed
+- quick conclusion
+  - hooks make things neat and tidy
+  - printing is a mess: seems weird you can't just print what you see
+    - there is something in dev tools for this
+
+
+</Layout>
