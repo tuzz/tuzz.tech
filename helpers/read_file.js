@@ -9,7 +9,7 @@ const readFile = (path, marker) => {
 
 const selectWithin = (marker, content, path) => {
   const lines = content.split("\n");
-  const [a, b] = findIndexes(2, lines, l => l.includes(marker));
+  const [a, b] = findIndexes(2, lines, (l) => matches(marker, l));
 
   if (typeof a === "undefined") {
     throw new Error(`Could not find '${marker}' in ${path}`);
@@ -24,5 +24,10 @@ const selectWithin = (marker, content, path) => {
 
   return dedented;
 }
+
+// If the marker appears in the same file as where it's used, skip past that.
+const matches = (marker, line) => {
+  return line.includes(marker) && !line.includes(`"${marker}"`);
+};
 
 export default readFile;
