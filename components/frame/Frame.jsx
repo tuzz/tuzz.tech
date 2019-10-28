@@ -6,7 +6,7 @@ import useResize from "../../hooks/use_resize";
 
 const MAX_WIDTH = 560;
 
-const Frame = ({ src }) => {
+const Frame = ({ src, autoScale=true }) => {
   const [height, setHeight] = useState(0);
   const [scale, setScale] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -21,15 +21,15 @@ const Frame = ({ src }) => {
     const object = objectRef.current;
     if (!object) return;
 
-    const inner = object.contentWindow.document;
-    const height = inner.body.scrollHeight;
+    const body = object.contentWindow.document.body;
+    if (!body) return;
 
-    setHeight(height);
+    setHeight(body.scrollHeight);
   };
 
   const scaleContent = () => {
     const frame = frameRef.current;
-    if (!frame) return;
+    if (!frame || !autoScale) return;
 
     const width = frame.getBoundingClientRect().width;
     const scale = width / MAX_WIDTH;
@@ -37,14 +37,14 @@ const Frame = ({ src }) => {
     setScale(scale);
   };
 
-  const firstLoad = () => {
-    setLoading(false);
+  const resize = useDebounce(() => {
     fitContent();
     scaleContent();
-  };
+  }, 40);
 
-  useResize(useDebounce(scaleContent, 40));
   useEffect(() => setSource(src), [src]);
+  useEffect(resize, [loading]);
+  useResize(resize);
 
   const fadeIn = loading ? {} : { opacity: 1, transition: "opacity 0.5s" };
 
@@ -53,7 +53,7 @@ const Frame = ({ src }) => {
 
   return (
     <div ref={frameRef} className={css.frame} style={outerStyle}>
-      <iframe ref={objectRef} src={source} onLoad={firstLoad} style={innerStyle} />
+      <iframe ref={objectRef} src={source} onLoad={() => setLoading(false)} style={innerStyle} scrolling="no" />
       {loading && <div className={css.loading} />}
     </div>
   );
