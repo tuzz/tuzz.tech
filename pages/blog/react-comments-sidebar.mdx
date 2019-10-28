@@ -104,7 +104,7 @@ Here's how that looks in code:
 
 <Figure>
 <pre><code className="language-html">
-  {readFile("public/examples/sidebar/index.html", "body")}
+  {readFile("public/examples/sidebar-1/index.html", "body")}
 </code></pre>
 
 Comments interspersed with content
@@ -122,7 +122,7 @@ me:
 
 <Figure>
 <pre><code className="language-css">
-  {readFile("public/examples/sidebar/styles.scss", "----")}
+  {readFile("public/examples/sidebar-1/styles.scss", "----")}
 </code></pre>
 
 One way of creating a sidebar with <span ref={r = createRef()}>CSS</span>
@@ -147,14 +147,14 @@ it looks:
 <span ref={r = createRef()} />
 
 <Figure>
-<Frame src="/examples/sidebar/index.html" autoScale={false} />
+<Frame src="/examples/sidebar-1/index.html" autoScale={false} />
 
 Using padding to create a sidebar on the right
 </Figure>
 
 <Aside target={r} moveDown={25}><p>
 This is a live version of the code running in a frame. You can see a standalone
-version <a href="/examples/sidebar/index.html" target="_blank">here</a>.
+version <a href="/examples/sidebar-1/index.html" target="_blank">here</a>.
 </p></Aside>
 
 This isn't quite right because the comment is placed next to the second
