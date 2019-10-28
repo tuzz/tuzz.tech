@@ -116,14 +116,14 @@ type is a shell builtin
 This command allows you to register a method of completion for a command. For
 example, an `rgb` command might register its known colors:
 
-<Figure.Code>
+<Figure>
 
 ```bash
 $ complete -W "red green blue yellow purple pink orange" color
 ```
 
 Setting a hardcoded list of completions
-</Figure.Code>
+</Figure>
 
 You could then complete color names:
 
@@ -150,7 +150,7 @@ To see which commands have completion methods, run `complete` without arguments:
 
 <span ref={r = createRef()} />
 
-<Figure.Code>
+<Figure>
 
 ```bash
 $ complete
@@ -160,7 +160,7 @@ complete -F _rbenv rbenv
 ```
 
 Listing all registered completion methods
-</Figure.Code>
+</Figure>
 
 
 <Aside target={r} moveDown={12}><p>
@@ -215,7 +215,7 @@ function that *magically* completes the next term in the sequence:
 
 <span ref={r = createRef()} />
 
-<Figure.Code>
+<Figure>
 
 ```bash
 function _fizzbuzz () {
@@ -233,7 +233,7 @@ complete -F _fizzbuzz fizzbuzz
 ```
 
 Setting a Bash function to complete `fizzbuzz`
-</Figure.Code>
+</Figure>
 
 <Aside target={r} moveDown={25}>
 

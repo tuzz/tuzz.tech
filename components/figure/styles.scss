@@ -1,7 +1,11 @@
 @import "../layout/color.scss";
 
 .figure {
-  margin: 2rem 0 1.5rem 0;
+  margin: 1.5rem 0;
+
+  & > *:first-child, pre {
+    margin-bottom: 0.5rem;
+  }
 
   figcaption {
     color: $neutral_700;
@@ -27,12 +31,8 @@
     font-style: normal;
   }
 
-  &.code {
-    margin: 1.5rem 0;
-
-    pre {
-      margin-bottom: 0.5rem;
-    }
+  &.more_space {
+    margin-top: 2rem;
   }
 }
 

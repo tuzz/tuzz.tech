@@ -86,7 +86,7 @@ First, I register a completion function that passes the entire command line
 through to another `zz` command. Then `$COMPREPLY` is set to the result of that
 command:
 
-<Figure.Code>
+<Figure>
 
 ```bash
 #!/bin/bash
@@ -99,7 +99,7 @@ complete -F _zz zz
 ```
 
 Setting a Bash function to complete `zz`
-</Figure.Code>
+</Figure>
 
 My philosophy with these things is to ‘get the hell out of `<OBSCURE THING>`’
 as soon as possible and handle the result in a more <span ref={r =
@@ -183,7 +183,7 @@ This behaviour is implemented
 
 </Aside>
 
-<Figure.Code>
+<Figure>
 
 ```ruby
 def complete_command(args)
@@ -197,7 +197,7 @@ end
 ```
 
 Returning `false` if this ‘type’ of completion isn’t relevant
-</Figure.Code>
+</Figure>
 
 The [`#complete_option`](https://github.com/tuzz/zz/commit/046b31d5715661329da8f25eef37de2596a2e59e#diff-c536662908a26a0b8843e81b8ffe42cbR40-R55)
 method is more complicated but uses the same idea.
@@ -229,7 +229,7 @@ We <span ref={r = createRef()}>can</span> now implement completion for options
 by providing them with blocks. For example, here’s how we do that for `template
 --type`:
 
-<Figure.Code>
+<Figure>
 
 ```ruby
 def type_option
@@ -242,7 +242,7 @@ end
 ```
 
 Selecting all types that start with the prefix
-</Figure.Code>
+</Figure>
 
 <Aside target={r}>
 
@@ -260,7 +260,7 @@ of Chef recipes. For example, you might say `provision --only vim,ruby`.
 
 <span ref={r = createRef()} />
 
-<Figure.Code>
+<Figure>
 
 ```ruby
 def auto_complete_recipe_list(args)
@@ -274,7 +274,7 @@ end
 ```
 
 An option that completes comma-separated lists
-</Figure.Code>
+</Figure>
 
 <Aside target={r} moveDown={55}>
 
@@ -315,7 +315,7 @@ Otherwise, we’d lose `vim` from our list if it was replaced with just ‘`ru`�
 
 However, this can be noisy if we have lots of completion options:
 
-<Figure.Code>
+<Figure>
 
 ```bash
 $ zz provision --only vim,ruby<TAB><TAB>
@@ -323,7 +323,7 @@ vim,ruby,aws   vim,ruby,chrome   vim,ruby,dock   # ...many more
 ```
 
 Noisy output: the comma-separated list is duplicated
-</Figure.Code>
+</Figure>
 
 Ideally, we want it to just return the names of available recipes without all
 the noise but we can’t do that because Bash will replace our list by the common
@@ -346,7 +346,7 @@ It might also vary by operating system or version, I’m not sure.
 
 </p></Aside>
 
-<Figure.Code>
+<Figure>
 
 ```bash
 $ zz provision --only vim,ruby<TAB><TAB>
@@ -354,7 +354,7 @@ aws   chrome   dock   drive   dropbox   ffmpeg   # ...
 ```
 
 Less noisy output: without the duplication
-</Figure.Code>
+</Figure>
 
 That’s what this lines is for:
 
@@ -381,7 +381,7 @@ already complicated. Here are some unit test for this behaviour:
 
 <span ref={r = createRef()} />
 
-<Figure.Code>
+<Figure>
 
 ```ruby
 expect(complete.call([""])).to include("git", "ruby", "vim")
@@ -398,7 +398,7 @@ expect(complete.call(["Chrome"])).to eq ["chrome", "chromedriver"]
 ```
 
 Unit tests for `provision --only` option completion
-</Figure.Code>
+</Figure>
 
 <Aside target={r} moveDown={45}>
 
