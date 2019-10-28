@@ -43,6 +43,13 @@ export const description = "TODO";
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
 </time>
 
+<div className="note">
+This is the first of two parts on this topic. Part two
+is <a href="/blog/improving-sidebar-react">here</a>.
+</div>
+
+TODO: add video of resizing the window
+
 <span ref={r = createRef()} />
 <span ref={r2 = createRef()} />
 
@@ -480,48 +487,5 @@ ways:
 - We might even break the _fifth wall_
 
 Sounds exciting!? I think so... See you in part two.
-
-
-
-
-<br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
-
-
-- high-level component explanation
-  - getBoundingClientRect
-  - absolute positioning
-  - fade in once positioned
-  - useEffect to run immediately
-- what if content loading is slow?
-  - delays hook
-  - no ideal, but does the trick
-- resize hook
-  - dependent on target
-  - race condition
-  - could disable if below some width but I don't want coupling
-- debouncing
-  - more efficient, doesn't changes styles constantly
-  - didn't write the book, but link to gist
-  - still need to call align (not alignSoon) on page load
-- printing
-  - motivation
-    - i don't think anyone will print
-    - but i would like to provide offline pdfs - or maybe an ebook someday
-    - perhaps use electron-pdf or puppeteer - be nice to use the same pipeline
-    - might even help seo
-  - by default, won't actually show the sidebar because of pixel width (670?)
-  - once it doesn, the alignment is wrong... WHY?
-    - link to chrome bug - is this why?
-    - therefore, we need to explicitly tell it to re-align on print
-    - print events: before, after, media selector
-      - browser support?
-  - write another hook
-  - isn't perfect, but seems to work well enough in webkit
-    - of course, more work is needed to make it actually look nice when printed
-- quick conclusion
-  - hooks make things neat and tidy
-  - printing is a mess: seems weird you can't just print what you see
-    - there is something in dev tools for this
-
 
 </Layout>
