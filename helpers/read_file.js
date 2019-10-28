@@ -11,7 +11,10 @@ const selectWithin = (marker, content) => {
   const lines = content.split("\n");
   const [a, b] = findIndexes(2, lines, l => l.includes(marker));
 
-  return dedent(lines.slice(a + 1, b).join("\n"));
+  const selection = lines.slice(a + 1, b);
+  const indented = selection.map(l => ` ${l}`);
+
+  return dedent(indented.join("\n"));
 }
 
 export default readFile;
