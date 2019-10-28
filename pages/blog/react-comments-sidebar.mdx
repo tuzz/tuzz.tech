@@ -5,6 +5,7 @@ import Layout from "../../components/layout";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import Frame from "../../components/frame";
+import readFile from "../../helpers/read_file";
 import { createRef } from "react";
 
 export let r;
@@ -102,16 +103,9 @@ is useful for mobile.
 Here's how that looks in code:
 
 <Figure.Code>
-
-```html
-<main>
-  <article>
-    <p>The article's first paragraph.</p>
-    <aside>A comment on the above.</aside>
-    <p>The article's second paragraph.</p>
-  </article>
-</main>
-```
+<pre><code className="language-html">
+  {readFile("public/examples/sidebar/index.html", "body")}
+</code></pre>
 
 Comments interspersed with content
 </Figure.Code>
@@ -125,25 +119,11 @@ presentational concern.
 There are a number of CSS tools we could use to get the desired effect such as
 flexbox, floats, relative and absolute positioning. This seemed simplest to me:
 
-```css
-main {
-  max-width: 20rem;       // The width of main content.
-  padding-right: 15rem;   // The width of the sidebar.
-  background: #eee;       // The color of the sidebar.
-  position: relative;
+<pre><code className="language-css">
+  {readFile("public/examples/sidebar/styles.scss")}
+</code></pre>
 
-  article {
-    padding: 1rem;
-    background: white;
-  }
 
-  aside {
-    position: absolute;
-    right: 1rem;
-    width: 13rem;          // sidebar width - 2x padding
-  }
-}
-```
 
 <Frame src="/examples/sidebar/index.html" />
 
