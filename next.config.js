@@ -7,4 +7,13 @@ module.exports = withSass(withMDX({
   experimental: {
     publicDirectory: true,
   },
+  webpack (config, options) {
+    config.module.rules.push({
+      test: /\.json$/,
+      type: "javascript/auto",
+      loader: "json-loader"
+    });
+
+    return config;
+  },
 }));
