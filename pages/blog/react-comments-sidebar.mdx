@@ -8,7 +8,7 @@ import Frame from "../../components/frame";
 import readFile from "../../helpers/read_file";
 import { createRef } from "react";
 
-export let r;
+export let r, r2;
 
 export const navigation = {
   breadcrumbs: [
@@ -39,9 +39,28 @@ export const description = "TODO";
 
 <h1>{title}</h1>
 
-<time dateTime="2019-10-26">Published October 26, 2019 by {" "}
+<time dateTime="2019-10-28">Published October 28, 2019 by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
 </time>
+
+<span ref={r = createRef()} />
+<span ref={r2 = createRef()} />
+
+<!-- fourth-wall-1 -->
+
+<Aside target={r}><p>
+I'm going to break the
+fourth wall in this
+article! Uh oh...
+</p></Aside>
+
+<!-- fourth-wall-1 -->
+
+<Aside target={r2} moveDown={60}><p>
+<pre><code className="language-jsx">
+  {readFile("pages/blog/react-comments-sidebar.mdx", "fourth-wall-1")}
+</code></pre>
+</p></Aside>
 
 Over the past weeks, I've been building this blog and writing articles for it.
 I've spent a lot of time thinking about the reader. Who are they? Why are they
@@ -120,19 +139,26 @@ There are a number of CSS techniques we could use to create a sidebar. There's
 flexbox, floats, relative and absolute positioning. This seemed simplest to
 me:
 
+<span ref={r = createRef()} />
+
 <Figure>
 <pre><code className="language-css">
   {readFile("public/examples/sidebar-1/styles.scss", "----")}
 </code></pre>
 
-One way of creating a sidebar with <span ref={r = createRef()}>CSS</span>
+One way of creating a sidebar with <span ref={r2 = createRef()}>CSS</span>
 </Figure>
 
-<Aside target={r}>
+<Aside target={r2}>
 
   Technically it's [Sass](https://sass-lang.com/) as it uses nested rules.
 
 </Aside>
+
+<Aside target={r} moveDown={28}><p>
+I've simplified this a bit. In practice there are rules to set colors, borders,
+etc. There are also media queries to scale down for smaller screens.
+</p></Aside>
 
 This works by splitting the container in two. The sidebar comments live in the
 space created by the `padding-right` rule. They use absolute positioning which
@@ -179,11 +205,13 @@ doesn't line up
 </Figure>
 
 <Aside target={r} moveDown={-44}><p>
-Yes it {" "}
-<span style={{ color: "#773955" }}>d</span>
-<span style={{ color: "#883955" }}>o</span>
-<span style={{ color: "#993955" }}>e</span>
-<span style={{ color: "#aa3955" }}>s</span>.
+Yes, red definitely c
+<span style={{ color: "#663922" }}>l</span>
+<span style={{ color: "#773933" }}>a</span>
+<span style={{ color: "#883944" }}>s</span>
+<span style={{ color: "#993955" }}>h</span>
+<span style={{ color: "#aa3955" }}>e</span>
+<span style={{ color: "#bb3955" }}>s</span>.
 </p></Aside>
 
 We can use absolute positioning for this but it's not so straightforward. The
@@ -233,11 +261,226 @@ property is interesting because it allows for a difference in how the DOM is
 structured to how elements are presented. Ultimately, I couldn't find a way and
 resorted to <span ref={r = createRef()}>JavaScript</span>.
 
-<Aside target={r}><p>
-Disappointing, I know.
-</p></Aside>
+<Aside target={r}>
+
+Disappointing, I know. If you know of a way, please
+[get in touch](https://twitter.com/chrispatuzzo)!
+
+</Aside>
 
 ## React
+
+In React, I created an `<Aside>` component that positions itself relative to
+a target element. It encapsulates the behavior of figuring our what its
+position should be and listens to events that might invalidate that, such as
+resizing the window.
+
+Here's a first version:
+
+<span ref={r = createRef()} />
+<span ref={r2 = createRef()} />
+
+<Figure>
+
+```javascript
+const Aside = ({ target, children }) => {
+  const [style, setStyle] = useState(null);
+
+  const align = () => {
+    const rectangle = target.current.getBoundingClientRect();
+    const offset = window.scrollY + rectangle.top;
+
+    setStyle({ top: offset });
+  };
+
+  useEffect(() => {
+    align(); // Align when the component is mounted.
+
+    const listener = window.addEventListener("resize", align);
+    return () => window.removeEventListener("resize", listener);
+  }, []);
+
+  return (
+    <aside className={css.aside} style={style}>
+      {children}
+    </aside>
+  );
+};
+
+export default Aside;
+```
+
+A React component that aligns itself with a target
+</Figure>
+
+There are really two main parts to it:
+
+<div className="more_space">
+
+1. The `align` function calculates the y-coordinate of the `target` which is a
+[reference](https://reactjs.org/docs/refs-and-the-dom.html) to a DOM
+element. It sets the `top` style property to this.
+2. The `useEffect` hook aligns the component when it's first mounted and binds
+a listener to re-align the component if the browser is resized.
+
+</div>
+
+<Aside target={r} moveDown={140}>
+
+[getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
+is [well-supported](https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup)
+in modern browsers. It's more reliable than offsetTop and considers CSS transformations.
+
+</Aside>
+
+<Aside target={r2} moveDown={365}>
+
+The function returned from
+[`useEffect`](https://reactjs.org/docs/hooks-effect.html) is called when the
+component is unmounted. It's used to
+[clean up](https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup)
+and remove the listener.
+
+</Aside>
+
+The component is used like so:
+
+<span ref={r = createRef()} />
+<span ref={r2 = createRef()} />
+
+<Figure>
+
+```jsx
+<p>In this paragraph, I want to comment on
+
+<em ref={r=createRef()}>
+  these words
+</em>
+
+which are in the middle of the paragraph.</p>
+
+<Aside target={r}>
+  Does red clash with the theme?
+</Aside>
+```
+
+How to use the `<Aside>` component
+</Figure>
+
+<Aside target={r} moveDown={50}>
+
+I've already `let r` by this point. This is re-assigned to
+[`createRef()`](https://reactjs.org/docs/refs-and-the-dom.html#creating-refs)
+for each new reference.
+
+</Aside>
+
+<Aside target={r2} moveDown={178}>
+
+`r` is passed as the target.
+
+</Aside>
+
+<!-- fourth-wall-2 -->
+
+### Breaking the fourth wall
+
+As I write this article, I'm using this component a lot.
+Let's peek at <span ref={r=createRef()}>the code</span>:
+
+<Aside target={r}>
+Well this is unexpected. {/* Waves to self. 👋 */}
+</Aside>
+
+<!-- fourth-wall-2 -->
+
+<span ref={r = createRef()} />
+
+<Figure>
+<pre><code className="language-jsx">
+  {readFile("pages/blog/react-comments-sidebar.mdx", "fourth-wall-2")}
+</code></pre>
+
+Using the `<Aside>` component in **this** article
+</Figure>
+
+<Aside target={r} moveDown={50}>
+
+I'm using a hybrid of Markdown that supports JSX. It's called
+[MDX](https://github.com/mdx-js/mdx).
+
+</Aside>
+
+If your browser is wide enough, you _should_ see 'Well this is unexpected' on
+the right-hand side of 'the code'. Otherwise, it'll appear in the main flow.
+
+In some cases, there's no word or phrase in the DOM to refer to. For example,
+images, videos and code blocks that use the [`<pre>`
+tag](https://www.w3schools.com/tags/tag_pre.asp). <span ref={r2 =
+createRef()}>For</span> these cases, I built an _escape hatch_ that lets me move
+comments down by a fixed amount:
+
+<!-- fourth-wall-3 -->
+
+<span ref={r = createRef()} />
+
+<Aside target={r} moveDown={50}>
+For example, this aside is moved down 50 pixels.
+</Aside>
+
+<!-- fourth-wall-3 -->
+
+<pre><code className="language-jsx">
+  {readFile("pages/blog/react-comments-sidebar.mdx", "fourth-wall-3")}
+</code></pre>
+
+<Aside target={r2}><p>
+These elements tend to have a fixed height, anyway.
+</p></Aside>
+
+This amount is then added to the `offset`:
+
+<Figure>
+
+```javascript
+const Aside = ({ target, children, moveDown = 0 }) => {
+  // ...
+
+  const align = () => {
+    // ...
+    const offset = window.scrollY + rectangle.top + moveDown;
+    setStyle({ top: offset });
+  };
+
+  // ...
+};
+```
+
+Moving comments down by a fixed amount
+</Figure>
+
+All told, <span ref={r = createRef()}>this</span> serves very well as a means
+of commenting on variety of things: text, images, code and (as we've seen) even
+comments themselves!
+
+<Aside target={r}><p>
+Even comments about commenting on comments! Ok, I'll stop now.
+</p></Aside>
+
+### Incremental improvements
+
+In part two of this article we'll be improving our component in a number of
+ways:
+
+- We'll cope with slow-loading images and fonts that break alignment
+- We'll handle a race condition that can sometimes happen with `ref`s
+- We'll add debouncing, for a smoother browser experience
+- We'll extract code into hooks to make things nice and shiny
+- We'll stare at pure hatred itself and try to get print layouts working
+- We might even break the _fifth wall_
+
+Sounds exciting!? I think so... See you in part two.
+
 
 
 

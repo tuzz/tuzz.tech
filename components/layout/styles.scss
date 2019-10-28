@@ -106,6 +106,12 @@ body {
     margin: 0.75rem 0;
   }
 
+  :global(.more_space) {
+    li {
+      margin: 1.5rem 0;
+    }
+  }
+
   blockquote {
     border-left: 0.3rem solid $neutral_300;
     padding-left: 0.9rem;
