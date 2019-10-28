@@ -68,8 +68,8 @@ sidebar next to the main content. Ideally, comments sit as close as possible to
 the word or phrase they refer to. This helps flow and improves continuity.
 
 <Aside target={r}><p>
-When viewed on mobile, comments are presented in the main body of content but
-with softer styles to show they're supplementary.
+When viewed on mobile, comments are presented inside the main content but with
+softer styles to show they're supplementary.
 </p></Aside>
 
 In this article, I'll explain the mechanics of how this works in my React app.
@@ -92,8 +92,8 @@ presented as sidebars or call-out boxes.
 
 That leaves the question of whether to group all commentary together into <span
 ref={r = createRef()}>a</span> single `<aside>` or to have one per comment. I
-decided on the latter as I think this adds meaning. Comments are independent of
-each other so the DOM should reflect that.
+decided on the latter as I think this is more meaningful. Comments are
+independent of each other so the DOM should reflect that.
 
 <Aside target={r}><p>
 It's also easier to intersperse comments with content using this approach which
@@ -102,28 +102,142 @@ is useful for mobile.
 
 Here's how that looks in code:
 
-<Figure.Code>
+<Figure>
 <pre><code className="language-html">
   {readFile("public/examples/sidebar/index.html", "body")}
 </code></pre>
 
 Comments interspersed with content
-</Figure.Code>
+</Figure>
 
 ### Laying things out
 
-As you can see above, there's no sidebar in the DOM. I think of a sidebar as a
-visual manifestation of the `<aside>` elements. It really ought to be a
+As you can see above, there's no DOM element for the sidebar. I think of a
+sidebar as a way to present `<aside>` elements. It really ought to be a
 presentational concern.
 
-There are a number of CSS tools we could use to get the desired effect such as
-flexbox, floats, relative and absolute positioning. This seemed simplest to me:
+There are a number of CSS techniques we could use to create a sidebar. There's
+flexbox, floats, relative and absolute positioning. This seemed simplest to
+me:
 
+<Figure>
 <pre><code className="language-css">
   {readFile("public/examples/sidebar/styles.scss", "----")}
 </code></pre>
 
+One way of creating a sidebar with <span ref={r = createRef()}>CSS</span>
+</Figure>
+
+<Aside target={r}>
+
+  Technically it's [Sass](https://sass-lang.com/) as it uses nested rules.
+
+</Aside>
+
+This works by splitting the container in two. The sidebar comments live in the
+space created by the `padding-right` rule. They use absolute positioning which
+removes them from the document's flow and `right: 1rem` to place them in the
+padded region.
+
+We can left-position the `<aside>` elements within the sidebar by setting their
+width. This is calculated as `50% - 2rem` to create the illsusion of
+padding - by leaving an equal amount of space on the left and right. Here's how
+it looks:
+
+<span ref={r = createRef()} />
+
+<Figure>
 <Frame src="/examples/sidebar/index.html" autoScale={false} />
+
+Using padding to create a sidebar on the right
+</Figure>
+
+<Aside target={r} moveDown={25}><p>
+This is a live version of the code running in a frame. You can see a standalone
+version <a href="/examples/sidebar/index.html" target="_blank">here</a>.
+</p></Aside>
+
+This isn't quite right because the comment is placed next to the second
+paragraph instead of the first. We could fix it by moving the `<aside>` above
+the first paragraph but then the DOM would be out of order and it wouldn't read
+correctly on mobile.
+
+### Further complications
+
+To make matters worse, we also want to be able to position commentary next to
+specific words or phrases. For example:
+
+<Figure>
+<Frame src="/examples/sidebar-2/index.html" autoScale={false} />
+
+<p>
+A <span ref={r = createRef()}>badly-placed</span> comment that
+<span style={{ position: "relative", top: "2px", left: "4px" }}>
+doesn't line up
+</span>
+</p>
+</Figure>
+
+<Aside target={r} moveDown={-44}><p>
+Yes it {" "}
+<span style={{ color: "#773955" }}>d</span>
+<span style={{ color: "#883955" }}>o</span>
+<span style={{ color: "#993955" }}>e</span>
+<span style={{ color: "#aa3955" }}>s</span>.
+</p></Aside>
+
+We can use absolute positioning for this but it's not so straightforward. The
+paragraph is free-flowing text which means it's hard to predict where the words
+will be. It depends on the width of the browser, which font is loaded and its
+line height.
+
+We could change the DOM and move the `<aside>` into the text element but again,
+that would mean the content's out of order. We'd end up with a horrible jumble:
+
+```html
+<p>In this paragraph, I want to comment on
+<span>
+  <em>these words</em>
+  <aside>Does red clash with the theme?</aside>
+</span>
+which are in the middle of the paragraph.</p>
+```
+
+It's also not good practice to do this. React gives us a warning:
+
+> validateDOMNesting(...): `<aside>` cannot appear as a descendant of `<p>`.
+
+The fundamental problem is there's no way in CSS to position elements relative
+to arbitrary things. It would be neat if we could do something like this, but
+we can't:
+
+<span ref={r = createRef()} />
+
+```css
+aside {
+  position: element(#thing);
+  top: 0;
+}
+```
+
+<Aside target={r} moveDown={32}>
+
+This hypothetical syntax is based on [this blog
+post](https://discourse.wicg.io/t/position-an-element-relatively-to-another-element-from-anywhere-in-the-dom/968)
+on the same topic.
+
+</Aside>
+
+I spent a while thinking of other ways to do this in CSS. Flexbox's `order`
+property is interesting because it allows for a difference in how the DOM is
+structured to how elements are presented. Ultimately, I couldn't find a way and
+resorted to <span ref={r = createRef()}>JavaScript</span>.
+
+<Aside target={r}><p>
+Disappointing, I know.
+</p></Aside>
+
+## React
 
 
 
