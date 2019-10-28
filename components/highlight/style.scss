@@ -25,6 +25,7 @@
     background: $neutral_250;
     padding: 0.1rem 0.2rem;
     white-space: nowrap;
+    display: inline-block;
 
     .token-line:after {
       content: " ";
