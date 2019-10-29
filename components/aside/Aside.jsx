@@ -11,7 +11,7 @@ const Aside = ({ target, children, moveDown = 0 }) => {
 
   const align = () => {
     const current = target.current;
-    if (!current) return; // Handle a race condition.
+    if (!current) return; // Guard a race condition.
 
     const rectangle = current.getBoundingClientRect();
     const offset = window.scrollY + rectangle.top + moveDown;
@@ -25,7 +25,7 @@ const Aside = ({ target, children, moveDown = 0 }) => {
   const alignSoon = useDebounce(align, 50);
 
   useResize(alignSoon);
-  useDelays(alignSoon, [200, 1000, 5000, 15000, 30000]);
+  useDelays(alignSoon, [200, 500, 1000, 2500, 5000, 15000, 30000]);
 
   return (
     <aside className={css.aside} style={style}>

@@ -17,7 +17,7 @@ export const navigation = {
   ],
   links: [
     { text: "← Previous", href: "/blog/palindromic-superpermutations" },
-    { text: "Next Article →" },
+    { text: "Next Article →", href: "/blog/improving-sidebar-react" },
   ]
 };
 
@@ -44,29 +44,16 @@ export const description = "TODO";
 </time>
 
 <div className="note">
-This is the first of two parts on this topic. Part two
+This is the first of two parts. Part two
 is <a href="/blog/improving-sidebar-react">here</a>.
 </div>
 
 TODO: add video of resizing the window
 
 <span ref={r = createRef()} />
-<span ref={r2 = createRef()} />
-
-<!-- fourth-wall-1 -->
 
 <Aside target={r}><p>
-I'm going to break the
-fourth wall in this
-article! Uh oh...
-</p></Aside>
-
-<!-- fourth-wall-1 -->
-
-<Aside target={r2} moveDown={60}><p>
-<pre><code className="language-jsx">
-  {readFile("pages/blog/building-sidebar-react.mdx", "fourth-wall-1")}
-</code></pre>
+I'm going to break the fourth wall in this article! Uh oh...
 </p></Aside>
 
 Over the past weeks, I've been building this blog and writing articles for it.
@@ -466,25 +453,19 @@ const Aside = ({ target, children, moveDown = 0 }) => {
 Moving comments down by a fixed amount
 </Figure>
 
-All told, <span ref={r = createRef()}>this</span> serves very well as a means
-of commenting on variety of things: text, images, code and (as we've seen) even
-comments themselves!
-
-<Aside target={r}><p>
-Even comments about commenting on comments! Ok, I'll stop now.
-</p></Aside>
+All told, this serves very well as a means of commenting on variety of things:
+text, images, code and (as we've seen) even comments themselves!
 
 ### Incremental improvements
 
 In part two of this article we'll be improving our component in a number of
 ways:
 
-- We'll cope with slow-loading images and fonts that break alignment
-- We'll handle a race condition that can sometimes happen with `ref`s
+- We'll cope with slow-loading images and fonts
+- We'll handle a race condition with React refs
 - We'll add debouncing, for a smoother browser experience
-- We'll extract code into hooks to make things nice and shiny
-- We'll stare at pure hatred itself and try to get print layouts working
-- We might even break the _fifth wall_
+- We'll extract code into hooks to make things tidy
+- We'll despairingly try to get print layouts working
 
 Sounds exciting!? I think so... See you in part two.
 

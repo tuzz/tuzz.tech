@@ -8,7 +8,7 @@ import Frame from "../../components/frame";
 import readFile from "../../helpers/read_file";
 import { createRef } from "react";
 
-export let r, r2;
+export let r, r2, r3;
 
 export const navigation = {
   breadcrumbs: [
@@ -16,7 +16,7 @@ export const navigation = {
     { text: "blog", href: "/blog" },
   ],
   links: [
-    { text: "← Previous", href: "/blog/palindromic-superpermutations" },
+    { text: "← Previous", href: "/blog/building-sidebar-react" },
     { text: "Next Article →" },
   ]
 };
@@ -44,48 +44,510 @@ export const description = "TODO";
 </time>
 
 <div className="note">
-This is the second of two parts on this topic. Part one
+This is the second of two parts. Part one
 is <a href="/blog/building-sidebar-react">here</a>.
 </div>
 
-<br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+In part one, we created a sidebar that lets us comment on articles. We built a
+React component that auto-aligns itself with a specific word or phrase in the
+main body of content. The `<Aside>` component binds a listener in case the
+window is resized:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```javascript
+const Aside = ({ target, children, moveDown }) => {
+  const [style, setStyle] = useState(null);
+
+  const align = () => {
+    const rectangle = target.current.getBoundingClientRect();
+    const offset = window.scrollY + rectangle.top + moveDown;
+
+    setStyle({ top: offset });
+  };
+
+  useEffect(() => {
+    align(); // Align when the component is mounted.
+
+    const listener = window.addEventListener("resize", align);
+    return () => window.removeEventListener("resize", listener);
+  }, []);
+
+  return (
+    <aside className={css.aside} style={style}>
+      {children}
+    </aside>
+  );
+};
+
+export default Aside;
+```
+
+Continuing from where we left off in part one
+</Figure>
 
 
-- high-level component explanation
-  - getBoundingClientRect
-  - absolute positioning
-  - fade in once positioned
-  - useEffect to run immediately
-- what if content loading is slow?
-  - delays hook
-  - no ideal, but does the trick
-- resize hook
-  - dependent on target
-  - race condition
-  - could disable if below some width but I don't want coupling
-- debouncing
-  - more efficient, doesn't changes styles constantly
-  - didn't write the book, but link to gist
-  - still need to call align (not alignSoon) on page load
-- printing
-  - motivation
-    - i don't think anyone will print
-    - but i would like to provide offline pdfs - or maybe an ebook someday
-    - perhaps use electron-pdf or puppeteer - be nice to use the same pipeline
-    - might even help seo
-  - by default, won't actually show the sidebar because of pixel width (670?)
-  - once it doesn, the alignment is wrong... WHY?
-    - link to chrome bug - is this why?
-    - therefore, we need to explicitly tell it to re-align on print
-    - print events: before, after, media selector
-      - browser support?
-  - write another hook
-  - isn't perfect, but seems to work well enough in webkit
-    - of course, more work is needed to make it actually look nice when printed
-- quick conclusion
+<Aside target={r} moveDown={80}>
+
+This includes the `moveDown` property which moves the comment down by an
+additional fixed amount.
+
+</Aside>
+
+In this part, we'll extend the component with additional functionality to make
+it more robust and better-able to cope with slow-loading content, print layouts,
+etc.
+
+## Slow-loading content
+
+Currently the component positions itself when mounted, but what happens if
+images and fonts take a few seconds to load asynchronously? They might affect
+the layout by pushing content down, throwing our comments out of alignment.
+Something like this:
+
+<Frame src="/examples/sidebar-3/index.html" autoScale={false} />
+
+What we really want is for comments to re-align themselves after images and
+other slow-loading content has loaded. How can we get this to work?
+
+<span ref={r = createRef()} />
+
+<Figure>
+<Frame src="/examples/sidebar-3/index.html?align" autoScale={false} />
+
+Re-aligning comments after images have loaded
+</Figure>
+
+<Aside target={r} moveDown={75}>
+
+Actually, if you refresh this page you'll see these frames are examples of
+slow-loading content.
+
+</Aside>
+
+We could try and listen in to these events but that would mean polluting our app
+with event listeners for all manner of things. It is possible to register
+`onLoad` events for images and there's even a
+[Font Loading API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Font_Loading_API) to
+detect when fonts have loaded.
+
+The simplest approach I've found is to just use timeouts re-align comments at
+set times, in anticipation of slow-loading content. This is a hack and isn't
+perfectly reliable, but I've found it works well enough in practice and it's
+easy to implement:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```javascript
+const Aside = ({ target, children, moveDown = 0 }) => {
+  // ...
+
+  useEffect(() => {
+    const delays = [200, 500, 1000, 2500, 5000, 15000, 30000];
+    const timeouts = delays.map(d => window.setTimeout(callback, d));
+
+    return () => timeouts.forEach(t => window.clearTimeout(t));
+  }, []);
+
+  // ...
+};
+```
+
+Using timeouts to re-align `<Aside>` elements
+</Figure>
+
+<Aside target={r} moveDown={90}>
+I re-align often early on as the page loads, then slow it down.
+</Aside>
+
+There are cases where this approach won't work. For example, if the user can
+expand something on the page, the layout might change. We <span ref={r =
+createRef()}>could</span> additionally use `setInterval` and periodically
+re-align elements every few seconds as well.
+
+<Aside target={r}>
+
+I don't really like using `setInterval` if I can avoid it as it bloats the page.
+
+</Aside>
+
+### Hooks
+
+To avoid cluttering our component, we can extract functionality into
+[React hooks](https://reactjs.org/docs/hooks-intro.html):
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```javascript
+const useDelays = (callback, delays, dependencies = []) => {
+  useEffect(() => {
+    const timeouts = delays.map(d => window.setTimeout(callback, d));
+
+    return () => timeouts.forEach(t => window.clearTimeout(t));
+  }, dependencies);
+};
+
+export default useDelays;
+```
+
+Extracting a hook to register the timeouts
+</Figure>
+
+<Aside target={r}>
+
+The hook can optionally take `dependencies` to make it more reusable, but we
+don't strictly need it for the `<Aside>` component.
+
+</Aside>
+
+While we're at it, let's do the same for our resize listener:
+
+<Figure>
+
+```javascript
+const useResize = (callback, dependencies = []) => {
+  useEffect(() => {
+    const listener = window.addEventListener("resize", callback);
+
+    return () => window.removeEventListener("resize", listener)
+  }, dependencies);
+};
+
+export default useResize;
+```
+
+Extracting a hook to listen to the resize event
+</Figure>
+
+This neatens up our component considerably:
+
+<Figure>
+
+```javascript
+const Aside = ({ target, children, moveDown = 0 }) => {
+  // ...
+
+  useEffect(align, []); // Align when the component is mounted.
+  useResize(align);
+  useDelays(align, [200, 500, 1000, 2500, 5000, 15000, 30000]);
+
+  // ...
+};
+```
+
+A much tidier component that uses hooks
+</Figure>
+
+We'll use htis approach of extracting hooks to keep our component clean as we
+add sophistication. It also means these behaviours are modular and can be
+reused later.
+
+## A race condition
+
+Occasionally, when resizing the window, React would throw the following error:
+
+<Figure>
+
+![getBoundingRect error](/images/get-bounding-rect-error.png)
+
+An error that sometimes happens on resize
+</Figure>
+
+I think this happens because of a race condition between the resize event and
+React's event loop. Sometimes `target` refers to an `undefined` element.
+
+This <span ref={r = createRef()}>shouldn't</span> be the case because the
+referenced element always exists and is before the `<Aside>` in the DOM, but
+React might be in the middle of re-rendering the component and hasn't updated
+its `ref` yet. It throws an error when we try to use it.
+
+<Aside target={r}><p>
+I'm not sure this is actually the problem but it's my best guess. I'm by no
+means a React expert.
+</p></Aside>
+
+We can fix this problem with a guard condition in the `align` function:
+
+<Figure>
+
+```javascript
+const align = () => {
+  const current = target.current;
+  if (!current) return; // Guard a race condition.
+
+  const rectangle = current.getBoundingClientRect();
+  const offset = window.scrollY + rectangle.top + moveDown;
+
+  setStyle({ top: offset });
+};
+```
+
+Fixing the problem by adding a guard clause
+</Figure>
+
+### Debouncing
+
+The above error draws attention to the fact that hundreds of events are fired
+when the window is resized. This exasperates the problem because React competes
+with the resize handler for execution time, making the race condition more
+likely.
+
+We've fixed the problem by guarding against it, but it's probably sensible to
+also reduce the number of re-alignments per second. There's no need to re-align
+hundreds of times in a row as the user drags the edges of their browser to
+resize it.
+
+In the same spirit as before, we'll use a hook for this:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```javascript
+const alignSoon = useDebounce(align, 50);
+
+useResize(alignSoon);
+useDelays(alignSoon, [200, 500, 1000, 2500, 5000, 15000, 30000]);
+```
+
+Wrapping the `align` function with a `useDebounce` hook
+</Figure>
+
+<Aside target={r} moveDown={25}><p>
+We may as well debounce timeouts as well in case the user is resizing when these
+were due to occur.
+</p></Aside>
+
+Now <span ref={r = createRef()}>when</span> the user resizes their browser,
+there will be a delay of 50 milliseconds before comments are re-aligned, vastly
+reducing the overhead of resizing.
+
+<Aside target={r}>
+
+It's not JavaScript that's expensive, it's changes to the DOM and styles that
+cause the page to re-render.
+
+That's partly why React is so popular because it defers updates until necessary
+by using a [virtual DOM](https://reactjs.org/docs/faq-internals.html).
+
+</Aside>
+
+This is noticeable, too. Before, when resizing the browser, the page was glitchy
+and slow to update. It's much smoother with debouncing. I didn't write the
+debouncing implementation, I used
+[this one](https://gist.github.com/mudge/eb9178a4b6d595ffde8f9cb31744afcf) from
+[Tom Stuart](https://twitter.com/tomstuart) and
+[Paul Mucur](https://twitter.com/mudge).
+
+## Printing
+
+Honestly, <span ref={r = createRef()}>printing</span> web pages is a mess.
+You'd expect to get more-or-less the same version of the page you can see when
+you hit print, but that's not how it works. Instead, it's [steeped in
+history](https://medium.com/freely-sharing-the-sum-of-all-knowledge/the-neglected-and-meandering-history-of-printing-websites-cf304824f9b1)
+and works in arbitrary and unexpected ways.
+
+<Aside target={r}>
+
+In Chrome and Firefox there is a way to print exactly what you see on screen but
+[it's hidden](https://superuser.com/questions/846082/how-to-get-wysiwyp-print-what-you-see-in-a-web-browser) in dev tools.
+
+</Aside>
+
+For example, some browsers fire [`onbeforeprint` and
+`onafterprint`](https://caniuse.com/#feat=beforeafterprint) events. The
+newer approach is to use
+[MediaQueryList](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList#Browser_compatibility)
+but only <span ref={r = createRef()}>some</span> browsers
+[support](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList#Browser_compatibility)
+event listeners. Some browsers scale content
+down and remove backgrounds and images.
+
+<Aside target={r}><p>
+This is good because it saves ink, I just wish it was standardised.
+</p></Aside>
+
+### Why do I care?
+
+I don't actually think anyone will print these pages. The reason I care is
+because printing has subsumed a feature people do actually use: exporting web
+pages to PDF.
+
+I'd <span ref={r = createRef()}>like</span> to be able to offer downloadable
+version of articles for offline reading or perhaps even produce a short ebook
+someday. It'd be nice to use all the features I've developed for this blog
+without having to familiarise myself with a new tool.
+
+<Aside target={r}>
+
+[electron-pdf](https://github.com/fraserxu/electron-pdf) looks to be a good
+choice to automate the creation of PDFs from web pages. Alternatively,
+[Puppeteer](https://pptr.dev/) has support for this.
+
+</Aside>
+
+### The problem
+
+When I first tried to print, I found the alignment of comments in the sidebar
+was very slightly off. Everything was a bit lower than it should be and this
+was exaggerated with further down with comments toward the end of the article.
+What's going on?
+
+I <span ref={r = createRef()}>think</span> what's happening is the JavaScript
+runs when the browser loads the page but when the print dialogue is opened, it
+changes the layout of the page by scaling content and setting margins but
+doesn't trigger a resize event to re-align the comments.
+
+<Aside target={r}>
+
+I also found [this bug](https://bugs.chromium.org/p/chromium/issues/detail?id=697233)
+from 2017 which might be related. It doesn't look like it'll be fixed any time
+soon.
+
+</Aside>
+
+Some of these effects can be controlled by `@media print` style rules but it's
+harder to reliably detect in JavaScript when the page is being rendered for
+printing.
+
+### The solution
+
+Eventually, I wrote another hook that works _most_ of the time:
+
+<span ref={r = createRef()} />
+<span ref={r2 = createRef()} />
+<span ref={r3 = createRef()} />
+
+<Figure>
+
+```javascript
+const usePrint = (onChange) => {
+  const [isPrinting, setPrinting] = useState(false);
+
+  const handleChange = (printing) => {
+    if (printing === isPrinting) return;
+
+    setPrinting(printing);
+    onChange(printing);
+  };
+
+  useEffect(() => {
+    const beforeListener = window.addEventListener("beforeprint", () => handleChange(true));
+    const afterListener = window.addEventListener("afterprint", () => handleChange(false));
+
+    const printMedia = window.matchMedia("print");
+    const printListener = printMedia.addListener((e) => handleChange(e.matches));
+
+    return () => {
+      window.removeEventListener("beforeprint", beforeListener);
+      window.removeEventListener("afterprint", afterListener);
+
+      printMedia.removeListener(printListener);
+    };
+  });
+
+  return isPrinting;
+};
+
+export default usePrint;
+```
+
+A React hook to detect print events
+</Figure>
+
+<Aside target={r} moveDown={50}>
+
+`handleChange` only calls `onChange` if the state has actually changed. Some
+browsers fire multiple print events at once.
+
+</Aside>
+
+<Aside target={r2} moveDown={270}>
+
+Notice the slight interface difference?
+
+`addListener` vs. `addEventListener`
+
+I didn't.
+
+</Aside>
+
+<Aside target={r3} moveDown={500}>
+
+I made it so the hook returns `isPrinting` as well, but I don't actually use
+it in the component.
+
+</Aside>
+
+
+I then use this hook in the `<Aside>` component to trigger a re-alignment. It's
+import not to debounce these calls or it won't work. If we do, the print
+dialogue seems to block the page while it renders the page and we've missed our
+slot.
+
+Here's how use the hook:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```javascript
+const Aside = ({ target, children, moveDown = 0 }) => {
+  // ...
+
+  useEffect(align, []);
+  usePrint(align);  // Immediately call the function.
+
+  // ...
+};
+```
+
+Re-aligning `<Aside>` elements on print
+</Figure>
+
+<Aside target={r} moveDown={72}>
+It took me a while to figure out not to debounce these calls.
+</Aside>
+
+This hook isn't perfect but it seems to work well in Chrome and Safari. I still
+need to do more work to add a print stylesheet to make it actually presentable
+but at least it's no longer broken... except in Firefox which likes to put all
+comments on top of each other:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+![Broken comments when printing in Firefox](/images/firefox-broken-comments.png)
+
+Printing comments in Firefox is still broken
+</Figure>
+
+<Aside target={r} moveDown={85}>
+
+This is how Firefox prints the comments for _this_ article.
+
+</Aside>
+
+I'll try to fix it someday but for now I'm happy it works in WebKit. I'll
+try to provide prepared PDFs rather than encourage _anyone_ use the print
+dialogue.
+
+## Final touches
+
+- fade in
+- further work
+  - shared event listeners
+- conclusion
   - hooks make things neat and tidy
-  - printing is a mess: seems weird you can't just print what you see
-    - there is something in dev tools for this
+  - fairly robust but could be better
 
+<br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
 
 </Layout>
