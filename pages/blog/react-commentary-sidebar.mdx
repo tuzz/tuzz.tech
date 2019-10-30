@@ -17,12 +17,12 @@ export const navigation = {
   ],
   links: [
     { text: "← Previous", href: "/blog/palindromic-superpermutations" },
-    { text: "Next Article →", href: "/blog/improving-sidebar-react" },
+    { text: "Next Article →", href: "/blog/react-commentary-sidebar-2" },
   ]
 };
 
 export const title = "Building a commentary sidebar in React";
-export const path = "/blog/building-sidebar-react";
+export const path = "/blog/react-commentary-sidebar";
 export const description = "TODO";
 
 <Head>
@@ -45,7 +45,7 @@ export const description = "TODO";
 
 <div className="note">
 This is the first of two parts. Part two
-is <a href="/blog/improving-sidebar-react">here</a>.
+is <a href="/blog/react-commentary-sidebar-2">here</a>.
 </div>
 
 TODO: add video of resizing the window
@@ -392,7 +392,7 @@ Well this is unexpected. {/* Waves to self. 👋 */}
 
 <Figure>
 <pre><code className="language-jsx">
-  {readFile("pages/blog/building-sidebar-react.mdx", "fourth-wall-2")}
+  {readFile("pages/blog/react-commentary-sidebar.mdx", "fourth-wall-2")}
 </code></pre>
 
 Using the `<Aside>` component in **this** article
@@ -425,7 +425,7 @@ For example, this aside is moved down 50 pixels.
 <!-- fourth-wall-3 -->
 
 <pre><code className="language-jsx">
-  {readFile("pages/blog/building-sidebar-react.mdx", "fourth-wall-3")}
+  {readFile("pages/blog/react-commentary-sidebar.mdx", "fourth-wall-3")}
 </code></pre>
 
 <Aside target={r2}><p>
@@ -467,6 +467,6 @@ ways:
 - We'll extract code into hooks to make things tidy
 - We'll despairingly try to get print layouts working
 
-Sounds exciting!? I think so... See you in part two.
+Sounds exciting!? I think so... See you in [part two](/blog/react-commentary-sidebar-2).
 
 </Layout>
