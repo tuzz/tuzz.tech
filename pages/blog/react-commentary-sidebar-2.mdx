@@ -99,12 +99,12 @@ additional fixed amount.
 </Aside>
 
 
-In <span ref={r = createRef()}>this</span> part, we'll extend the component
+In <span ref={r = createRef()}>this</span> part, we’ll extend the component
 with additional functionality to make it more robust and better-able to cope
 with slow-loading content, print layouts, etc.
 
 <Aside target={r}><p>
-We'll also add some polish with a sweet CSS fade in animation.
+We’ll also add some polish with a sweet CSS fade in animation.
 </p></Aside>
 
 ## Slow-loading content
@@ -129,20 +129,20 @@ Re-aligning comments after images have loaded
 
 <Aside target={r} moveDown={75}>
 
-Actually, if you refresh this page you'll see these frames are examples of
+Actually, if you refresh this page you’ll see these frames are examples of
 slow-loading content.
 
 </Aside>
 
 We could try and listen in to these events but that would mean polluting our app
-with event listeners for all manner of things: we'd have to register `onLoad`
+with event listeners for all manner of things: we’d have to register `onLoad`
 events for images and try to use the
 [Font Loading API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Font_Loading_API) to
 detect when fonts have loaded.
 
-The simplest approach I've found is to just use timeouts re-align comments at
-set times in anticipation of slow-loading content. This is a _hack_ and isn't
-perfectly reliable, but I've found it works well enough in practice and it's
+The simplest approach I’ve found is to just use timeouts re-align comments at
+set times in anticipation of slow-loading content. This is a _hack_ and isn’t
+perfectly reliable, but I’ve found it works well enough in practice and it’s
 easy to implement:
 
 <span ref={r = createRef()} />
@@ -171,14 +171,14 @@ Using timeouts to re-align `<Aside>` elements
 I re-align often early on as the page loads, then slow it down.
 </Aside>
 
-There are cases where this approach won't work. For example, if the user can
+There are cases where this approach won’t work. For example, if the user can
 expand something on the page, the layout might change. We <span ref={r =
 createRef()}>could</span> additionally use `setInterval` and periodically
 re-align elements every few seconds as well.
 
 <Aside target={r}>
 
-I don't really like using `setInterval` if I can avoid it as it bloats the page.
+I don’t really like using `setInterval` if I can avoid it as it bloats the page.
 
 </Aside>
 
@@ -209,11 +209,11 @@ Extracting a hook to register the timeouts
 <Aside target={r}>
 
 This hook optionally takes `dependencies` to make it more reusable, but we
-don't strictly need it for our `<Aside>` component.
+don’t strictly need it for our `<Aside>` component.
 
 </Aside>
 
-While we're at it, let's do the same for our resize listener:
+While we’re at it, let’s do the same for our resize listener:
 
 <span ref={r = createRef()} />
 
@@ -266,7 +266,7 @@ My first pass at this component was a mess with ~100 lines of code. Hooks tidy
 things up a lot.
 </p></Aside>
 
-We'll use this approach of extracting hooks to keep our component clean as we
+We’ll use this approach of extracting hooks to keep our component clean as we
 add sophistication. It also means these behaviours are modular and can be
 reused later.
 
@@ -281,20 +281,20 @@ An error that sometimes happens on resize
 </Figure.Image>
 
 <Aside target={r} moveDown={115}>
-As I write this article, I keep seeing this image and think I've broken the
-code. It's very off-putting.
+As I write this article, I keep seeing this image and think I’ve broken the
+code. It’s very off-putting.
 </Aside>
 
 I think this happens because of a race condition between the resize event and
-React's event loop. Sometimes `target` refers to an `undefined` element.
+React’s event loop. Sometimes `target` refers to an `undefined` element.
 
-This <span ref={r = createRef()}>shouldn't</span> be the case because the
+This <span ref={r = createRef()}>shouldn’t</span> be the case because the
 referenced element always exists and is before the `<Aside>` in the DOM, but
-React might be in the middle of re-rendering the component and hasn't updated
+React might be in the middle of re-rendering the component and hasn’t updated
 its `ref` yet. It throws an error when we try to use it.
 
 <Aside target={r}><p>
-I'm not sure this is actually the problem but it's my best guess. I'm by no
+I’m not sure this is actually the problem but it’s my best guess. I’m by no
 means a React expert.
 </p></Aside>
 
@@ -321,7 +321,7 @@ Fixing the problem by adding a guard clause
 
 <Aside target={r} moveDown={15}>
 
-We could probably extract this into some kind of hook, too. I don't want to go
+We could probably extract this into some kind of hook, too. I don’t want to go
 too _hook-crazy_, though.
 
 </Aside>
@@ -338,12 +338,12 @@ An event is fired every time the dimensions of the window change, even by a
 small amount.
 </p></Aside>
 
-We've fixed the problem by guarding against it, but it's probably sensible to
-also reduce the number of re-alignments per second. There's no need to re-align
+We’ve fixed the problem by guarding against it, but it’s probably sensible to
+also reduce the number of re-alignments per second. There’s no need to re-align
 hundreds of times in a row as the user drags the edges of their browser to
 resize it.
 
-In the same spirit as before, we'll use a hook for this:
+In the same spirit as before, we’ll use a hook for this:
 
 <span ref={r = createRef()} />
 
@@ -370,16 +370,16 @@ reducing the overhead of resizing.
 
 <Aside target={r}>
 
-It's not JavaScript that's expensive, it's changes to the DOM and styles that
+It’s not JavaScript that’s expensive, it’s changes to the DOM and styles that
 cause the page to re-render.
 
-That's partly why React is so popular because it defers updates until necessary
+That’s partly why React is so popular because it defers updates until necessary
 by using a [virtual DOM](https://reactjs.org/docs/faq-internals.html).
 
 </Aside>
 
 This is noticeable, too. Before, when resizing the browser, the page was glitchy
-and slow to update. It's much smoother with debouncing. I didn't write the
+and slow to update. It’s much smoother with debouncing. I didn’t write the
 debouncing implementation, I used
 [this one](https://gist.github.com/mudge/eb9178a4b6d595ffde8f9cb31744afcf) from
 [Tom Stuart](https://twitter.com/tomstuart) and
@@ -388,20 +388,20 @@ debouncing implementation, I used
 ## Printing
 
 Honestly, <span ref={r = createRef()}>printing</span> web pages is a mess.
-You'd expect to get more-or-less the same version of the page you can see when
-you hit print, but that's not how it works. Instead, it's [steeped in
+You’d expect to get more-or-less the same version of the page you can see when
+you hit print, but that’s not how it works. Instead, it’s [steeped in
 history](https://medium.com/freely-sharing-the-sum-of-all-knowledge/the-neglected-and-meandering-history-of-printing-websites-cf304824f9b1)
 and works in arbitrary and unexpected ways.
 
 <Aside target={r}>
 
 In Chrome and Firefox there is a way to print exactly what you see on screen but
-[it's hidden](https://superuser.com/questions/846082/how-to-get-wysiwyp-print-what-you-see-in-a-web-browser) in dev tools.
+[it’s hidden](https://superuser.com/questions/846082/how-to-get-wysiwyp-print-what-you-see-in-a-web-browser) in dev tools.
 
 </Aside>
 
 For example, some browsers fire [`onbeforeprint` and
-`onafterprint`](https://caniuse.com/#feat=beforeafterprint) events. There's also
+`onafterprint`](https://caniuse.com/#feat=beforeafterprint) events. There’s also
 [MediaQueryList](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList)
 but <span ref={r = createRef()}>only</span>
 [some browsers](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList#Browser_compatibility)
@@ -414,13 +414,13 @@ This is good because it saves ink, I just wish it was standardised.
 
 ### Why do I care?
 
-I don't actually think anyone will print these pages. The reason I care is
+I don’t actually think anyone will print these pages. The reason I care is
 because printing has subsumed a feature people do actually use: exporting web
 pages to PDF.
 
-I'd <span ref={r = createRef()}>like</span> to be able to offer downloadable
+I’d <span ref={r = createRef()}>like</span> to be able to offer downloadable
 versions of articles for offline reading or perhaps even produce a short ebook
-someday. It'd be nice to use all the features I've developed for this blog
+someday. It’d be nice to use all the features I’ve developed for this blog
 without having to familiarise myself with a new tool.
 
 <Aside target={r} moveDown={-6}>
@@ -435,13 +435,13 @@ choice to automate the creation of PDFs from web pages. Alternatively,
 
 When I first tried to print, I found the alignment of comments in the sidebar
 was slightly off. Everything was a bit lower than it should be and this was
-exaggerated further down with comments toward the end of the article. What's
+exaggerated further down with comments toward the end of the article. What’s
 going on?
 
 <span ref={r = createRef()} />
 
 <Figure.Image src="/images/wrong-print-alignment.png" alt="Wrong print alignment" className="more_space border">
-Incorrect alignment in Chrome's print dialogue
+Incorrect alignment in Chrome’s print dialogue
 </Figure.Image>
 
 <Aside target={r} moveDown={110}>
@@ -450,25 +450,25 @@ The red arrows point to the targets of the `<Aside>` elements. The comments are
 all slightly misaligned.
 
 At first I thought they were off by a fixed amount but it varies depending on
-which page you're on.
+which page you’re on.
 
 </Aside>
 
-I <span ref={r = createRef()}>think</span> what's happening is a fresh version
+I <span ref={r = createRef()}>think</span> what’s happening is a fresh version
 of the page is rendered when the print dialogue is opened. It changes the
-layout of the page by scaling its content and setting margins but doesn't
+layout of the page by scaling its content and setting margins but doesn’t
 trigger a resize event to re-align the comments.
 
 <Aside target={r}>
 
 I also found [this bug](https://bugs.chromium.org/p/chromium/issues/detail?id=697233)
-from 2017 which might be related. It doesn't look like it'll be fixed any time
+from 2017 which might be related. It doesn’t look like it’ll be fixed any time
 soon.
 
 </Aside>
 
 You can control some things through print stylesheets and `@media print` style
-rules but it's harder to reliably detect in JavaScript when the page is being
+rules but it’s harder to reliably detect in JavaScript when the page is being
 printed.
 
 ### The solution
@@ -529,23 +529,23 @@ Notice the slight interface difference?
 
 `addListener` vs. `addEventListener`
 
-I didn't.
+I didn’t.
 
 </Aside>
 
 <Aside target={r3} moveDown={500}>
 
-I made it so the hook returns `isPrinting`, but I don't actually use it in the
+I made it so the hook returns `isPrinting`, but I don’t actually use it in the
 component.
 
 </Aside>
 
 
-I then use this hook in the `<Aside>` component to trigger a re-alignment. It's
+I then use this hook in the `<Aside>` component to trigger a re-alignment. It’s
 important not to debounce these calls. If we do, the print dialogue blocks the
-page while it renders a print version and we've missed our slot.
+page while it renders a print version and we’ve missed our slot.
 
-Here's how use the hook:
+Here’s how use the hook:
 
 <span ref={r = createRef()} />
 
@@ -569,9 +569,9 @@ Re-aligning `<Aside>` elements on print
 It took me a while to figure out not to debounce these calls.
 </Aside>
 
-This hook isn't perfect but it seems to work well in Chrome and Safari. I still
+This hook isn’t perfect but it seems to work well in Chrome and Safari. I still
 need to do more work to add a print stylesheet to make it look nice but at
-least it's no longer broken... except in Firefox which likes to overlap all the
+least it’s no longer broken... except in Firefox which likes to overlap all the
 comments:
 
 <span ref={r = createRef()} />
@@ -586,7 +586,7 @@ This is how Firefox prints the comments for _this_ article.
 
 </Aside>
 
-I'll try to fix it someday but for now I'm happy it works in WebKit. That means
+I’ll try to fix it someday but for now I’m happy it works in WebKit. That means
 I can produce prepared PDFs, rather than encourage _anyone_ to use the print
 dialogue.
 
@@ -605,7 +605,7 @@ const align() {
 }
 ```
 
-Also, if you're using `<Aside>` elements a lot, be mindful that each time you
+Also, if you’re using `<Aside>` elements a lot, be mindful that each time you
 do, even listeners are being registered on `window`. This can add up over time:
 
 <span ref={r = createRef()} />
@@ -616,12 +616,12 @@ Event listeners registered for the window
 
 <Aside target={r} moveDown={100}><p>
 You can see registered listeners in Chrome by inspecting any element, opening
-the 'Event Listeners' tab then selecting the 'Ancestors' option.
+the ‘Event Listeners’ tab then selecting the ‘Ancestors’ option.
 </p></Aside>
 
 It <span ref={r = createRef()}>would</span> be better to register a single
 handler for each type of event and re-align all comments through that. I
-haven't implemented this but will probably add this later.
+haven’t implemented this but will probably add this later.
 
 <Aside target={r}>
 
@@ -634,16 +634,16 @@ Alternatively, you could use [Redux](https://redux.js.org/).
 
 ### Final thoughts
 
-In this article, we've taken a detailed look at how to build a commentary
-sidebar in React. This has a few rough edges but overall I'm really happy with
+In this article, we’ve taken a detailed look at how to build a commentary
+sidebar in React. This has a few rough edges but overall I’m really happy with
 how it turned out.
 
-It's already become an integral part of how I think about writing. A tool I can
+It’s already become an integral part of how I think about writing. A tool I can
 reach for when I want to say _a little bit more_ about something, without being
 too distracting.
 
-I'm really enjoying the process of writing and learning React so it's been fun
-to combine the two. For reference, here's the most up to date version of the
+I’m really enjoying the process of writing and learning React so it’s been fun
+to combine the two. For reference, here’s the most up to date version of the
 code:
 
 <span ref={r = createRef()} />
@@ -655,7 +655,7 @@ code:
     {readFile("components/aside/Aside.jsx")}
   </code></pre>
 
-  The 'live' version of the code powering this blog
+  The ‘live’ version of the code powering this blog
 </Figure>
 
 <Aside target={r} moveDown={175}><p>
@@ -667,13 +667,13 @@ I might improve this code over time but this article should automatically update
 <Aside target={r2} moveDown={380}><p>
 
 If you want to see the version of the code, frozen in time when this article was
-written, it's [here](https://github.com/tuzz/tuzz.tech/blob/caa688d1847ae2db7c0c0376588a2431f281f220/components/aside/Aside.jsx).
+written, it’s [here](https://github.com/tuzz/tuzz.tech/blob/caa688d1847ae2db7c0c0376588a2431f281f220/components/aside/Aside.jsx).
 
 </p></Aside>
 
 <Aside target={r3} moveDown={590}><p>
 
-Maybe I should explain how the live code embedding works, too? I'll save that for another day.
+Maybe I should explain how the live code embedding works, too? I’ll save that for another day.
 
 </p></Aside>
 

@@ -55,7 +55,7 @@ is <a href="/blog/react-commentary-sidebar-2">here</a>.
 <span ref={r2 = createRef()} />
 
 <Figure.Video src="/videos/commentary-sidebar.mp4" className="more_space">
-The sidebar is responsive collapses inline on smaller screens
+The sidebar is responsive and collapses inline on smaller screens
 </Figure.Video>
 
 <Aside target={r} moveDown={130}>
@@ -67,54 +67,54 @@ works](/blog/how-bash-completion-works).
 
 <Aside target={r} moveDown={315}>
 
-I'm going to break the fourth wall a lot in this article. Uh oh...
+I’m going to break the fourth wall a lot in this article. Uh oh...
 
 </Aside>
 
-Over the past weeks, I've been building this blog and writing articles for it.
-I've spent a lot of time thinking about the reader. Who are they? Why are they
-here? It's often hard to know how much detail to go into and how much background
+Over the past weeks, I’ve been building this blog and writing articles for it.
+I’ve spent a lot of time thinking about the reader. Who are they? Why are they
+here? It’s often hard to know how much detail to go into and how much background
 knowledge to assume.
 
-On the one hand, people are busy. Attentions are short and time is precious. I'd
+On the one hand, people are busy. Attentions are short and time is precious. I’d
 do well to keep articles lean, focussed and to the point. But that _misses_ the
 point. People are here for enjoyment and just presenting the cold hard facts
-isn't going to cut it.
+isn’t going to cut it.
 
-I've settled on an approach I hope will cater to a variety of readers. I keep
+I’ve settled on an approach I hope will cater to a variety of readers. I keep
 the main body of content concise and _on topic_ but enrich it with commentary on
 the side. This leaves room for elaboration, tangential remarks and all the
 whimsy I can <span ref={r = createRef()}>mustard</span>.
 
 <Aside target={r}><p>
-I'm so sorry.
+I’m so sorry.
 </p></Aside>
 
 However, this commentary hides complexity. When <span ref={r =
-createRef()}>viewed</span> on a large-enough screen, it's presented in a
+createRef()}>viewed</span> on a large-enough screen, it’s presented in a
 sidebar next to the main content. Ideally, comments sit as close as possible to
 the word or phrase they refer to. This helps flow and improves continuity.
 
 <Aside target={r}><p>
 When viewed on mobile, comments are presented inside the main content but with
-softer styles to show they're supplementary.
+softer styles to show they’re supplementary.
 </p></Aside>
 
-In this article, I'll explain the mechanics of how this works in my React app.
-As you'll see, there's a lot to consider to make a robust, responsive and
+In this article, I’ll explain the mechanics of how this works in my React app.
+As you’ll see, there’s a lot to consider to make a robust, responsive and
 semantic <span ref={r = createRef()}>solution</span>.
 
 <Aside target={r}><p>
-... that's SEO and print friendly.
+... that’s SEO and print friendly.
 </p></Aside>
 
 ## Structuring the DOM
 
-Putting React to one side for a moment, let's first consider how to structure
+Putting React to one side for a moment, let’s first consider how to structure
 the DOM.  HTML5 has the perfect element for our needs:
 
 >The HTML `<aside>` element represents a portion of a document whose content is
-only indirectly related to the document's main content. Asides are frequently
+only indirectly related to the document’s main content. Asides are frequently
 presented as sidebars or call-out boxes.
 &nbsp;_– [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside)_
 
@@ -124,11 +124,11 @@ decided on the latter as I think this is more meaningful. Comments are
 independent of each other so the DOM should reflect that.
 
 <Aside target={r}><p>
-It's also easier to intersperse comments with content using this approach which
+It’s also easier to intersperse comments with content using this approach which
 is useful for mobile.
 </p></Aside>
 
-Here's how that looks in code:
+Here’s how that looks in code:
 
 <Figure>
 <pre><code className="language-html">
@@ -143,11 +143,11 @@ together.
 
 ### Laying things out
 
-As you can see above, there's no DOM element for the sidebar. I think of a
+As you can see above, there’s no DOM element for the sidebar. I think of a
 sidebar as a way to present `<aside>` elements. It really ought to be a
 presentational concern.
 
-There are a number of CSS techniques we could use to create a sidebar. There's
+There are a number of CSS techniques we could use to create a sidebar. There’s
 flexbox, floats, relative and absolute positioning. This seemed simplest to
 me:
 
@@ -163,23 +163,23 @@ One way of creating a sidebar with <span ref={r2 = createRef()}>CSS</span>
 
 <Aside target={r2}>
 
-  Technically it's [Sass](https://sass-lang.com/) as it uses nested rules.
+  Technically it’s [Sass](https://sass-lang.com/) as it uses nested rules.
 
 </Aside>
 
 <Aside target={r} moveDown={28}><p>
-I've simplified this a bit. I also have rules to set colors, borders, etc - and
+I’ve simplified this a bit. I also have rules to set colors, borders, etc - and
 some media queries to change the presentation for smaller screens.
 </p></Aside>
 
 This works by splitting the container in two. The sidebar comments live in the
 space created by the `padding-right` rule. They use absolute positioning which
-removes them from the document's flow and `right: 1rem` to place them in the
+removes them from the document’s flow and `right: 1rem` to place them in the
 padded region.
 
 We can left-position the `<aside>` elements within the sidebar by setting their
 width. This is calculated as `50% - 2rem` to create the illusion of
-padding - by leaving an equal amount of space on the left and right. Here's how
+padding - by leaving an equal amount of space on the left and right. Here’s how
 it looks:
 
 <span ref={r = createRef()} />
@@ -195,9 +195,9 @@ This is a live version of the code running in a frame. You can see a standalone
 version <a href="/examples/sidebar-1/index.html" target="_blank">here</a>.
 </p></Aside>
 
-This isn't quite right because the comment is placed next to the second
+This isn’t quite right because the comment is placed next to the second
 paragraph instead of the first. We could fix it by moving the `<aside>` above
-the first paragraph but then the DOM would be out of order and wouldn't read
+the first paragraph but then the DOM would be out of order and wouldn’t read
 correctly on mobile.
 
 ### Further complications
@@ -211,7 +211,7 @@ specific words or phrases. For example:
 <p>
 A <span ref={r = createRef()}>badly-placed</span> comment that
 <span style={{ position: "relative", top: "2px", left: "4px" }}>
-doesn't line up
+doesn’t line up
 </span>
 </p>
 </Figure>
@@ -226,13 +226,13 @@ Yes, red definitely c
 <span style={{ color: "#bb3955" }}>s</span>.
 </p></Aside>
 
-We can use absolute positioning for this but it's not so straightforward. The
-paragraph is free-flowing text which means it's hard to predict where the words
+We can use absolute positioning for this but it’s not so straightforward. The
+paragraph is free-flowing text which means it’s hard to predict where the words
 will be. It depends on the width of the browser, which font is loaded and its
 line height.
 
 We could change the DOM and move the `<aside>` into the text element but again,
-that would mean the content's out of order. We'd end up with a horrible jumble:
+that would mean the content’s out of order. We’d end up with a horrible jumble:
 
 ```html
 <p>In this paragraph, I want to comment on
@@ -243,13 +243,13 @@ that would mean the content's out of order. We'd end up with a horrible jumble:
 which are in the middle of the paragraph.</p>
 ```
 
-It's also not good practice to do this. React gives us a warning:
+It’s also not good practice to do this. React gives us a warning:
 
 > validateDOMNesting(...): `<aside>` cannot appear as a descendant of `<p>`.
 
-The <span ref={r = createRef()}>fundamental</span> problem is there's no way in CSS to position elements relative
+The <span ref={r = createRef()}>fundamental</span> problem is there’s no way in CSS to position elements relative
 to arbitrary things. It would be neat if we could do something like this, but
-we can't:
+we can’t:
 
 <Aside target={r}><p>
 Relative positioning looks at ancestors, not siblings.
@@ -272,9 +272,9 @@ on the same topic.
 
 </Aside>
 
-I spent a while thinking of other ways to do this in CSS. Flexbox's `order`
+I spent a while thinking of other ways to do this in CSS. Flexbox’s `order`
 property is interesting because it allows for a difference in how the DOM is
-structured to how elements are presented. Ultimately, I couldn't find a way and
+structured to how elements are presented. Ultimately, I couldn’t find a way and
 resorted to <span ref={r = createRef()}>JavaScript</span>.
 
 <Aside target={r}>
@@ -291,7 +291,7 @@ a target element. It encapsulates the behavior of figuring our what its
 position should be and listens to events that might invalidate that, such as
 resizing the window.
 
-Here's a first version:
+Here’s a first version:
 
 <span ref={r = createRef()} />
 <span ref={r2 = createRef()} />
@@ -336,7 +336,7 @@ There are really two main parts to it:
 1. The `align` function calculates the y-coordinate of the `target` which is a
 [reference](https://reactjs.org/docs/refs-and-the-dom.html) to a DOM
 element. It sets the `top` style property to this.
-2. The `useEffect` hook aligns the component when it's first mounted and binds
+2. The `useEffect` hook aligns the component when it’s first mounted and binds
 a listener to re-align the component if the browser is resized.
 
 </div>
@@ -345,7 +345,7 @@ a listener to re-align the component if the browser is resized.
 
 [getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
 is [well-supported](https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup)
-in modern browsers. It's better than `offsetTop` because it factors in CSS transformations.
+in modern browsers. It’s better than `offsetTop` because it factors in CSS transformations.
 
 </Aside>
 
@@ -353,13 +353,13 @@ in modern browsers. It's better than `offsetTop` because it factors in CSS trans
 
 The function returned from
 [`useEffect`](https://reactjs.org/docs/hooks-effect.html) is called when the
-component is unmounted. It's used to
+component is unmounted. It’s used to
 [clean up](https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup)
 and remove the listener.
 
 </Aside>
 
-Here's how it looks for a real example. Notice the comments move around
+Here’s how it looks for a real example. Notice the comments move around
 in the sidebar, repositioning themselves next to their target content.
 
 <span ref={r = createRef()} />
@@ -401,7 +401,7 @@ How to use the `<Aside>` component
 
 <Aside target={r} moveDown={50}>
 
-I've already `let r` by this point. This is re-assigned to
+I’ve already `let r` by this point. This is re-assigned to
 [`createRef()`](https://reactjs.org/docs/refs-and-the-dom.html#creating-refs)
 for each new reference.
 
@@ -417,8 +417,8 @@ for each new reference.
 
 ### Breaking the fourth wall
 
-As I write this article, I'm using this component a lot!
-Let's peek at <span ref={r=createRef()}>the code</span>:
+As I write this article, I’m using this component a lot!
+Let’s peek at <span ref={r=createRef()}>the code</span>:
 
 <Aside target={r}>
 Well this is unexpected. {/* Waves to self. 👋 */}
@@ -438,15 +438,15 @@ Using the `<Aside>` component in **this** article
 
 <Aside target={r} moveDown={50}>
 
-I'm using a hybrid of Markdown that supports JSX. It's called
+I’m using a hybrid of Markdown that supports JSX. It’s called
 [MDX](https://github.com/mdx-js/mdx).
 
 </Aside>
 
-If your browser is wide enough, you _should_ see 'Well this is unexpected' on
-the right-hand side of 'the code'. Otherwise, it'll appear in the main flow.
+If your browser is wide enough, you _should_ see ‘Well this is unexpected’ on
+the right-hand side of ‘the code’. Otherwise, it’ll appear in the main flow.
 
-In some cases, there's no word or phrase in the DOM to refer to. This is the
+In some cases, there’s no word or phrase in the DOM to refer to. This is the
 case with images, videos and code blocks that use the [`<pre>`
 tag](https://www.w3schools.com/tags/tag_pre.asp). <span ref={r2 =
 createRef()}>For</span> these cases, I built an _escape hatch_ that lets me
@@ -492,7 +492,7 @@ Moving comments down by a fixed amount
 </Figure>
 
 All <span ref={r = createRef()}>told</span>, this serves very well as a means of commenting on variety of things:
-text, images, code and (as we've seen) even comments themselves!
+text, images, code and (as we’ve seen) even comments themselves!
 
 <Aside target={r}><p>
 Or comments about
@@ -509,13 +509,13 @@ Or comments about
 
 ### Incremental improvements
 
-In part two of this article we'll be refine our component in a number of ways:
+In part two of this article we’ll be refine our component in a number of ways:
 
-- We'll cope with slow-loading images and fonts
-- We'll handle a race condition with React refs
-- We'll add debouncing, for a smoother browser experience
-- We'll extract code into hooks to make things tidy
-- We'll stare into the face of evil, aka. print layouts
+- We’ll cope with slow-loading images and fonts
+- We’ll handle a race condition with React refs
+- We’ll add debouncing, for a smoother browser experience
+- We’ll extract code into hooks to make things tidy
+- We’ll stare into the face of evil, aka. print layouts
 
 Sounds exciting!? I think so... See you in [part two](/blog/react-commentary-sidebar-2).
 
