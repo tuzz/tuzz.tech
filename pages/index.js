@@ -2,7 +2,7 @@ import Head from "next/head";
 
 const Index = () => (
   <Head>
-    <meta httpEquiv="Refresh" content="0; url=/blog/palindromic-superpermutations" />
+    <meta httpEquiv="Refresh" content="0; url=/blog/react-commentary-sidebar" />
   </Head>
 );
 

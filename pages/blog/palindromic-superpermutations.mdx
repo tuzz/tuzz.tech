@@ -15,7 +15,7 @@ export const navigation = {
   ],
   links: [
     { text: "← Previous", href: "/blog/adding-bash-completion" },
-    { text: "Next Article →" },
+    { text: "Next Article →", href: "/blog/react-commentary-sidebar" },
   ]
 };
 
@@ -45,10 +45,10 @@ export const description = "I wrote a search algorithm to tackle a challenging c
 </time>
 
 <div className="note">
-This is the first of two parts. The second will be available in a week or so.
+This is the first of two parts. The second will be available in a couple of weeks.
 </div>
 
-<Figure.Video src="/videos/chaffin-search.mp4">
+<Figure.Video src="/videos/chaffin-search.mp4" className="more_space">
 Running my Rust-powered search algorithm
 </Figure.Video>
 
@@ -428,7 +428,7 @@ I first read about Chaffin’s method in
 
 In part two I’ll walk through the code and go into much more detail about how
 the algorithm _actually_ works. I haven’t written part two yet so check back
-in a week or so. I’ll also announce its publication
+in a couple of weeks. I’ll also announce its publication
 [on Twitter](https://twitter.com/chrispatuzzo).
 
 If you can’t wait, the <span ref={r = createRef()}>latest</span> iteration of

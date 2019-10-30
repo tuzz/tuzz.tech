@@ -23,7 +23,7 @@ export const navigation = {
 
 export const title = "Building a commentary sidebar in React";
 export const path = "/blog/react-commentary-sidebar";
-export const description = "TODO";
+export const description = "How I built one of my favourite features: a commentary sidebar, written in React.";
 
 <Head>
   <meta property="og:title" content={title} />
@@ -32,7 +32,7 @@ export const description = "TODO";
   <meta property="og:type" content="article" />
 
   <meta name="description" content={description} />
-  <meta name="keywords" content="Chris Patuzzo,TODO" />
+  <meta name="keywords" content="Chris Patuzzo,React,commentary,sidebar,aside,hooks,CSS,positioning" />
 
   <ImageMeta path="/images/commentary-sidebar.gif" width={600}  height={478} type="gif" />
   <VideoMeta path="/videos/commentary-sidebar.mp4" width={1120} height={892} type="mp4" />
@@ -42,7 +42,7 @@ export const description = "TODO";
 
 <h1>{title}</h1>
 
-<time dateTime="2019-10-28">Published October 28, 2019 by {" "}
+<time dateTime="2019-10-30">Published October 30, 2019 by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
 </time>
 
@@ -54,14 +54,14 @@ is <a href="/blog/react-commentary-sidebar-2">here</a>.
 <span ref={r = createRef()} />
 <span ref={r2 = createRef()} />
 
-<Figure.Video src="/videos/commentary-sidebar.mp4">
-The sidebar is responsive and becomes inline content on smaller screens
+<Figure.Video src="/videos/commentary-sidebar.mp4" className="more_space">
+The sidebar is responsive collapses inline on smaller screens
 </Figure.Video>
 
 <Aside target={r} moveDown={130}>
 
 This is taken from my recent article on [How bash completion
-works](/blog/how-bash-completion-works). I do like a gif within a gif.
+works](/blog/how-bash-completion-works).
 
 </Aside>
 
@@ -138,6 +138,9 @@ Here's how that looks in code:
 Comments interspersed with content
 </Figure>
 
+This _should_ be friendlier to search engines, too. Related content is closer
+together.
+
 ### Laying things out
 
 As you can see above, there's no DOM element for the sidebar. I think of a
@@ -165,8 +168,8 @@ One way of creating a sidebar with <span ref={r2 = createRef()}>CSS</span>
 </Aside>
 
 <Aside target={r} moveDown={28}><p>
-I've simplified this a bit. In practice there are rules to set colors, borders,
-etc. There are also media queries to scale down for smaller screens.
+I've simplified this a bit. I also have rules to set colors, borders, etc - and
+some media queries to change the presentation for smaller screens.
 </p></Aside>
 
 This works by splitting the container in two. The sidebar comments live in the
@@ -175,7 +178,7 @@ removes them from the document's flow and `right: 1rem` to place them in the
 padded region.
 
 We can left-position the `<aside>` elements within the sidebar by setting their
-width. This is calculated as `50% - 2rem` to create the illsusion of
+width. This is calculated as `50% - 2rem` to create the illusion of
 padding - by leaving an equal amount of space on the left and right. Here's how
 it looks:
 
@@ -194,7 +197,7 @@ version <a href="/examples/sidebar-1/index.html" target="_blank">here</a>.
 
 This isn't quite right because the comment is placed next to the second
 paragraph instead of the first. We could fix it by moving the `<aside>` above
-the first paragraph but then the DOM would be out of order and it wouldn't read
+the first paragraph but then the DOM would be out of order and wouldn't read
 correctly on mobile.
 
 ### Further complications
@@ -244,9 +247,13 @@ It's also not good practice to do this. React gives us a warning:
 
 > validateDOMNesting(...): `<aside>` cannot appear as a descendant of `<p>`.
 
-The fundamental problem is there's no way in CSS to position elements relative
+The <span ref={r = createRef()}>fundamental</span> problem is there's no way in CSS to position elements relative
 to arbitrary things. It would be neat if we could do something like this, but
 we can't:
+
+<Aside target={r}><p>
+Relative positioning looks at ancestors, not siblings.
+</p></Aside>
 
 <span ref={r = createRef()} />
 
@@ -272,7 +279,7 @@ resorted to <span ref={r = createRef()}>JavaScript</span>.
 
 <Aside target={r}>
 
-Disappointing, I know. If you know of a way, please
+Disappointing, I know. If you can think of a way, please
 [get in touch](https://twitter.com/chrispatuzzo)!
 
 </Aside>
@@ -334,11 +341,11 @@ a listener to re-align the component if the browser is resized.
 
 </div>
 
-<Aside target={r} moveDown={140}>
+<Aside target={r} moveDown={92}>
 
 [getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
 is [well-supported](https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup)
-in modern browsers. It's more reliable than offsetTop and considers CSS transformations.
+in modern browsers. It's better than `offsetTop` because it factors in CSS transformations.
 
 </Aside>
 
@@ -357,7 +364,7 @@ in the sidebar, repositioning themselves next to their target content.
 
 <span ref={r = createRef()} />
 
-<Figure.Video src="/videos/commentary-realignment.mp4">
+<Figure.Video src="/videos/commentary-realignment.mp4" className="more_space">
 Re-aligning comments while resizing the browser
 </Figure.Video>
 
@@ -367,7 +374,8 @@ This is taken from my recent article on [palindromic superpermutations](/blog/pa
 
 </Aside>
 
-The component is used like so:
+To use the `<Aside>` component, I create a ref to the target content then pass
+that in:
 
 <span ref={r = createRef()} />
 <span ref={r2 = createRef()} />
@@ -409,7 +417,7 @@ for each new reference.
 
 ### Breaking the fourth wall
 
-As I write this article, I'm using this component a lot.
+As I write this article, I'm using this component a lot!
 Let's peek at <span ref={r=createRef()}>the code</span>:
 
 <Aside target={r}>
@@ -438,18 +446,18 @@ I'm using a hybrid of Markdown that supports JSX. It's called
 If your browser is wide enough, you _should_ see 'Well this is unexpected' on
 the right-hand side of 'the code'. Otherwise, it'll appear in the main flow.
 
-In some cases, there's no word or phrase in the DOM to refer to. For example,
-images, videos and code blocks that use the [`<pre>`
+In some cases, there's no word or phrase in the DOM to refer to. This is the
+case with images, videos and code blocks that use the [`<pre>`
 tag](https://www.w3schools.com/tags/tag_pre.asp). <span ref={r2 =
-createRef()}>For</span> these cases, I built an _escape hatch_ that lets me move
-comments down by a fixed amount:
+createRef()}>For</span> these cases, I built an _escape hatch_ that lets me
+move comments down by a fixed amount:
 
 <!-- fourth-wall-3 -->
 
 <span ref={r = createRef()} />
 
-<Aside target={r} moveDown={50}>
-For example, this aside is moved down 50 pixels.
+<Aside target={r} moveDown={70}>
+This aside is moved down 70 pixels.
 </Aside>
 
 <!-- fourth-wall-3 -->
@@ -487,19 +495,27 @@ All <span ref={r = createRef()}>told</span>, this serves very well as a means of
 text, images, code and (as we've seen) even comments themselves!
 
 <Aside target={r}><p>
-Or comments about commenting on comments.
+Or comments about
+<span style={{opacity: 0.8}}> comments</span>
+<span style={{opacity: 0.7}}> about</span>
+<span style={{opacity: 0.6}}> comments</span>
+<span style={{opacity: 0.5}}> about</span>
+<span style={{opacity: 0.4}}> comments</span>
+<span style={{opacity: 0.3}}> about</span>
+<span style={{opacity: 0.2}}> comments</span>
+<span style={{opacity: 0.1}}> about</span>
+<span style={{opacity: 0.0}}> secrets</span>
 </p></Aside>
 
 ### Incremental improvements
 
-In part two of this article we'll be improving our component in a number of
-ways:
+In part two of this article we'll be refine our component in a number of ways:
 
 - We'll cope with slow-loading images and fonts
 - We'll handle a race condition with React refs
 - We'll add debouncing, for a smoother browser experience
 - We'll extract code into hooks to make things tidy
-- We'll despairingly try to get print layouts working
+- We'll stare into the face of evil, aka. print layouts
 
 Sounds exciting!? I think so... See you in [part two](/blog/react-commentary-sidebar-2).
 

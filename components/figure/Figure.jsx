@@ -3,7 +3,7 @@ import css from "./styles.scss";
 const Figure = ({ children, href, className }) => {
   const [figure, caption] = children;
 
-  const inner = href ? <a href={href}>{figure}</a> : figure;
+  const inner = href ? <a href={href} target="_blank">{figure}</a> : figure;
 
   return (
     <figure className={`${className} ${css.figure}`}>
@@ -17,20 +17,22 @@ const Figure = ({ children, href, className }) => {
   );
 };
 
-Figure.MoreSpace = ({ src, children }) => (
-  <Figure className={css.more_space} href={src}>
-    {children}
-  </Figure>
-);
-
-Figure.Video = ({ src, children }) => (
-  <Figure.MoreSpace src={src}>
+Figure.Video = ({ children, src, ...props }) => (
+  <Figure href={src} {...props}>
     <video muted autoPlay playsInline loop>
       <source src={src} type="video/mp4" />
     </video>
 
     {children}
-  </Figure.MoreSpace>
+  </Figure>
+);
+
+Figure.Image = ({ children, src, alt, ...props }) => (
+  <Figure href={src} {...props}>
+    <img src={src} alt={alt} />
+
+    {children}
+  </Figure>
 );
 
 export default Figure;

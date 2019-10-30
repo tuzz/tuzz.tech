@@ -35,8 +35,16 @@
     font-style: normal;
   }
 
-  &.more_space {
+  &:global(.more_space) {
     margin-top: 2rem;
+  }
+
+  &:global(.border) {
+    img, video {
+      border: 1px solid $neutral_300;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
   }
 }
 
