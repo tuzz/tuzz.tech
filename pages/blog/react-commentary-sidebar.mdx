@@ -48,13 +48,25 @@ This is the first of two parts. Part two
 is <a href="/blog/react-commentary-sidebar-2">here</a>.
 </div>
 
-TODO: add video of resizing the window
-
 <span ref={r = createRef()} />
+<span ref={r2 = createRef()} />
 
-<Aside target={r}><p>
-I'm going to break the fourth wall in this article! Uh oh...
-</p></Aside>
+<Figure.Video src="/videos/commentary-sidebar.mp4">
+The sidebar is responsive and becomes inline content on smaller screens
+</Figure.Video>
+
+<Aside target={r} moveDown={130}>
+
+This is taken from my recent article on [How bash completion
+works](/blog/how-bash-completion-works). I do like a gif within a gif.
+
+</Aside>
+
+<Aside target={r} moveDown={315}>
+
+I'm going to break the fourth wall a lot in this article. Uh oh...
+
+</Aside>
 
 Over the past weeks, I've been building this blog and writing articles for it.
 I've spent a lot of time thinking about the reader. Who are they? Why are they
@@ -337,6 +349,21 @@ and remove the listener.
 
 </Aside>
 
+Here's how it looks for a real example. Notice the comments move around
+in the sidebar, repositioning themselves next to their target content.
+
+<span ref={r = createRef()} />
+
+<Figure.Video src="/videos/commentary-realignment.mp4">
+Re-aligning comments while resizing the browser
+</Figure.Video>
+
+<Aside target={r} moveDown={160}>
+
+This is taken from my recent article on [palindromic superpermutations](/blog/palindromic-superpermutations).
+
+</Aside>
+
 The component is used like so:
 
 <span ref={r = createRef()} />
@@ -453,8 +480,12 @@ const Aside = ({ target, children, moveDown = 0 }) => {
 Moving comments down by a fixed amount
 </Figure>
 
-All told, this serves very well as a means of commenting on variety of things:
+All <span ref={r = createRef()}>told</span>, this serves very well as a means of commenting on variety of things:
 text, images, code and (as we've seen) even comments themselves!
+
+<Aside target={r}><p>
+Or comments about commenting on comments.
+</p></Aside>
 
 ### Incremental improvements
 
