@@ -18,13 +18,13 @@ const Figure = ({ children, href, className }) => {
 };
 
 Figure.MoreSpace = ({ src, children }) => (
-  <Figure className={css.more_space}>
+  <Figure className={css.more_space} href={src}>
     {children}
   </Figure>
 );
 
 Figure.Video = ({ src, children }) => (
-  <Figure.MoreSpace href={src}>
+  <Figure.MoreSpace src={src}>
     <video muted autoPlay playsInline loop>
       <source src={src} type="video/mp4" />
     </video>
