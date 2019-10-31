@@ -5,6 +5,7 @@ import Layout from "../../components/layout";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import Frame from "../../components/frame";
+import { H1, H2, H3 } from "../../components/header";
 import readFile from "../../helpers/read_file";
 import { createRef } from "react";
 
@@ -40,7 +41,7 @@ export const description = "Part two of building a commentary sidebar in React: 
 
 <Layout title={title} navigation={navigation}>
 
-<h1>{title}</h1>
+<H1>{title}</H1>
 
 <time dateTime="2019-10-30">Published October 30, 2019 by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
@@ -107,7 +108,7 @@ with slow-loading content, print layouts, etc.
 We’ll also add some polish with a sweet CSS fade in animation.
 </p></Aside>
 
-## Slow-loading content
+<H2>Slow-loading content</H2>
 
 Currently the component positions itself when mounted, but what happens if
 images and fonts take a few seconds to load asynchronously? They might affect
@@ -182,7 +183,7 @@ I don’t really like using `setInterval` if I can avoid it as it bloats the pag
 
 </Aside>
 
-### Hooks
+<H3>Hooks</H3>
 
 To avoid cluttering our component, we can extract functionality into
 [React hooks](https://reactjs.org/docs/hooks-intro.html):
@@ -270,7 +271,7 @@ We’ll use this approach of extracting hooks to keep our component clean as we
 add sophistication. It also means these behaviours are modular and can be
 reused later.
 
-## A race condition
+<H2>A race condition</H2>
 
 Occasionally, when resizing the window, React would throw the following error:
 
@@ -326,7 +327,7 @@ too _hook-crazy_, though.
 
 </Aside>
 
-### Debouncing
+<H3>Debouncing</H3>
 
 The <span ref={r = createRef()}>above</span> error draws attention to the fact
 that the browser fires hundreds of events when the window is resized. This
@@ -385,7 +386,7 @@ debouncing implementation, I used
 [Tom Stuart](https://twitter.com/tomstuart) and
 [Paul Mucur](https://twitter.com/mudge).
 
-## Printing
+<H2>Printing</H2>
 
 Honestly, <span ref={r = createRef()}>printing</span> web pages is a mess.
 You’d expect to get more-or-less the same version of the page you can see when
@@ -412,7 +413,7 @@ remove backgrounds and images.
 This is good because it saves ink, I just wish it was standardised.
 </p></Aside>
 
-### Why do I care?
+<H3>Why do I care?</H3>
 
 I don’t actually think anyone will print these pages. The reason I care is
 because printing has subsumed a feature people do actually use: exporting web
@@ -431,7 +432,7 @@ choice to automate the creation of PDFs from web pages. Alternatively,
 
 </Aside>
 
-### The problem
+<H3>The problem</H3>
 
 When I first tried to print, I found the alignment of comments in the sidebar
 was slightly off. Everything was a bit lower than it should be and this was
@@ -471,7 +472,7 @@ You can control some things through print stylesheets and `@media print` style
 rules but it’s harder to reliably detect in JavaScript when the page is being
 printed.
 
-### The solution
+<H3>The solution</H3>
 
 Eventually, I wrote another hook that works _most_ of the time:
 
@@ -590,7 +591,7 @@ I’ll try to fix it someday but for now I’m happy it works in WebKit. That me
 I can produce prepared PDFs, rather than encourage _anyone_ to use the print
 dialogue.
 
-## Final touches
+<H2>Final touches</H2>
 
 It can look messy if `<Aside>` elements jump around a lot as the page loads.
 This will happen a bit as slow-loading content is added to the page but we can
@@ -632,7 +633,7 @@ Alternatively, you could use [Redux](https://redux.js.org/).
 
 </Aside>
 
-### Final thoughts
+<H3>Final thoughts</H3>
 
 In this article, we’ve taken a detailed look at how to build a commentary
 sidebar in React. This has a few rough edges but overall I’m really happy with

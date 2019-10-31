@@ -23,33 +23,6 @@ body {
   box-shadow: 0.5rem 0 0.5rem rgba(0, 0, 0, 0.01);
   color: $neutral_900;
 
-  h1 {
-    font-size: 2.7rem;
-    padding: 2rem 0 0.5rem 0;
-    border-bottom: 1px solid $neutral_300;
-    line-height: 1.2;
-  }
-
-  h2 {
-    font-size: 2rem;
-    border-left: 0.5rem solid $primary_300;
-    color: $primary_700;
-    margin-left: -2.25rem;
-    padding-left: 1.75rem;
-    line-height: 1.2;
-    margin-top: 3rem;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    border-left: 0.5rem solid $primary_300;
-    color: $primary_700;
-    margin-left: -2.25rem;
-    padding-left: 1.75rem;
-    line-height: 1.2;
-    margin-top: 2rem;
-  }
-
   img, video {
     width: 100%;
   }
@@ -126,24 +99,6 @@ body {
   }
 }
 
-
-@media screen and (max-width: 940px) {
-  .layout {
-    h1 {
-      font-size: 2.2rem;
-      padding-top: 1rem;
-    }
-
-    h2 {
-      font-size: 1.7rem;
-    }
-
-    h3 {
-      font-size: 1.4rem;
-    }
-  }
-}
-
 @media screen and (max-width: 800px) {
   .layout {
     padding-right: 0;
@@ -153,25 +108,6 @@ body {
 
 @media screen and (max-width: 550px) {
   .layout {
-    h1 {
-      font-size: 1.65rem;
-      padding-top: 0;
-    }
-
-    h2, h3 {
-      font-size: 1.45rem;
-      border: none;
-      margin-left: 0;
-      margin-right: 0;
-      padding: 0;
-      margin-top: 2rem;
-    }
-
-    h3 {
-      font-size: 1.4rem;
-      border: none;
-    }
-
     time {
       font-size: 0.95rem;
     }

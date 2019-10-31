@@ -5,6 +5,7 @@ import Layout from "../../components/layout";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import Frame from "../../components/frame";
+import { H1, H2, H3 } from "../../components/header";
 import readFile from "../../helpers/read_file";
 import { createRef } from "react";
 
@@ -40,7 +41,7 @@ export const description = "How I built one of my favourite features: a commenta
 
 <Layout title={title} navigation={navigation}>
 
-<h1>{title}</h1>
+<H1>{title}</H1>
 
 <time dateTime="2019-10-30">Published October 30, 2019 by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
@@ -108,7 +109,7 @@ semantic <span ref={r = createRef()}>solution</span>.
 ... that’s SEO and print friendly.
 </p></Aside>
 
-## Structuring the DOM
+<H2>Structuring the DOM</H2>
 
 Putting React to one side for a moment, let’s first consider how to structure
 the DOM.  HTML5 has the perfect element for our needs:
@@ -141,7 +142,7 @@ Comments interspersed with content
 This _should_ be friendlier to search engines, too. Related content is closer
 together.
 
-### Laying things out
+<H3>Laying things out</H3>
 
 As you can see above, there’s no DOM element for the sidebar. I think of a
 sidebar as a way to present `<aside>` elements. It really ought to be a
@@ -200,7 +201,7 @@ paragraph instead of the first. We could fix it by moving the `<aside>` above
 the first paragraph but then the DOM would be out of order and wouldn’t read
 correctly on mobile.
 
-### Further complications
+<H3>Further complications</H3>
 
 To make matters worse, we also want to be able to position commentary next to
 specific words or phrases. For example:
@@ -284,7 +285,7 @@ Disappointing, I know. If you can think of a way, please
 
 </Aside>
 
-## React
+<H2>React</H2>
 
 In React, I created an `<Aside>` component that positions itself relative to
 a target element. It encapsulates the behavior of figuring our what its
@@ -415,7 +416,7 @@ for each new reference.
 
 <!-- fourth-wall-2 -->
 
-### Breaking the fourth wall
+<H3>Breaking the fourth wall</H3>
 
 As I write this article, I’m using this component a lot!
 Let’s peek at <span ref={r=createRef()}>the code</span>:
@@ -507,7 +508,7 @@ Or comments about
 <span style={{opacity: 0.0}}> secrets</span>
 </p></Aside>
 
-### Incremental improvements
+<H3>Incremental improvements</H3>
 
 In part two of this article we’ll be refine our component in a number of ways:
 

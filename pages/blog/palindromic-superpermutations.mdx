@@ -4,6 +4,7 @@ import VideoMeta from "../../components/video_meta";
 import Layout from "../../components/layout";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
+import { H1, H2, H3 } from "../../components/header";
 import { createRef } from "react";
 
 export let r;
@@ -38,7 +39,7 @@ export const description = "I wrote a search algorithm to tackle a challenging c
 
 <Layout title={title} navigation={navigation}>
 
-<h1>{title}</h1>
+<H1>{title}</H1>
 
 <time dateTime="2019-10-20">Published October 20, 2019 by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
@@ -105,7 +106,7 @@ Along the way I wrote some C and Rust code. I’ll focus on the high-level
 approach in this article and save a detailed walk-through of the code for the
 next.
 
-### Why palindromes?
+<H3>Why palindromes?</H3>
 
 In general, minimal superpermutations need not be palindromes. It so <span
 ref={r = createRef()}>happens</span> for N=1 to 4 they _are_, but no one has
@@ -138,7 +139,7 @@ how far it gets, but I have low expectations. The [combinatorial
 abyss](https://twitter.com/chrispatuzzo/status/1067403432674435072) is vast and
 unforgiving.
 
-### No repetition
+<H3>No repetition</H3>
 
 There’s one more assumption I’m going to make about minimal superpermutations.
 That is: they do not contain the same permutation more than once. In other
@@ -160,7 +161,7 @@ It might seem arbitrary to do this. We’ll see shortly how the benefits of this
 assumption are compounded when searching for palindromes.
 </Aside>
 
-## How it works
+<H2>How it works</H2>
 
 At a high level, the algorithm works by searching for the shortest string that
 contains exactly half the permutations. This string must also have the special
@@ -188,7 +189,7 @@ a (palindromic) superpermutation.
 We overlap the ‘2’ in the middle.
 </Aside>
 
-### Depth-first search
+<H3>Depth-first search</H3>
 
 The <span ref={r = createRef()}>search</span> is depth first, starting from the
 12...N permutation. This can be thought of as the root node of a search tree.
@@ -256,7 +257,7 @@ Backtracking is really good! It eliminates regions of search space that
 can’t possibly bear fruit.
 </Aside>
 
-### The magic
+<H3>The magic</H3>
 
 However, we can go one step further! We know we’re going to glue this string to
 its reversal. That means **all permutations seen so far will be seen again** -
@@ -306,7 +307,7 @@ shot.
 
 Finally, there’s one last piece we need to supercharge the search algorithm.
 
-## The ‘Chaffin’ method
+<H2>The ‘Chaffin’ method</H2>
 
 The search incorporates a clever technique devised by Benjamin Chaffin. The
 basic idea is to break the problem into a <span ref={r =
@@ -348,7 +349,7 @@ For W=0, the solution is always equal to N since that’s the longest string bef
 we hit a cycle: ‘12312’
 </Aside>
 
-### Climbing a ladder
+<H3>Climbing a ladder</H3>
 
 The algorithm proceeds to solve the W=1 subproblem, using the solution of W=0 to
 speed up the search. <span ref={r = createRef()}>This</span> works by pruning
@@ -424,7 +425,7 @@ I first read about Chaffin’s method in
 
 </Aside>
 
-### Onwards
+<H3>Onwards</H3>
 
 In part two I’ll walk through the code and go into much more detail about how
 the algorithm _actually_ works. I haven’t written part two yet so check back

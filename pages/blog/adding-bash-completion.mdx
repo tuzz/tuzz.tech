@@ -4,6 +4,7 @@ import VideoMeta from "../../components/video_meta";
 import Layout from "../../components/layout";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
+import { H1, H2, H3 } from "../../components/header";
 import { createRef } from "react";
 
 export let r;
@@ -38,7 +39,7 @@ export const description = "In this second article on Bash completion, we’ll s
 
 <Layout title="Adding Bash completion to my tool" navigation={navigation}>
 
-<h1>{title}</h1>
+<H1>{title}</H1>
 
 <time dateTime="2019-10-05">Published October 6, 2019 by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
@@ -73,7 +74,7 @@ provisioning my machine and generating project templates. The animation above
 shows some example use cases of Bash completion, e.g. completing `zz pr` to `zz
 provision`.
 
-## The ‘zz’ completion function
+<H2>The ‘zz’ completion function</H2>
 
 I <span ref={r = createRef()}>added</span> Bash completion support in [this
 commit](https://github.com/tuzz/zz/commit/c7c90d292a19d2c880c9bac6b50e3d1f0ccfc414).
@@ -123,7 +124,7 @@ I’m particularly fond of this kind of ‘bootstrapping’ since it pushes the 
 in to the realms of self-reference.
 </p></Aside>
 
-## Completing command/option names
+<H2>Completing command/option names</H2>
 
 My <span ref={r = createRef()}>first</span> goal is to implement completion for
 commands and options. The idea being, if I type complete to `zz provision` and
@@ -202,7 +203,7 @@ Returning `false` if this ‘type’ of completion isn’t relevant
 The [`#complete_option`](https://github.com/tuzz/zz/commit/046b31d5715661329da8f25eef37de2596a2e59e#diff-c536662908a26a0b8843e81b8ffe42cbR40-R55)
 method is more complicated but uses the same idea.
 
-## Completing arguments to options
+<H2>Completing arguments to options</H2>
 
 The final piece of the puzzle is to do contextual completion for options.
 My original use-case was to complete `zz secret --read amaz` to `zz secret
@@ -284,7 +285,7 @@ That mysterious `return` statement is explained below.
 
 </Aside>
 
-### A few ‘gotchas’
+<H3>A few ‘gotchas’</H3>
 
 Bash sometimes tries to be <span ref={r = createRef()}>helpful</span> which can
 often lead to surprising behaviour. For example, if all available completions
@@ -330,7 +331,7 @@ the noise but we can’t do that because Bash will replace our list by the commo
 prefix. In this situation, Bash’s helpfulness has backfired and results in more
 noise than we’d like.
 
-### Fighting back
+<H3>Fighting back</H3>
 
 Knowledge is <span ref={r = createRef()}>power</span> and it so happens there’s
 this _one weird trick_ we can use to get around the problem. Since we know Bash
@@ -407,7 +408,7 @@ pedantic and want to use proper nouns, e.g. `Vim,Ruby`
 
 </Aside>
 
-## Closing remarks
+<H2>Closing remarks</H2>
 
 It’s been fun to understand the mechanics of feature we often don’t think about.
 Bash completion adds a friendly touch that can make our command-line tools
