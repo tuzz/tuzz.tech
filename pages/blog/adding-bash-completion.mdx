@@ -127,13 +127,13 @@ in to the realms of self-reference.
 </p></Aside>
 
 <H2 id="completing-command-option-names">
-Completing command/option names
+Completing command names
 </H2>
 
 My <span ref={r = createRef()}>first</span> goal is to implement completion for
-commands and options. The idea being, if I type complete to `zz provision` and
-if I type `zz <TAB><TAB>`, it should provide a friendly reminder of all
-available commands.
+commands and options. The idea being, if I type `zz prov` that should complete
+to `zz provision` and if I type `zz <TAB><TAB>`, it should provide a friendly
+reminder of all available commands.
 
 <Aside target={r}><p>
 How it should work is somewhat arbitrary, but this behaviour seems most
@@ -208,7 +208,7 @@ The [`#complete_option`](https://github.com/tuzz/zz/commit/046b31d5715661329da8f
 method is more complicated but uses the same idea.
 
 <H2 id="completion-args-to-options">
-Completing arguments to options
+Completing option arguments
 </H2>
 
 The final piece of the puzzle is to do contextual completion for options.
