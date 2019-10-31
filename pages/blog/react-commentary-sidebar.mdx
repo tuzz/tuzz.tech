@@ -109,7 +109,7 @@ semantic <span ref={r = createRef()}>solution</span>.
 ... that’s SEO and print friendly.
 </p></Aside>
 
-<H2>Structuring the DOM</H2>
+<H2 id="structuring-the-dom">Structuring the DOM</H2>
 
 Putting React to one side for a moment, let’s first consider how to structure
 the DOM.  HTML5 has the perfect element for our needs:
@@ -142,7 +142,7 @@ Comments interspersed with content
 This _should_ be friendlier to search engines, too. Related content is closer
 together.
 
-<H3>Laying things out</H3>
+<H3 id="laying-things-out">Laying things out</H3>
 
 As you can see above, there’s no DOM element for the sidebar. I think of a
 sidebar as a way to present `<aside>` elements. It really ought to be a
@@ -201,7 +201,7 @@ paragraph instead of the first. We could fix it by moving the `<aside>` above
 the first paragraph but then the DOM would be out of order and wouldn’t read
 correctly on mobile.
 
-<H3>Further complications</H3>
+<H3 id="complications">Further complications</H3>
 
 To make matters worse, we also want to be able to position commentary next to
 specific words or phrases. For example:
@@ -285,7 +285,7 @@ Disappointing, I know. If you can think of a way, please
 
 </Aside>
 
-<H2>React</H2>
+<H2 id="react">React</H2>
 
 In React, I created an `<Aside>` component that positions itself relative to
 a target element. It encapsulates the behavior of figuring our what its
@@ -414,9 +414,9 @@ for each new reference.
 
 </Aside>
 
-<!-- fourth-wall-2 -->
+<H3 id="fourth-wall">Breaking the fourth wall</H3>
 
-<H3>Breaking the fourth wall</H3>
+<!-- fourth-wall-2 -->
 
 As I write this article, I’m using this component a lot!
 Let’s peek at <span ref={r=createRef()}>the code</span>:
@@ -437,7 +437,7 @@ Well this is unexpected. {/* Waves to self. 👋 */}
 Using the `<Aside>` component in **this** article
 </Figure>
 
-<Aside target={r} moveDown={50}>
+<Aside target={r} moveDown={5}>
 
 I’m using a hybrid of Markdown that supports JSX. It’s called
 [MDX](https://github.com/mdx-js/mdx).
@@ -508,7 +508,9 @@ Or comments about
 <span style={{opacity: 0.0}}> secrets</span>
 </p></Aside>
 
-<H3>Incremental improvements</H3>
+<H3 id="incremental-improvements">
+  Incremental improvements
+</H3>
 
 In part two of this article we’ll be refine our component in a number of ways:
 

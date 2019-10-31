@@ -92,7 +92,7 @@ feature soon.
 
 </Aside>
 
-<H2>The mechanics</H2>
+<H2 id="mechanics">The mechanics</H2>
 
 In <span ref={r = createRef()}>Bash</span>, completion is handled through the `complete` ‘built-in’:
 
@@ -145,7 +145,9 @@ alphabetical order. It’s just one of the many methods of <span ref={r = create
 It’s also the simplest.
 </p></Aside>
 
-<H3>Listing completion methods</H3>
+<H3 id="listing-completion-methods">
+  Listing completion methods
+</H3>
 
 To see which commands have completion methods, run `complete` without arguments:
 
@@ -188,7 +190,9 @@ That’s helpful! `rbenv` has kindly listed which Ruby **2.5.x** versions are av
 to install. We could find this out from `rbenv install --list` but that’s
 inefficient because we’d have to clear our current command then re-type it.
 
-<H2>How completion <em>functions</em> work</H2>
+<H2 id="how-completion-functions-work">
+  How completion <em>functions</em> work
+</H2>
 
 When a function is registered as the method of completion with the `-F` switch,
 it must comply with an ‘interface’ of sorts. When the function is called, Bash
@@ -209,7 +213,7 @@ seems kind of awkward. Bash _is_ pretty old, though.
 
 </Aside>
 
-<H3>An example</H3>
+<H3 id="an-example">An example</H3>
 
 Everybody loves FizzBuzz, right? Let’s demonstrate Bash completion with a custom
 function that *magically* completes the next term in the sequence:
