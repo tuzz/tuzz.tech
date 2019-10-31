@@ -1,64 +1,177 @@
 @import "../layout/color.scss";
 
+.h1, .h2, .h3 {
+  font-family: 'Merriweather', Georgia, serif;
+}
+
 .h1 {
-  font-size: 2.7rem;
+  font-size: 2.45rem;
   padding: 2rem 0 0.5rem 0;
   border-bottom: 1px solid $neutral_300;
-  line-height: 1.2;
+  line-height: 1.4;
 }
 
 .h2 {
-  font-size: 2rem;
+  font-size: 1.8rem;
   border-left: 0.5rem solid $primary_300;
   color: $primary_700;
   margin-left: -2.25rem;
   padding-left: 1.75rem;
-  line-height: 1.2;
   margin-top: 3rem;
+  line-height: 1.5;
 }
 
 .h3 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   border-left: 0.5rem solid $primary_300;
   color: $primary_700;
   margin-left: -2.25rem;
   padding-left: 1.75rem;
-  line-height: 1.2;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  line-height: 1.5;
 }
 
-@media screen and (max-width: 940px) {
+@media screen and (max-width: 955px) {
   .h1 {
-    font-size: 2.2rem;
-    padding-top: 1rem;
+    font-size: 4vw;
+    padding-top: 1.5rem;
   }
 
   .h2 {
-    font-size: 1.7rem;
+    font-size: 2.9vw;
+  }
+
+  .h3 {
+    font-size: 2.3vw;
+  }
+}
+
+@media screen and (max-width: 925px) {
+  .h1 {
+    font-size: 3.9vw;
+    padding-top: 1.4rem;
+  }
+
+  .h2 {
+    font-size: 2.83vw;
+  }
+
+  .h3 {
+    font-size: 2.24vw;
+  }
+}
+
+@media screen and (max-width: 895px) {
+  .h1 {
+    font-size: 3.8vw;
+    padding-top: 1.3rem;
+  }
+
+  .h2 {
+    font-size: 2.76vw;
+  }
+
+  .h3 {
+    font-size: 2.18vw;
+  }
+}
+
+
+@media screen and (max-width: 865px) {
+  .h1 {
+    font-size: 3.7vw;
+    padding-top: 1.2rem;
+  }
+
+  .h2 {
+    font-size: 2.69vw;
+  }
+
+  .h3 {
+    font-size: 2.12vw;
+  }
+}
+
+@media screen and (max-width: 835px) {
+  .h1 {
+    font-size: 3.55vw;
+    padding-top: 1.1rem;
+  }
+
+  .h2 {
+    font-size: 2.62vw;
+  }
+
+  .h3 {
+    font-size: 2.06vw;
+  }
+}
+
+// Back to full width, 655 <=> 955
+
+@media screen and (max-width: 800px) {
+  .h1 {
+    font-size: 2.45rem;
+    padding-top: 1.5rem;
+  }
+
+  .h2 {
+    font-size: 1.8rem;
   }
 
   .h3 {
     font-size: 1.4rem;
+  }
+}
+
+@media screen and (max-width: 655px) {
+  .h1 {
+    font-size: 5.8vw;
+    padding-top: 1.3rem;
+  }
+
+  .h2 {
+    font-size: 4.23vw;
+  }
+
+  .h3 {
+    font-size: 3.35vw;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .h1 {
+    font-size: 5.7vw;
+    padding-top: 1.1rem;
+  }
+
+  .h2 {
+    font-size: 4.16vw;
+  }
+
+  .h3 {
+    font-size: 3.30vw;
   }
 }
 
 @media screen and (max-width: 550px) {
   .h1 {
-    font-size: 1.65rem;
-    padding-top: 0;
+    font-size: 6.4vw;
+    padding-top: 1rem;
+  }
+
+  .h2 {
+    font-size: 4.9vw;
+  }
+
+  .h3 {
+    font-size: 4.9vw;
   }
 
   .h2, .h3 {
-    font-size: 1.45rem;
     border: none;
     margin-left: 0;
     margin-right: 0;
     padding: 0;
-    margin-top: 2rem;
-  }
-
-  .h3 {
-    font-size: 1.4rem;
-    border: none;
   }
 }

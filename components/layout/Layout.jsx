@@ -10,7 +10,7 @@ const Layout = ({ children, title, navigation }) => <>
   <Analytics />
 
   <Head>
-    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,700,700i&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i|Source+Code+Pro:400,400i,700,700&display=swap" rel="stylesheet" />
     <link href="/styles/reset.css" rel="stylesheet" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
