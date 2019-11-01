@@ -9,7 +9,8 @@ export default {
     buildArtifacts: "tmp/artifacts",
   },
   plugins: [
-    'react-static-plugin-reach-router',
-    ['react-static-plugin-source-filesystem', { location: './app/pages' }],
+    "react-static-plugin-reach-router",
+    ["react-static-plugin-source-filesystem", { location: "./app/pages" }],
+    ["react-static-plugin-mdx"],
   ],
 }
