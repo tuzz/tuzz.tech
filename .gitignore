@@ -3,3 +3,7 @@ node_modules
 /out
 
 public/examples/**/*.css
+
+/react-static/artifacts
+/react-static/dist
+/react-static/src/logo.png
