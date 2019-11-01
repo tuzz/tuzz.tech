@@ -1,13 +1,12 @@
 #!/bin/bash
 
-rm -rf out .next                                                        && \
-  ./bin/build                                                           && \
-  cd tmp/dist                                                           && \
-  touch .nojekyll                                                       && \
-  echo tuzz.tech > CNAME                                                && \
-  git init                                                              && \
-  git add -A                                                            && \
-  git commit -m 'Deploy changes'                                        && \
-  git remote add origin git@github.com:tuzz/tuzz.tech                   && \
-  git push -f origin head:gh-pages                                      && \
-  cd ../..
+./bin/build                                                           && \
+cd tmp/dist                                                           && \
+touch .nojekyll                                                       && \
+echo tuzz.tech > CNAME                                                && \
+git init                                                              && \
+git add -A                                                            && \
+git commit -m 'Deploy changes'                                        && \
+git remote add origin git@github.com:tuzz/tuzz.tech                   && \
+git push -f origin head:gh-pages                                      && \
+cd ../..
