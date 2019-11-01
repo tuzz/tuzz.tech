@@ -1,3 +1,4 @@
+import React from "react";
 import css from "./styles.scss";
 
 export const H1 = ({ id, children }) => (

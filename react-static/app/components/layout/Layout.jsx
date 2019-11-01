@@ -1,3 +1,4 @@
+import React from "react";
 import Head from "next/head";
 import Analytics from "../analytics";
 import NavBar from "../nav_bar";

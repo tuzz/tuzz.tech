@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import css from "./styles.scss";
 
 import usePrint from "../../hooks/use_print";

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import css from "./styles.scss";
 
 import useDebounce from "../../hooks/use_debounce";

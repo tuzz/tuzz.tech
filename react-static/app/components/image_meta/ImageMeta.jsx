@@ -1,3 +1,5 @@
+import React from "react";
+
 // This doesn't place these meta tags in <Head> so you'll need to do that yourself.
 
 const ImageMeta = ({ path, type, width, height }) => <>

@@ -1,3 +1,4 @@
+import React from "react";
 import Renderer, { Prism } from "prism-react-renderer";
 import extendPrism from "./extend_prism";
 import { MDXProvider } from "@mdx-js/react"
