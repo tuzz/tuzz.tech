@@ -6,7 +6,6 @@ import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import Frame from "../../components/frame";
 import { H1, H2, H3 } from "../../components/header";
-import readFile from "../../helpers/read_file";
 import { createRef } from "react";
 
 export let r, r2, r3;
@@ -653,7 +652,7 @@ code:
 
 <Figure>
   <pre><code className="language-jsx">
-    {readFile("app/components/aside/Aside.jsx")}
+    {require("!!read!../../../app/components/aside/Aside.jsx").default}
   </code></pre>
 
   The ‘live’ version of the code powering this blog

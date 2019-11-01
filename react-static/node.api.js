@@ -6,6 +6,10 @@ export default (pluginOptions) => ({
       loader: "json-loader"
     });
 
+    config.resolveLoader = {
+      modules: ["node_modules", "app/loaders"],
+    };
+
     return config;
   },
 });

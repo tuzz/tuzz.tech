@@ -6,7 +6,6 @@ import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import Frame from "../../components/frame";
 import { H1, H2, H3 } from "../../components/header";
-import readFile from "../../helpers/read_file";
 import { createRef } from "react";
 
 export let r, r2;
@@ -131,7 +130,7 @@ Here’s how that looks in code:
 
 <Figure>
 <pre><code className="language-html">
-  {readFile("public/examples/sidebar-1/index.html", "body")}
+  {require("!!read?marker=body!../../../public/examples/sidebar-1/index.html").default}
 </code></pre>
 
 Comments interspersed with content
@@ -154,7 +153,7 @@ me:
 
 <Figure>
 <pre><code className="language-css">
-  {readFile("public/examples/sidebar-1/styles.scss", "----")}
+  {require("!!read?marker=----!../../../public/examples/sidebar-1/styles.scss").default}
 </code></pre>
 
 One way of creating a sidebar with <span ref={r2 = createRef()}>CSS</span>
@@ -429,7 +428,7 @@ Well this is unexpected. {/* Waves to self. 👋 */}
 
 <Figure>
 <pre><code className="language-jsx">
-  {readFile("app/pages/blog/react-commentary-sidebar.mdx", "fourth-wall-2")}
+  {require("!!read?marker=fourth-wall-2!../../../app/pages/blog/react-commentary-sidebar.mdx").default}
 </code></pre>
 
 Using the `<Aside>` component in **this** article
@@ -462,7 +461,7 @@ This aside is moved down 70 pixels.
 <!-- fourth-wall-3 -->
 
 <pre><code className="language-jsx">
-  {readFile("app/pages/blog/react-commentary-sidebar.mdx", "fourth-wall-3")}
+  {require("!!read?marker=fourth-wall-3!../../../app/pages/blog/react-commentary-sidebar.mdx").default}
 </code></pre>
 
 <Aside target={r2}><p>
