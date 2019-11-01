@@ -1,17 +1,13 @@
 #!/bin/bash
 
 rm -rf out .next                                                        && \
-  ./bin/compile_scss                                                    && \
-  npx next build                                                        && \
-  npx next export                                                       && \
-  cd out                                                                && \
+  ./bin/build                                                           && \
+  cd tmp/dist                                                           && \
   touch .nojekyll                                                       && \
-  rm -rf index                                                          && \
   echo tuzz.tech > CNAME                                                && \
   git init                                                              && \
   git add -A                                                            && \
   git commit -m 'Deploy changes'                                        && \
   git remote add origin git@github.com:tuzz/tuzz.tech                   && \
   git push -f origin head:gh-pages                                      && \
-  cd ..                                                                 && \
-  rm -rf out
+  cd ../..
