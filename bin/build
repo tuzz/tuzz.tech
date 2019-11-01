@@ -1,3 +1,6 @@
 #!/bin/bash
 
-./bin/clean && ./bin/compile_scss && npx react-static build
+./bin/clean               && \
+./bin/compile_scss        && \
+npx react-static build    && \
+./bin/remove_slash

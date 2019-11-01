@@ -1,7 +1,4 @@
-.next
 node_modules
-/out
 
-public/examples/**/*.css
-
-/react-static/tmp
+/tmp
+/public/examples/**/*.css

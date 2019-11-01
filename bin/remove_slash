@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require "fileutils"
+
+Dir.glob("tmp/dist/**/index.html").each do |path|
+  next if path == "tmp/dist/index.html"
+
+  new_path = path.gsub("/index.html", ".html")
+  raise "File exists: #{new_path}" if File.exists?(new_path)
+
+  FileUtils.mv(path, new_path)
+end
