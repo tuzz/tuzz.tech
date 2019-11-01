@@ -6,6 +6,7 @@
     "react-static": "^7.0.0",
     "react-static-plugin-mdx": "^7.2.2",
     "react-static-plugin-reach-router": "^7.0.0",
+    "react-static-plugin-scss-modules": "^1.0.4",
     "react-static-plugin-sitemap": "^7.0.0",
     "react-static-plugin-source-filesystem": "^7.0.0"
   },
