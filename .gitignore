@@ -4,6 +4,5 @@ node_modules
 
 public/examples/**/*.css
 
-/react-static/artifacts
-/react-static/dist
-/react-static/src/logo.png
+/react-static/tmp
+/react-static/app/logo.png
