@@ -1,3 +1,5 @@
+import path from "path";
+
 export default {
   paths: {
     src: "app",
@@ -5,5 +7,9 @@ export default {
     dist: "tmp/dist",
     assets: "",
     buildArtifacts: "tmp/artifacts",
-  }
+  },
+  plugins: [
+    'react-static-plugin-reach-router',
+    ['react-static-plugin-source-filesystem', { location: './app/pages' }],
+  ],
 }

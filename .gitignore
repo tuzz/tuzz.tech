@@ -5,4 +5,3 @@ node_modules
 public/examples/**/*.css
 
 /react-static/tmp
-/react-static/app/logo.png
