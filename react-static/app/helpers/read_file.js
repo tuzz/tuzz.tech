@@ -2,7 +2,7 @@ import dedent from "dedent";
 import findIndexes from "./find_indexes";
 
 const readFile = (path, marker) => {
-  const content = require(`!!raw-loader!../${path}`).default;
+  const content = require(`!!raw-loader!../../${path}`);
 
   return marker ? selectWithin(marker, content, path) : content;
 }
