@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Meta from "../../components/meta";
 import ImageMeta from "../../components/image_meta";
 import VideoMeta from "../../components/video_meta";
 import Layout from "../../components/layout";
@@ -26,18 +26,16 @@ export const title = "Building a commentary sidebar in React";
 export const path = "/blog/react-commentary-sidebar";
 export const description = "How I built one of my favourite features: a commentary sidebar, written in React.";
 
-<Head>
-  <meta property="og:title" content={title} />
-  <meta property="og:url" content={`https://tuzz.tech${path}`} />
-  <meta property="og:description" content={description} />
-  <meta property="og:type" content="article" />
+<Meta property="og:title" content={title} />
+<Meta property="og:url" content={`https://tuzz.tech${path}`} />
+<Meta property="og:description" content={description} />
+<Meta property="og:type" content="article" />
 
-  <meta name="description" content={description} />
-  <meta name="keywords" content="Chris Patuzzo,React,commentary,sidebar,aside,hooks,CSS,positioning" />
+<Meta name="description" content={description} />
+<Meta name="keywords" content="Chris Patuzzo,React,commentary,sidebar,aside,hooks,CSS,positioning" />
 
-  <ImageMeta path="/images/commentary-sidebar.gif" width={600}  height={478} type="gif" />
-  <VideoMeta path="/videos/commentary-sidebar.mp4" width={1120} height={892} type="mp4" />
-</Head>
+<ImageMeta path="/images/commentary-sidebar.gif" width={600}  height={478} type="gif" />
+<VideoMeta path="/videos/commentary-sidebar.mp4" width={1120} height={892} type="mp4" />
 
 <Layout title={title} navigation={navigation}>
 

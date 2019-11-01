@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Meta from "../../components/meta";
 import ImageMeta from "../../components/image_meta";
 import VideoMeta from "../../components/video_meta";
 import Layout from "../../components/layout";
@@ -26,18 +26,16 @@ export const title = "Building a commentary sidebar in React (cont.)";
 export const path = "/blog/react-commentary-sidebar-2";
 export const description = "Part two of building a commentary sidebar in React: taking a deeper look at the code.";
 
-<Head>
-  <meta property="og:title" content={title} />
-  <meta property="og:url" content={`https://tuzz.tech${path}`} />
-  <meta property="og:description" content={description} />
-  <meta property="og:type" content="article" />
+<Meta property="og:title" content={title} />
+<Meta property="og:url" content={`https://tuzz.tech${path}`} />
+<Meta property="og:description" content={description} />
+<Meta property="og:type" content="article" />
 
-  <meta name="description" content={description} />
-  <meta name="keywords" content="Chris Patuzzo,React,commentary,sidebar,aside,hooks,printing,bug" />
+<Meta name="description" content={description} />
+<Meta name="keywords" content="Chris Patuzzo,React,commentary,sidebar,aside,hooks,printing,bug" />
 
-  <ImageMeta path="/images/commentary-sidebar.gif" width={600}  height={478} type="gif" />
-  <VideoMeta path="/videos/commentary-sidebar.mp4" width={1120} height={892} type="mp4" />
-</Head>
+<ImageMeta path="/images/commentary-sidebar.gif" width={600}  height={478} type="gif" />
+<VideoMeta path="/videos/commentary-sidebar.mp4" width={1120} height={892} type="mp4" />
 
 <Layout title={title} navigation={navigation}>
 
@@ -662,22 +660,18 @@ code:
 </Figure>
 
 <Aside target={r} moveDown={175}><p>
-
 I might improve this code over time but this article should automatically update to reflect that.
-
 </p></Aside>
 
-<Aside target={r2} moveDown={380}><p>
+<Aside target={r2} moveDown={380}>
 
 If you want to see the version of the code, frozen in time when this article was
 written, it’s [here](https://github.com/tuzz/tuzz.tech/blob/caa688d1847ae2db7c0c0376588a2431f281f220/components/aside/Aside.jsx).
 
-</p></Aside>
+</Aside>
 
 <Aside target={r3} moveDown={590}><p>
-
 Maybe I should explain how the live code embedding works, too? I’ll save that for another day.
-
 </p></Aside>
 
 </Layout>

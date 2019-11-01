@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Meta from "../../components/meta";
 import ImageMeta from "../../components/image_meta";
 import VideoMeta from "../../components/video_meta";
 import Layout from "../../components/layout";
@@ -24,18 +24,16 @@ export const title = "How Bash completion works";
 export const path = "/blog/how-bash-completion-works";
 export const description = "Ever wondered how Bash completion works? In this first article on the topic, we’ll look at how it works under the hood.";
 
-<Head>
-  <meta property="og:title" content={title} />
-  <meta property="og:url" content={`https://tuzz.tech${path}`} />
-  <meta property="og:description" content={description} />
-  <meta property="og:type" content="article" />
+<Meta property="og:title" content={title} />
+<Meta property="og:url" content={`https://tuzz.tech${path}`} />
+<Meta property="og:description" content={description} />
+<Meta property="og:type" content="article" />
 
-  <meta name="description" content={description} />
-  <meta name="keywords" content="Chris Patuzzo,Bash,Ruby,Chef,completion,auto-completion,complete,auto-complete,how it works,behaviour,rbenv,nodenv,FizzBuzz" />
+<Meta name="description" content={description} />
+<Meta name="keywords" content="Chris Patuzzo,Bash,Ruby,Chef,completion,auto-completion,complete,auto-complete,how it works,behaviour,rbenv,nodenv,FizzBuzz" />
 
-  <ImageMeta path="/images/fizzbuzz-completion.gif" width={800} height={630} type="gif" />
-  <VideoMeta path="/videos/fizzbuzz-completion.mp4" width={820} height={646} type="mp4" />
-</Head>
+<ImageMeta path="/images/fizzbuzz-completion.gif" width={800} height={630} type="gif" />
+<VideoMeta path="/videos/fizzbuzz-completion.mp4" width={820} height={646} type="mp4" />
 
 <Layout title={title} navigation={navigation}>
 

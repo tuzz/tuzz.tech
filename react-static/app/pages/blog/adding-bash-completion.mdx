@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Meta from "../../components/meta";
 import ImageMeta from "../../components/image_meta";
 import VideoMeta from "../../components/video_meta";
 import Layout from "../../components/layout";
@@ -24,18 +24,16 @@ export const title = "Adding Bash completion to my tool";
 export const path = "/blog/adding-bash-completion";
 export const description = "In this second article on Bash completion, we’ll see to apply it to a real-world use case: The tuzz automation tool.";
 
-<Head>
-  <meta property="og:title" content={title} />
-  <meta property="og:url" content={`https://tuzz.tech${path}`} />
-  <meta property="og:description" content={description} />
-  <meta property="og:type" content="article" />
+<Meta property="og:title" content={title} />
+<Meta property="og:url" content={`https://tuzz.tech${path}`} />
+<Meta property="og:description" content={description} />
+<Meta property="og:type" content="article" />
 
-  <meta name="description" content={description} />
-  <meta name="keywords" content="Chris Patuzzo,Bash,Ruby,completion,auto-completion,complete,auto-complete,behaviour" />
+<Meta name="description" content={description} />
+<Meta name="keywords" content="Chris Patuzzo,Bash,Ruby,completion,auto-completion,complete,auto-complete,behaviour" />
 
-  <ImageMeta path="/images/zz-completion.gif" width={1012} height={480} type="gif" />
-  <VideoMeta path="/videos/zz-completion.mp4" width={1362} height={646} type="mp4" />
-</Head>
+<ImageMeta path="/images/zz-completion.gif" width={1012} height={480} type="gif" />
+<VideoMeta path="/videos/zz-completion.mp4" width={1362} height={646} type="mp4" />
 
 <Layout title="Adding Bash completion to my tool" navigation={navigation}>
 
@@ -344,14 +342,14 @@ this _one weird trick_ we can use to get around the problem. Since we know Bash
 will only do the ‘wrong’ thing if there’s a common prefix, we can check for
 that and return a clutter-free list when there isn’t:
 
-<Aside target={r} moveDown={10}><p>
+<Aside target={r} moveDown={10}>
 
 Arguably, this approach could be brittle if small changes are made to how Bash
 completion works, but I don’t see that happening soon.
 
 It might also vary by operating system or version, I’m not sure.
 
-</p></Aside>
+</Aside>
 
 <Figure>
 

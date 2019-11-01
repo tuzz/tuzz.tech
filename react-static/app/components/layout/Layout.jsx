@@ -1,5 +1,5 @@
 import React from "react";
-import Head from "next/head";
+import { Head } from "react-static";
 import Analytics from "../analytics";
 import NavBar from "../nav_bar";
 import Highlight from "../highlight";

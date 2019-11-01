@@ -1,10 +1,8 @@
 import React from "react";
-import Head from "next/head";
+import Meta from "../components/meta";
 
 const Index = () => (
-  <Head>
-    <meta httpEquiv="Refresh" content="0; url=/blog/react-commentary-sidebar" />
-  </Head>
+  <Meta httpEquiv="Refresh" content="0; url=/blog/react-commentary-sidebar" />
 );
 
 export default Index;
