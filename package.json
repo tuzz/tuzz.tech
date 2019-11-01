@@ -1,4 +1,5 @@
 {
+  "private": true,
   "dependencies": {
     "@mdx-js/loader": "^1.5.0",
     "@next/mdx": "^9.0.7",
