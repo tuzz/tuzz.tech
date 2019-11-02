@@ -8,6 +8,7 @@
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   color: $neutral_500;
   font-size: 0.9rem;
+  animation: fadein 5s;
 
   a {
     color: $neutral_500;
@@ -17,4 +18,10 @@
   p {
     flex: 1;
   }
+}
+
+@keyframes fadein {
+  0%   { opacity: 0 }
+  80%  { opacity: 0 }
+  100% { opacity: 1 }
 }
