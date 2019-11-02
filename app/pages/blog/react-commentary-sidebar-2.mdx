@@ -1,6 +1,4 @@
 import Meta from "../../components/meta";
-import ImageMeta from "../../components/image_meta";
-import VideoMeta from "../../components/video_meta";
 import Layout from "../../components/layout";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
@@ -33,8 +31,8 @@ export const description = "Part two of building a commentary sidebar in React: 
 <Meta name="description" content={description} />
 <Meta name="keywords" content="Chris Patuzzo,React,commentary,sidebar,aside,hooks,printing,bug" />
 
-<ImageMeta path="/images/commentary-sidebar.gif" width={600}  height={478} type="gif" />
-<VideoMeta path="/videos/commentary-sidebar.mp4" width={1120} height={892} type="mp4" />
+<Meta.Image path="/images/commentary-sidebar.gif" width={600}  height={478} type="gif" />
+<Meta.Video path="/videos/commentary-sidebar.mp4" width={1120} height={892} type="mp4" />
 
 <Layout title={title} navigation={navigation}>
 

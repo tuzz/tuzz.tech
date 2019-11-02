@@ -1,6 +1,4 @@
 import Meta from "../../components/meta";
-import ImageMeta from "../../components/image_meta";
-import VideoMeta from "../../components/video_meta";
 import Layout from "../../components/layout";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
@@ -32,8 +30,8 @@ export const description = "I wrote a search algorithm to tackle a challenging c
 <Meta name="description" content={description} />
 <Meta name="keywords" content="Chris Patuzzo,superpermutation,search algorithm,depth first,Chaffin method,palindrome,branch and bound,incremental search,combinatorics" />
 
-<ImageMeta path="/images/chaffin-search.gif" width={800} height={435} type="gif" />
-<VideoMeta path="/videos/chaffin-search.mp4" width={1280} height={696} type="mp4" />
+<Meta.Image path="/images/chaffin-search.gif" width={800} height={435} type="gif" />
+<Meta.Video path="/videos/chaffin-search.mp4" width={1280} height={696} type="mp4" />
 
 <Layout title={title} navigation={navigation}>
 
