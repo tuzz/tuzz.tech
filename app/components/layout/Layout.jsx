@@ -1,34 +1,12 @@
 import React from "react";
-import { Head } from "react-static";
-import Analytics from "../analytics";
 import NavBar from "../nav_bar";
-import Markdown from "../markdown";
-import Footer from "../footer";
-import css from "./styles.scss";
-
-import "../../../public/styles/reset.css";
 
 const Layout = ({ children, navigation }) => <>
-  <Analytics />
+  <NavBar navigation={navigation} />
 
-  <Head>
-    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i|Source+Code+Pro:400,400i,700,700&display=swap" rel="stylesheet" />
+  {children}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Chris Patuzzo" />
-  </Head>
-
-  <div className={css.layout}>
-    <div className={css.content}>
-      <NavBar navigation={navigation} />
-
-      <Markdown>{children}</Markdown>
-
-      <NavBar navigation={navigation} />
-    </div>
-  </div>
-
-  <Footer />
+  <NavBar navigation={navigation} />
 </>;
 
 export default Layout;

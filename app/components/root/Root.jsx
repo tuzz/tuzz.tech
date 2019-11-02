@@ -1,4 +1,5 @@
 import React from "react"
+import LayoutV2 from "../layout_v2";
 import { Router } from "@reach/router"
 import { Root, Routes, addPrefetchExcludes } from "react-static"
 
@@ -7,16 +8,13 @@ addPrefetchExcludes([/^examples/]);
 export default () => (
   <Root>
     <React.Suspense fallback="">
-      <Router>
-        <ScrollToTop default >
-          <Routes default />
-        </ScrollToTop>
-      </Router>
+      <LayoutV2.Static>
+        <Router>
+          <LayoutV2.Dynamic default >
+            <Routes default />
+          </LayoutV2.Dynamic>
+        </Router>
+      </LayoutV2.Static>
     </React.Suspense>
   </Root>
 );
-
-const ScrollToTop = ({ location, children }) => {
-  React.useEffect(() => window.scrollTo(0, 0), [location.pathname]);
-  return children;
-}
