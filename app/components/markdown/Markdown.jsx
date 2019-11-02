@@ -1,9 +1,12 @@
 import React from "react";
 import { MDXProvider } from "@mdx-js/react"
+
+import Title from "../title";
 import Anchor from "../anchor";
 import Highlight from "../highlight";
 
 const components = {
+  title: props => <Title {...props} />,
   a: props => <Anchor {...props} />,
   pre: props => <div {...props} />,
   code: props => <Highlight {...props} inline={false} />,

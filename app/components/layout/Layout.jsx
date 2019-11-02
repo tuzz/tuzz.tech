@@ -6,7 +6,7 @@ import Markdown from "../markdown";
 import Footer from "../footer";
 import css from "./styles.scss";
 
-const Layout = ({ children, title, navigation }) => <>
+const Layout = ({ children, navigation }) => <>
   <Analytics />
 
   <Head>
@@ -15,8 +15,6 @@ const Layout = ({ children, title, navigation }) => <>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Chris Patuzzo" />
-
-    <title>{title} - tuzz.tech</title>
   </Head>
 
   <div className={css.layout}>
