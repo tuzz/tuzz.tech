@@ -39,20 +39,6 @@ const Highlight = ({ className, children, inline }) => {
   )
 };
 
-Highlight.Markdown = ({ children }) => {
-  const components = {
-    pre: props => <div {...props} />,
-    code: props => <Highlight {...props} inline={false} />,
-    inlineCode: props => <Highlight {...props} inline={true} />,
-  }
-
-  return (
-    <MDXProvider components={components}>
-      {children}
-    </MDXProvider>
-  );
-};
-
 Highlight.languageNames = Object.keys(Prism.languages)
   .filter(k => typeof Prism.languages[k] === "object");
 
