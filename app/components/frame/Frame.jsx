@@ -3,6 +3,7 @@ import css from "./styles.scss";
 
 import useDebounce from "../../hooks/use_debounce";
 import useResize from "../../hooks/use_resize";
+import useDelays from "../../hooks/use_delays";
 
 const MAX_WIDTH = 560;
 
@@ -44,6 +45,8 @@ const Frame = ({ src, autoScale=true }) => {
 
   useEffect(() => setSource(src), [src]);
   useEffect(resize, [loading]);
+
+  useDelays(resize, [200, 500, 1000], [loading]);
   useResize(resize);
 
   const fadeIn = loading ? {} : { opacity: 1, transition: "opacity 0.5s" };
