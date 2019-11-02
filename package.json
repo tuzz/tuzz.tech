@@ -1,6 +1,7 @@
 {
   "private": true,
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "dedent": "^0.7.0",
     "prism-react-renderer": "^1.0.2",
     "react": "^16.8.2",
