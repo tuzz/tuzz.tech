@@ -3,7 +3,13 @@ import A from "../anchor";
 import css from "./styles.scss";
 
 const NavBar = ({ navigation }) => {
-  const { breadcrumbs, links } = navigation;
+  const { links } = navigation;
+
+  // Override breadcrumbs for now since we don't have index pages.
+  const breadcrumbs = [
+    { text: "tuzz.tech", href: "/blog/react-commentary-sidebar" },
+    { text: "blog", href: "/blog/react-commentary-sidebar" },
+  ];
 
   return (
     <div className={css.nav_bar}>
