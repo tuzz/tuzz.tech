@@ -7,17 +7,6 @@ import { createRef } from "react";
 
 export let r, r2;
 
-export const navigation = {
-  breadcrumbs: [
-    { text: "tuzz.tech", href: "/" },
-    { text: "blog", href: "/blog" },
-  ],
-  links: [
-    { text: "← Previous", href: "/blog/happy-100th" },
-    { text: "Next Article →", href: "/blog/adding-bash-completion" },
-  ]
-};
-
 export const title = "How Bash completion works";
 export const path = "/blog/how-bash-completion-works";
 export const description = "Ever wondered how Bash completion works? In this first article on the topic, we’ll look at how it works under the hood.";
@@ -32,8 +21,6 @@ export const description = "Ever wondered how Bash completion works? In this fir
 
 <Meta.Image path="/images/fizzbuzz-completion.gif" width={800} height={630} type="gif" />
 <Meta.Video path="/videos/fizzbuzz-completion.mp4" width={820} height={646} type="mp4" />
-
-<Layout navigation={navigation}>
 
 <title>{title}</title>
 <H1>{title}</H1>
@@ -311,5 +298,3 @@ maybe [this](https://github.com/tuzz/fizzquinebuzz)?
 As you can see, there’s plenty of fun to be had! In
 [part two](/blog/adding-bash-completion) we’ll implement Bash completion for my
 automation tool and see how it works in practice.
-
-</Layout>

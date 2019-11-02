@@ -8,17 +8,6 @@ import { createRef } from "react";
 
 export let r, r2;
 
-export const navigation = {
-  breadcrumbs: [
-    { text: "tuzz.tech", href: "/" },
-    { text: "blog", href: "/blog" },
-  ],
-  links: [
-    { text: "← Previous", href: "/blog/palindromic-superpermutations" },
-    { text: "Next Article →", href: "/blog/react-commentary-sidebar-2" },
-  ]
-};
-
 export const title = "Building a commentary sidebar in React";
 export const path = "/blog/react-commentary-sidebar";
 export const description = "How I built one of my favourite features: a commentary sidebar, written in React.";
@@ -33,8 +22,6 @@ export const description = "How I built one of my favourite features: a commenta
 
 <Meta.Image path="/images/commentary-sidebar.gif" width={600}  height={478} type="gif" />
 <Meta.Video path="/videos/commentary-sidebar.mp4" width={1120} height={892} type="mp4" />
-
-<Layout navigation={navigation}>
 
 <title>{title}</title>
 <H1>{title}</H1>
@@ -517,5 +504,3 @@ In part two of this article we’ll be refine our component in a number of ways:
 - We’ll stare into the face of evil, aka. print layouts
 
 Sounds exciting!? I think so... See you in [part two](/blog/react-commentary-sidebar-2).
-
-</Layout>

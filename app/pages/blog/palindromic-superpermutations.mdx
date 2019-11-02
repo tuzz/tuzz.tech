@@ -7,17 +7,6 @@ import { createRef } from "react";
 
 export let r;
 
-export const navigation = {
-  breadcrumbs: [
-    { text: "tuzz.tech", href: "/" },
-    { text: "blog", href: "/blog" },
-  ],
-  links: [
-    { text: "← Previous", href: "/blog/adding-bash-completion" },
-    { text: "Next Article →", href: "/blog/react-commentary-sidebar" },
-  ]
-};
-
 export const title = "Searching for palindromic superpermutations";
 export const path = "/blog/palindromic-superpermutations";
 export const description = "I wrote a search algorithm to tackle a challenging combinatorial problem.";
@@ -32,8 +21,6 @@ export const description = "I wrote a search algorithm to tackle a challenging c
 
 <Meta.Image path="/images/chaffin-search.gif" width={800} height={435} type="gif" />
 <Meta.Video path="/videos/chaffin-search.mp4" width={1280} height={696} type="mp4" />
-
-<Layout navigation={navigation}>
 
 <title>{title}</title>
 <H1>{title}</H1>
@@ -439,5 +426,3 @@ There’s also
 [this](https://github.com/tuzz/chaffin-variation-rust).
 
 </Aside>
-
-</Layout>

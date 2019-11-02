@@ -6,17 +6,6 @@ import { createRef } from "react";
 
 export let r;
 
-export const navigation = {
-  breadcrumbs: [
-    { text: "tuzz.tech", href: "/" },
-    { text: "blog", href: "/blog" },
-  ],
-  links: [
-    { text: "← Previous" },
-    { text: "Next Article →", href: "/blog/how-bash-completion-works" },
-  ]
-};
-
 export const title = "Happy 100th, tuzz!";
 export const path = "/blog/happy-100th";
 export const description = "I’ve decided to start a blog to talk about my side projects.";
@@ -28,8 +17,6 @@ export const description = "I’ve decided to start a blog to talk about my side
 
 <Meta name="description" content={description} />
 <Meta name="keywords" content="Chris Patuzzo,GitHub,Side Projects,Hobby,Computer Science,Sentient,Neural Network,3D,Game Engine,Puzzle,Problem" />
-
-<Layout navigation={navigation}>
 
 <title>{title}</title>
 <H1>{title} &nbsp;🎉</H1>
@@ -145,5 +132,3 @@ A world of uncertainty awaits. I have innumerable questions and nonsensical
 ideas to pursue. There are hard puzzles and enigmatic problems lurking out of
 sight, conspiring to shut me down and chuckle at my foolish endeavour. I cannot
 wait to meet you.
-
-</Layout>

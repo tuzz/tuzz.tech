@@ -7,17 +7,6 @@ import { createRef } from "react";
 
 export let r;
 
-export const navigation = {
-  breadcrumbs: [
-    { text: "tuzz.tech", href: "/" },
-    { text: "blog", href: "/blog" },
-  ],
-  links: [
-    { text: "← Previous", href: "/blog/how-bash-completion-works" },
-    { text: "Next Article →", href: "/blog/palindromic-superpermutations" },
-  ]
-};
-
 export const title = "Adding Bash completion to my tool";
 export const path = "/blog/adding-bash-completion";
 export const description = "In this second article on Bash completion, we’ll see to apply it to a real-world use case: The tuzz automation tool.";
@@ -32,8 +21,6 @@ export const description = "In this second article on Bash completion, we’ll s
 
 <Meta.Image path="/images/zz-completion.gif" width={1012} height={480} type="gif" />
 <Meta.Video path="/videos/zz-completion.mp4" width={1362} height={646} type="mp4" />
-
-<Layout navigation={navigation}>
 
 <title>{title}</title>
 <H1>{title}</H1>
@@ -444,5 +431,3 @@ command-line.
 </p></Aside>
 
 Happy completi`<TAB><TAB>`
-
-</Layout>
