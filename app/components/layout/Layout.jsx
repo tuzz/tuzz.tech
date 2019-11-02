@@ -4,7 +4,6 @@ import Analytics from "../analytics";
 import NavBar from "../nav_bar";
 import Markdown from "../markdown";
 import Footer from "../footer";
-import ExternalLinks from "../external_links";
 import css from "./styles.scss";
 
 const Layout = ({ children, title, navigation }) => <>
@@ -31,8 +30,6 @@ const Layout = ({ children, title, navigation }) => <>
   </div>
 
   <Footer />
-
-  <ExternalLinks />
 </>;
 
 export default Layout;
