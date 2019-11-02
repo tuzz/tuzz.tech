@@ -1,6 +1,8 @@
 import React from "react"
 import { Router } from "@reach/router"
-import { Root, Routes } from "react-static"
+import { Root, Routes, addPrefetchExcludes } from "react-static"
+
+addPrefetchExcludes([/^examples/]);
 
 export default () => (
   <Root>
