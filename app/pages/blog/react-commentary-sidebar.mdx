@@ -1,5 +1,5 @@
 import Meta from "../../components/meta";
-import Layout from "../../components/layout";
+import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import Frame from "../../components/frame";
@@ -22,6 +22,8 @@ export const description = "How I built one of my favourite features: a commenta
 
 <Meta.Image path="/images/commentary-sidebar.gif" width={600}  height={478} type="gif" />
 <Meta.Video path="/videos/commentary-sidebar.mp4" width={1120} height={892} type="mp4" />
+
+<NavBar path={path} />
 
 <title>{title}</title>
 <H1>{title}</H1>
@@ -504,3 +506,5 @@ In part two of this article we’ll be refine our component in a number of ways:
 - We’ll stare into the face of evil, aka. print layouts
 
 Sounds exciting!? I think so... See you in [part two](/blog/react-commentary-sidebar-2).
+
+<NavBar path={path} />

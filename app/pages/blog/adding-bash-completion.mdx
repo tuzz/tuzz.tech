@@ -1,5 +1,5 @@
 import Meta from "../../components/meta";
-import Layout from "../../components/layout";
+import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import { H1, H2, H3 } from "../../components/header";
@@ -21,6 +21,8 @@ export const description = "In this second article on Bash completion, we’ll s
 
 <Meta.Image path="/images/zz-completion.gif" width={1012} height={480} type="gif" />
 <Meta.Video path="/videos/zz-completion.mp4" width={1362} height={646} type="mp4" />
+
+<NavBar path={path} />
 
 <title>{title}</title>
 <H1>{title}</H1>
@@ -431,3 +433,5 @@ command-line.
 </p></Aside>
 
 Happy completi`<TAB><TAB>`
+
+<NavBar path={path} />

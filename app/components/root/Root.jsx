@@ -1,5 +1,5 @@
 import React from "react"
-import LayoutV2 from "../layout_v2";
+import Layout from "../layout";
 import { Router } from "@reach/router"
 import { Root, Routes, addPrefetchExcludes } from "react-static"
 
@@ -8,13 +8,13 @@ addPrefetchExcludes([/^examples/]);
 export default () => (
   <Root>
     <React.Suspense fallback="">
-      <LayoutV2.Static>
+      <Layout.Static>
         <Router>
-          <LayoutV2.Dynamic default >
+          <Layout.Dynamic default >
             <Routes default />
-          </LayoutV2.Dynamic>
+          </Layout.Dynamic>
         </Router>
-      </LayoutV2.Static>
+      </Layout.Static>
     </React.Suspense>
   </Root>
 );

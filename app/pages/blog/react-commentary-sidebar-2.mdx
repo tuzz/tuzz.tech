@@ -1,5 +1,5 @@
 import Meta from "../../components/meta";
-import Layout from "../../components/layout";
+import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import Frame from "../../components/frame";
@@ -22,6 +22,8 @@ export const description = "Part two of building a commentary sidebar in React: 
 
 <Meta.Image path="/images/commentary-sidebar.gif" width={600}  height={478} type="gif" />
 <Meta.Video path="/videos/commentary-sidebar.mp4" width={1120} height={892} type="mp4" />
+
+<NavBar path={path} />
 
 <title>{title}</title>
 <H1>{title}</H1>
@@ -658,3 +660,5 @@ written, it’s [here](https://github.com/tuzz/tuzz.tech/blob/caa688d1847ae2db7c
 <Aside target={r3} moveDown={590}><p>
 Maybe I should explain how the live code embedding works, too? I’ll save that for another day.
 </p></Aside>
+
+<NavBar path={path} />

@@ -1,5 +1,5 @@
 import Meta from "../../components/meta";
-import Layout from "../../components/layout";
+import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import { H1, H2, H3 } from "../../components/header";
@@ -21,6 +21,8 @@ export const description = "Ever wondered how Bash completion works? In this fir
 
 <Meta.Image path="/images/fizzbuzz-completion.gif" width={800} height={630} type="gif" />
 <Meta.Video path="/videos/fizzbuzz-completion.mp4" width={820} height={646} type="mp4" />
+
+<NavBar path={path} />
 
 <title>{title}</title>
 <H1>{title}</H1>
@@ -298,3 +300,5 @@ maybe [this](https://github.com/tuzz/fizzquinebuzz)?
 As you can see, there’s plenty of fun to be had! In
 [part two](/blog/adding-bash-completion) we’ll implement Bash completion for my
 automation tool and see how it works in practice.
+
+<NavBar path={path} />

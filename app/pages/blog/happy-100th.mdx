@@ -1,5 +1,5 @@
-import Layout from "../../components/layout";
 import Meta from "../../components/meta";
+import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
 import { H1, H2, H3 } from "../../components/header";
 import { createRef } from "react";
@@ -17,6 +17,8 @@ export const description = "I’ve decided to start a blog to talk about my side
 
 <Meta name="description" content={description} />
 <Meta name="keywords" content="Chris Patuzzo,GitHub,Side Projects,Hobby,Computer Science,Sentient,Neural Network,3D,Game Engine,Puzzle,Problem" />
+
+<NavBar path={path} />
 
 <title>{title}</title>
 <H1>{title} &nbsp;🎉</H1>
@@ -132,3 +134,5 @@ A world of uncertainty awaits. I have innumerable questions and nonsensical
 ideas to pursue. There are hard puzzles and enigmatic problems lurking out of
 sight, conspiring to shut me down and chuckle at my foolish endeavour. I cannot
 wait to meet you.
+
+<NavBar path={path} />
