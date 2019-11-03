@@ -1,5 +1,10 @@
 {
   "private": true,
+  "babel": {
+    "presets": [
+      "react-static/babel-preset.js"
+    ]
+  },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "dedent": "^0.7.0",
