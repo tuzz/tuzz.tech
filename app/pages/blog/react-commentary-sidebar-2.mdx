@@ -93,7 +93,7 @@ with slow-loading content, print layouts, etc.
 We’ll also add some polish with a sweet CSS fade in animation.
 </p></Aside>
 
-<H2 id="slow-loading-content">
+<H2>
   Slow-loading content
 </H2>
 
@@ -258,7 +258,7 @@ We’ll use this approach of extracting hooks to keep our component clean as we
 add sophistication. It also means these behaviours are modular and can be
 reused later.
 
-<H2 id="race-condition">A race condition</H2>
+<H2>A race condition</H2>
 
 Occasionally, when resizing the window, React would throw the following error:
 
@@ -373,7 +373,7 @@ debouncing implementation, I used
 [Tom Stuart](https://twitter.com/tomstuart) and
 [Paul Mucur](https://twitter.com/mudge).
 
-<H2 id="printing">Printing</H2>
+<H2>Printing</H2>
 
 Honestly, <span ref={r = createRef()}>printing</span> web pages is a mess.
 You’d expect to get more-or-less the same version of the page you can see when
@@ -578,7 +578,7 @@ I’ll try to fix it someday but for now I’m happy it works in WebKit. That me
 I can produce prepared PDFs, rather than encourage _anyone_ to use the print
 dialogue.
 
-<H2 id="final-touches">Final touches</H2>
+<H2>Final touches</H2>
 
 It can look messy if `<Aside>` elements jump around a lot as the page loads.
 This will happen a bit as slow-loading content is added to the page but we can
