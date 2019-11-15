@@ -13,6 +13,7 @@ const orderedPaths = [
   "/blog/palindromic-superpermutations",
   "/blog/react-commentary-sidebar",
   "/blog/react-commentary-sidebar-2",
+  "/blog/grappling-with-infinity",
 ];
 
 const NavBar = ({ path }) => {
@@ -28,8 +29,8 @@ const NavBar = ({ path }) => {
 
   // Override breadcrumbs for now since we don't have index pages.
   const breadcrumbs = [
-    { text: "tuzz.tech", href: "/blog/react-commentary-sidebar" },
-    { text: "blog", href: "/blog/react-commentary-sidebar" },
+    { text: "tuzz.tech", href: "/blog/grappling-with-infinity" },
+    { text: "blog", href: "/blog/grappling-with-infinity" },
   ];
 
   return (

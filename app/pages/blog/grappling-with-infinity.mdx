@@ -1,0 +1,796 @@
+import Meta from "../../components/meta";
+import NavBar from "../../components/nav_bar";
+import Aside from "../../components/aside";
+import Figure from "../../components/figure";
+import { createRef } from "react";
+
+export let r, r2;
+
+export const title = "Grappling with infinity in constraint solvers";
+export const path = "/blog/grappling-with-infinity";
+export const description = "How can we solve constraint-satisfaction problems that deal with infinite structure? This article is about Sentient, a programming language I wrote to solve tricky problems.";
+
+<Meta property="og:title" content={title} />
+<Meta property="og:url" content={`https://tuzz.tech${path}`} />
+<Meta property="og:description" content={description} />
+<Meta property="og:type" content="article" />
+
+<Meta name="description" content={description} />
+<Meta name="keywords" content="Chris Patuzzo,Constraint programming,Constraint solvers,Sentient,Infinity,Approximations,SAT,Satisfiability,NP-hard,Turinglcompleteness,Loop unrolling" />
+
+<Meta.Image path="/images/multi-dimensional-space.png" width={1556} height={1018} type="png" />
+<Meta.Video path="/videos/sum-of-squares-optimisation.mp4" width={1218} height={700} type="mp4" />
+
+<NavBar path={path} />
+
+<title>{title}</title>
+<h1>{title}</h1>
+
+<time dateTime="2019-10-17">Published November 17, 2019 by {" "}
+<a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
+</time>
+
+<span ref={r = createRef()} />
+
+<div className="note">
+
+In 2016, I created a programming language called
+[Sentient](https://sentient-lang.org/). Since then, I’ve had time to reflect and
+think about the language. This series is about that.
+
+</div>
+
+Many constraint-satisfaction problems deal with infinity in some shape or form.
+Even rudimentary problems, like "Find two integers that sum to 10". Solutions include:
+
+- (4, 6)
+- (-7, 17)
+- (-1953856112, <span ref={r = createRef()}>1953856122)</span>
+
+<Aside target={r}><p>
+That (d)escalated quickly!
+</p></Aside>
+
+In fact, there are infinitely many solutions and infinitely many pairs of
+integers to test. Here’s a [Sentient](https://sentient-lang.org/) program to
+solve this problem:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```sentient
+int a, b;
+
+invariant a + b == 10;
+
+expose a, b;
+```
+
+A Sentient program to find integers that sum to 10
+</Figure>
+
+<Aside target={r} moveDown={33}><p>
+This article is about Sentient, but many of the concepts apply to constraint
+solvers in general.
+</p></Aside>
+
+We can run this with the [`--number 0` option](https://sentient-lang.org/cli/number),
+to continuously find solutions:
+
+<span ref={r = createRef()} />
+
+<Figure.Video src="/videos/sentient-sum-to-ten.mp4">
+Finding multiple solutions with Sentient
+</Figure.Video>
+
+<Aside target={r} moveDown={270}>
+
+When Sentient returns `{}`, it has exhausted the search space and can’t find any
+more solutions.
+
+</Aside>
+
+After a few seconds this <span ref={r = createRef()}>program</span> terminates
+which seems _wrong_. Why should a problem that has infinitely many solutions
+ever terminate? Shouldn’t it run forever?
+
+<Aside target={r}><p>
+I sometimes use ‘program’ and ‘problem’ synonymously. Programs are descriptions
+of problems.
+</p></Aside>
+
+The simple answer is that integers in Sentient aren’t really integers as far as
+the mathematical definition is concerned. Their magnitude is limited by how
+many bits represent them. By <span ref={r = createRef()}>default</span> this is
+8 but can be specified, e.g. `int9`, `int32`
+
+<Aside target={r}>
+
+`int` ranges from -128 to 127.
+
+</Aside>
+
+In many cases this is fine. We can pick a number of bits that’s ‘big enough’
+and not worry about it. But other times it’s not fine. We often want to start
+small and work our way up to larger representations, but that means restarting
+the program each time.
+
+For some problems, solutions are extremely rare (or non-existent) and it could
+take weeks or months for <span ref={r = createRef()}>Sentient</span> to find
+one. In these cases, it makes sense to start with small representations and
+progressively rule our search spaces of increasing size.
+
+<Aside target={r}><p>
+A negative result for a small space is better than no result for a larger one.
+</p></Aside>
+
+Unfortunately, when a program is restarted, we lose its progress. Regions that
+were already explored are explored again. If we increase `int` to `int9`,
+Sentient finds new solutions but it also finds all the same solutions again.
+This is wasteful.
+
+We could compensate by adding a constraint:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```sentient
+int9 a, b;
+
+invariant a < -128 || a > 127 || b < -128 || b > 127;
+# ...
+```
+
+Eliminating the region we’ve already explored
+</Figure>
+
+But <span ref={r2 = createRef()}>this</span> becomes unwieldy, and for many
+problems, isn’t easy to specify. It’s also a manual process and therefore
+error-prone. Ideally, Sentient would offer first-class support for something
+like this. I have some ideas about how that might work.
+
+<Aside target={r} moveDown={20}>
+
+This specifies that `a` or `b` must lie outside the region already explored for
+eight-bit integers.
+
+</Aside>
+
+<Aside target={r2}>
+
+In [some cases](https://github.com/tuzz/letterwise_magic_squares/blob/master/lib/letterwise_magic_squares/generator.rb), I’ve
+[written scripts](https://github.com/tuzz/number_chains/blob/master/lib/number_chain/generator.rb)
+to generate Sentient programs with integers of increasing size.
+
+</Aside>
+
+## Approximations
+
+I’ve <span ref={r = createRef()}>found</span> a useful way to think about this
+is in terms of _approximations_. An eight-bit integer is really an
+approximation of the mathematical (infinite) version of an integer. Its domain
+is finite but as long as we stay within bounds, it behaves in the same way.
+
+<Aside target={r}>
+
+I’m using ‘approximation’ in a _literal_ sense and not according to some precise
+mathematical definition.
+
+</Aside>
+
+Most of the time when we write computer programs we don’t have to think about
+this because we deal with concretions. Variables are assigned concrete values
+and, provided we stay within range without overflowing, everything checks out.
+
+In our case, variables are <span ref={r = createRef()}>‘symbolic’</span>. We
+don’t actually assign values to `int a, b`, we just tell Sentient they exist and
+specify some constraints. Its job is to discover values for `a, b`, but it has
+to work with something tangible. It can’t reason about infinity.
+
+<Aside target={r}>
+
+‘Symbolic’ is the term used by the [KLEE](https://klee.github.io/) project for
+this concept.
+
+</Aside>
+
+**Why <span ref={r = createRef()}>can’t</span> Sentient reason about infinity?**
+
+<Aside target={r}><p>
+Great question!
+</p></Aside>
+
+Technically it could but currently, its implementation closely relates to the
+mechanism it uses for solving. Programs are compiled to instances of
+[SAT](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem) which, by
+definition, are boolean equations that comprise finitely many variables and
+clauses.
+
+This <span ref={r = createRef()}>doesn’t</span> have to be the case, though.
+Sentient could abstract over these equations and automatically introduce new
+variables to represent larger integers.
+
+<Aside target={r}>
+
+I think of this as _better approximating_ the infinite version of an integer.
+
+</Aside>
+
+Actually, <span ref={r = createRef()}>Sentient</span> does something similar to
+this for the [`--number` option](https://sentient-lang.org/cli/number).
+Sentient finds multiple solutions to problems by repeatedly solving the same
+equation. It introduces a new clause each time to ban the solution it just
+found.
+
+<Aside target={r}><p>
+
+Sentient doesn’t solve these equations itself. It delegates to SAT solvers,
+such as [lingeling](http://fmv.jku.at/lingeling/).
+
+</p></Aside>
+
+**Could we dynamically change the size of representations?**
+
+We could, but it’s not obvious how to do this. If a program declares multiple
+integers, should we change their number of bits all at once or one by one? For
+example, should we increase `a` and `b` to `int9` in one go, or `a` followed by
+`b` ?
+
+For some problems, there could by differences in magnitude that are important:
+
+```sentient
+int a, b;
+int15 target;
+
+invariant a * b == target;
+
+expose a, b, target;
+```
+
+This <span ref={r = createRef()}>program</span> contains implicit knowledge
+that multiplying two numbers in the range -128 to 127 results in a number in
+the range -16,384 to 16,383. Every time we increase `a` and `b`’s
+representation by one bit we _should probably_ increase `target`’s by two.
+
+<Aside target={r}>
+
+Technically, we should use `int16` because -128 x -128 is 16,384 which lies just
+outside -2^14 to 2^14 - 1.
+
+</Aside>
+
+What’s more, we haven’t considered more complex cases. What about arrays of
+integers or arrays of arrays? We also need to consider how Sentient
+communicates where it’s up to. Which regions of search space has it exhausted so
+far?
+
+### More infinity
+
+Before we try to answer some of these questions, let’s first consider other
+places infinity might crop up. There’s an
+[excellent series](https://www.youtube.com/watch?v=wymmCdLdPvM&list=PLt5AfwLFPxWJcqG5YM89Qes5gZdAFM4Q1)
+on <span ref={r = createRef()}>Numberphile</span> about the problem of finding
+three cubes that sum to a target number. Let’s use that to help reason.
+
+<Aside target={r}>
+
+Brady also talks about this problem to in [this video](https://www.youtube.com/watch?v=7Bia-dNcBm4) with Adam Savage.
+
+</Aside>
+
+
+Here’s a Sentient program to solve this problem:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```sentient
+int a, b, c, target;
+
+invariant a.cube + b.cube + c.cube == target;
+
+expose a, b, c, target;
+```
+
+A program to find three cubes that sum to a target
+</Figure>
+
+<Aside target={r} moveDown={7}>
+
+We could hardcode `target`, but this makes the program more general. We can
+[assign its value](https://sentient-lang.org/cli/assign) at runtime.
+
+</Aside>
+
+Firstly, let’s say we want to generalise our program further. Instead of summing
+three cubes together, it’d be nice if we were able to write a program that sums
+`N` cubes. We could assign `N` at runtime if we want or leave it unspecified.
+
+This isn’t valid syntax, but such a program might look like:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```sentient
+array<int> numbers;
+int target;
+
+invariant numbers.map(*cube).sum == target;
+
+expose numbers, target;
+```
+
+A program to find `N` cubes that sum to a target
+</Figure>
+
+<Aside target={r} moveDown={7}>
+
+This isn’t valid because you have to specify the size of an array, e.g.
+
+```sentient
+array3<int> numbers;
+```
+
+</Aside>
+
+Furthermore, why should the exponent be fixed? It’d be wonderful if that too
+could be assigned at runtime or left unspecified for an extra degree of freedom.
+
+That program might look like this:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```sentient
+array<int> numbers;
+int target, exp;
+
+invariant numbers.map(*pow, exp).sum == target;
+
+expose numbers, target, exp;
+```
+
+A program to find `N` numbers raised to an exponent that sum to a target
+</Figure>
+
+<Aside target={r} moveDown={33}>
+
+This deviates further from Sentient’s syntax as `map` doesn’t support passing
+args to function pointers, but hopefully you get the idea.
+
+</Aside>
+
+Perhaps this is too generic, but consider this: In just four lines, we’d be
+able to write a program that can solve a broad class of
+[diophantine equations](https://en.wikipedia.org/wiki/Diophantine_equation).
+I find this <span ref={r=createRef()}>tantalising</span>. It would be a triumph
+of our ability to communicate intention to the machine.
+
+<Aside target={r}>
+But can it be realised?
+</Aside>
+
+**How does this fit with approximations?**
+
+If we consider these cases in the context of approximation, a fixed-size array
+could be seen as an approximation of a general array of unlimited size. We could
+approximate a general array by running multiple versions of our program with
+different sizes.
+
+There <span ref={r = createRef()}>are</span> infinitely many array sizes to try
+and infinitely many exponents. These cases differ slightly from before because
+there’s no overlap in search space. Nine-bit integers _contain_ all the
+eight-bit integers, but ‘squares’ and ‘cubes’ are _distinct_ problems.
+
+<Aside target={r}>
+
+Some approximations result in containment hierarchies, others define independent
+spaces.
+
+</Aside>
+
+## Multi-dimensional space
+
+For each of these approximations, we can think of them as defining a dimension
+in space. For example, here’s a two-dimensional space for integers `a` and `b`:
+
+<span ref={r = createRef()} />
+
+<Figure.Image src="/images/multi-dimensional-space.png" alt="Multi-dimensional space">
+Visualising approximations as dimensional space
+</Figure.Image>
+
+The <span ref={r2 = createRef()}>highlighted</span> point is an instance of a
+Sentient program with integers `a` and `b` approximated with nine and eight
+bits, respectively. The shaded region shows the space being considered which
+includes integers with fewer bits. The axes go to infinity.
+
+<Aside target={r} moveDown={88}>
+
+For approximations with distinct search spaces, there wouldn’t be a shaded
+region - just a point or a line.
+
+Integer approximations define regions because `int9` contains `int`, `int7`,
+`int6`, etc.
+
+</Aside>
+
+<Aside target={r2}><p>
+
+The size of _this_ space isn’t representative of the search space which doubles
+in size each time we add a single bit to an approximation.
+
+</p></Aside>
+
+Each time we approximate an integer, this adds a new dimensions to our space. If
+we run a Sentient program multiple times with different approximations, we can
+think of this as defining a walk or a path through this multi-dimensional space.
+
+### Infinite-dimensional space
+
+Our extremely general program above contains this line:
+
+```sentient
+array<int> numbers;
+```
+
+Here there are two kinds of infinity. Arrays can have unlimited size and
+integers can be arbitrarily large. This is problematic because we first need to
+approximate the size of the array and then approximate the integers within that
+array.
+
+The result of these two degrees of freedom is an infinite dimensional space
+with a dimension for every possible size of array. The nth dimension in this
+space defines how many bits are used to approximate the integer at position n in
+the array.
+
+As we add more approximations, these spaces are compounded and this
+spatial <span ref={r = createRef()}>metaphor</span> starts to fall apart. I’m
+not sure whether it’s useful to think about approximations in this way when we
+go above a small number of dimensions.
+
+<Aside target={r}><p>
+My head hurts when I think about arrays of arrays of integers.
+</p></Aside>
+
+## Incrementality
+
+Now let’s turn back to the question of how to change approximations over time.
+There doesn’t seem to be an obvious approach other than something naive like
+[round-robin](https://whatis.techtarget.com/definition/round-robin).
+Approximations with overlapping / non-overlapping spaces complicate things
+further.
+
+It seems to me the most robust way to do this is to delegate these decisions to
+the programmer. <span ref={r = createRef()}>Define</span> a _protocol_ so that
+a program can determine how approximations should change at various stages
+during the search.
+
+<Aside target={r}><p>
+This program could even ask for user-input to decide what to do.
+</p></Aside>
+
+For example, our program that "finds two integers that sum to ten" could
+initially call an external program that instructs it how many bits to use for
+its approximations. <span ref={r = createRef()}>Once</span> the search space is
+exhausted, it could ask the program what to do next:
+
+<Aside target={r}><p>
+Or it could ask at time intervals, or after each solution is found.
+</p></Aside>
+
+<span ref={r = createRef()} />
+
+<Figure.Image src="/images/approximation-protocol.png" alt="A protocol for approximation">
+Using an external program to decide how approximations should change
+</Figure.Image>
+
+<Aside target={r} moveDown={110}>
+
+Sentient could send additional information to the program such as:
+
+- the solutions that were found and how long it took
+- the impact on the search space of each approximation
+- whether approximations have overlapping spaces or not
+
+</Aside>
+
+The <span ref={r = createRef()}>protocol</span> could even allow Sentient to
+spawn new processes and search distinct spaces in parallel. For example, it
+could search for solutions to the ‘squares’ and ‘cubes’ problems concurrently
+while controlling approximations in each instance.
+
+<Aside target={r}>
+
+Historically, [it’s been difficult](https://dl.acm.org/citation.cfm?id=2901028)
+to efficiently parallelise SAT solving so this strategy could work well.
+
+</Aside>
+
+### Incremental SAT
+
+In the world of SAT solving, a mechanism already exists for communicating with
+a <span ref={r = createRef()}>solver</span> during its search. It’s called the
+‘Re-entrant Incremental Satisfiability Application Program Interface’ and is
+referred to by its reverse acronym ‘IPASIR’.
+
+<Aside target={r}>
+
+IPASIR was first introduced in section 6.2 of [this paper](http://fmv.jku.at/papers/BalyoBiereIserSinz-AI-16.pdf#page=9).
+
+</Aside>
+
+In fact, I wrote [a Rust crate](https://github.com/tuzz/ipasir-sys) not too
+long ago for communicating via this interface. The advantage of using it is to
+speed up solving problems that have been modified in small ways without having
+to restart the search from scratch each time:
+
+>It is possible to solve such problems independently, however this might be
+>very inefficient compared to an incremental SAT solver, which can reuse
+>knowledge acquired while solving the previous instances.
+&nbsp;_– [SAT Race 2015](http://fmv.jku.at/papers/BalyoBiereIserSinz-AI-16.pdf#page=9) (abbreviated)_
+
+At present, Sentient doesn’t use IPASIR at all. It was fairly new when I wrote
+the language but has wider adoption today. At the very least, it would speed up
+searching for multiple solutions to problems, but I think it could help with
+approximations, too.
+
+Ideally, <span ref={r = createRef()}>a</span> single instance of a SAT problem
+would live for the duration of a Sentient program. As approximations change, so
+too would the underlying boolean equation. That would allow a maximal amount of
+information or ‘knowledge’ to be reused.
+
+<Aside target={r}>
+
+In theory, this would mean overlapping search spaces aren’t explored more than once.
+
+</Aside>
+
+### Representations
+
+There <span ref={r = createRef()}>are</span> limitations on what you can do
+with IPASIR, otherwise it would be very difficult for solvers to reuse
+knowledge from previous searches. For example, you can’t remove clauses but you
+can instead make ‘assumptions’ that are short-lived.
+
+<Aside target={r}>
+
+You can _effectively_ remove clauses using assumptions by adding one to each
+clause you want to remove.
+
+</Aside>
+
+Some thought would need to go into how to represent approximations in a way
+that allows them to change later. If we go from `int` to `int9`, we don’t want
+to have to throw everything out. It should be possible for approximations to
+‘grow’ or ‘shrink’.
+
+All of the operations we apply to integers need to be able to cope with a
+changing <span ref={r = createRef()}>number</span> of bits. For example,
+integer addition is modelled after [ripple-carry
+adders](https://en.wikipedia.org/wiki/Adder_(electronics)#Ripple-carry_adder).
+Its clauses in the boolean equation would need to use assumptions in clever
+ways.
+
+<Aside target={r}><p>
+I need to put way more thought into how this would work.
+</p></Aside>
+
+It may even be there are efficiency gains if we know in advance _how_
+approximations will change. If they only ever grow, and by precisely two bits
+each time, perhaps there’s a more efficient way to structure these equations.
+I’m not sure.
+
+### NP-hard problems
+
+One final thought about incrementality is it would allow Sentient to reach the
+dizzying heights of being able to solve
+[NP-hard](https://en.wikipedia.org/wiki/NP-hardness) problems. At present,
+Sentient can’t solve optimisation problems. It doesn’t specifically search for
+_minimums_ or _maximums_.
+
+However, <span ref={r = createRef()}>you</span> can _effectively_ do this by
+running the same program multiple times. For example, let’s say you want to
+find two numbers that sum to ten such that the sum of their squares is
+minimised. You could write a program like this:
+
+<Aside target={r}><p>
+This isn’t an NP-hard problem since it can be solved with linear algebra but it
+demonstrates the point.
+</p></Aside>
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```sentient
+int a, b, max;
+
+sum = a.square + b.square;
+
+invariant a + b == 10;
+invariant sum < max;
+
+expose a, b, sum, max;
+```
+
+Solving an optimisation problem with Sentient
+</Figure>
+
+
+<Aside target={r} moveDown={60}>
+
+A more realistic optimisation problem would be
+[Travelling Salesman](https://en.wikipedia.org/wiki/Travelling_salesman_problem)
+or the [Knapsack](https://en.wikipedia.org/wiki/Knapsack_problem) problem.
+
+</Aside>
+
+
+You could then run this multiple times, reducing `max` until there are no
+solutions:
+
+<span ref={r = createRef()} />
+
+<Figure.Video src="/videos/sum-of-squares-optimisation.mp4">
+
+Finding the optimal solution over repeated runs
+
+</Figure.Video>
+
+<Aside target={r} moveDown={100}>
+
+This finds the optimal solution `{ a: 5, b: 5 }` whose sum of squares is 50
+which is minimal.
+
+The video is sped up slightly.
+
+</Aside>
+
+I’m not sure whether my definition of approximations extends to optimisation
+problems but there’s definitely an opportunity to use incrementality in a
+number of useful ways.
+
+## Turing-completeness
+
+While we’re on the topic of NP-hard problems, it’s probably worth saying a few
+things about computability and Turing completeness. On the [Sentient
+website](https://sentient-lang.org/intro/experimental) I wrote this:
+
+>In fact, Sentient isn’t Turing complete. It is a Total programming language –
+>it is fully decidable and does not suffer the Halting problem. That
+>drastically limits what it can do. For example, recursive function calls are
+>not supported and <span ref={r = createRef()}>never</span> will be.
+
+<Aside target={r}><p>
+Never say never!
+</p></Aside>
+
+In fact, through the lens of approximations, it may be possible for Sentient to
+become Turing complete. At present, Sentient doesn’t support recursive function
+calls:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```sentient
+int a;
+
+function factorial (n) {
+  return n > 0 ? n * factorial(n - 1) : 1;
+};
+
+invariant a.factorial > 150;
+
+expose a;
+```
+
+A hypothetical Sentient program using recursion
+</Figure>
+
+<Aside target={r} moveDown={80}>
+
+The smallest solution is `{ a: 6 }` because `6! = 720 > 150`.
+
+</Aside>
+
+A recursive function call can be approximated by limiting its depth of
+recursion. For example, if `factorial` were approximated with a depth of 5 (or
+less), it wouldn’t find a solution but improving this to 6 would. Similarly, you
+can’t do this at the moment:
+
+<span ref={r = createRef()} />
+
+<Figure>
+
+```sentient
+int a;
+
+sum = 0;
+a.times(function^ () { sum += 3; });
+
+invariant sum > 10;
+
+expose a;
+```
+
+Another hypothetical program that isn’t allowed
+</Figure>
+
+<Aside target={r} moveDown={33}>
+
+The [#times](https://sentient-lang.org/library/integer#times) method calls the
+function `a` times. It’s borrowed from Ruby.
+
+The `^` modifier lets the function access variables defined outside.
+
+</Aside>
+
+Sentient throws an error when you try to run this program:
+
+>Called ‘times’ with ‘a’ but ‘times’ only supports integer literals (arg #0)
+
+This <span ref={r = createRef()}>isn’t</span> supported because `a` is
+‘symbolic’. Sentient is unable to compile this program to a boolean equation
+because the size of that equation can’t be determined. Its structure isn’t
+fixed. The `#times` method only works with ‘integer literals’ like `5`.
+
+<Aside target={r}>
+This is one of a few places where Sentient differentiates between ‘symbolic’
+and ‘literal’ variables.
+</Aside>
+
+Again, we could solve this problem with approximations by limiting the value
+for `a`.
+
+### Loop unrolling
+
+This <span ref={r = createRef()}>technique</span> is already used in various
+forms. Compilers frequently unroll loops and recursive function calls for
+performance reasons.  [Model
+checkers](https://en.wikipedia.org/wiki/Model_checking) perform static analysis
+to check invariants, often using techniques established in [Hoare
+logic](https://en.wikipedia.org/wiki/Hoare_logic).
+
+<Aside target={r}>
+
+I was fortunate enough to see Tony Hoare at a conference which I spoke about in
+episode 12 of [this podcast](https://makercasts.org/podcasts/my-floc-experience/).
+
+</Aside>
+
+I see loop unrolling as another kind of approximation. Recursive functions could
+be identified through static analysis and an external program could decide how
+many calls are allowed for the current instance of the search.
+
+In <span ref={r = createRef()}>theory</span>, these techniques would allow
+Sentient to be Turing complete in a sense. This combined with incremental SAT
+could make for an extremely powerful system. The ability to solve problems
+relating to arbitrary Turing machines would be amazing.
+
+<Aside target={r}>
+
+I explored this a bit in [this project](https://github.com/tuzz/machine_maker)
+which reduces Turing machines to SAT, as per the
+[Cook-Levin theorem](https://en.wikipedia.org/wiki/Cook%E2%80%93Levin_theorem).
+
+</Aside>
+
+### Where next?
+
+I’m not sure. I’d like to play with these ideas more and perhaps some day
+incorporate them into Sentient or something else. There are clearly challenges
+with incrementality and interface design but I think I’m on the right track.
+
+This is the first in-depth article I’ve written about Sentient and constraint
+solving but hopefully there’s more to come. I’ll announce future updates
+[on Twitter](https://twitter.com/chrispatuzzo)
+if you want to hear more. Follows are always appreciated. Thanks.
+
+<NavBar path={path} />
