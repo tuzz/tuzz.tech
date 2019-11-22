@@ -1,11 +1,17 @@
 import React from "react";
+import { Head } from "react-static";
 import A from "../anchor";
 import css from "./styles.scss";
 
 const NavBar = ({ previous, next }) => {
   const latest = "/blog/grappling-with-infinity";
 
-  return (
+  return <>
+    <Head>
+      {previous && <link rel="prev" href={previous.path} />}
+      {next && <link rel="next" href={next.path} />}
+    </Head>
+
     <div className={css.nav_bar}>
       <span className={css.breadcrumbs}>
         <A href={latest}>tuzz.tech</A>
@@ -17,7 +23,7 @@ const NavBar = ({ previous, next }) => {
         <A href={next && next.path}>Next Article →</A>
       </span>
     </div>
-  );
+  </>;
 };
 
 export default NavBar;
