@@ -23,7 +23,7 @@ MetaTags.Image = ({ path, type, width, height }) => (
   <Head>
     <meta property="og:image" content={`https://tuzz.tech${path}`} />
     <meta property="og:image:secure_url" content={`https://tuzz.tech${path}`} />
-    <meta property="og:image:type" content={`image/${type}`} />
+    <meta property="og:image:type" content={type} />
     <meta property="og:image:width" content={`${width}`} />
     <meta property="og:image:height" content={`${height}`} />
   </Head>
@@ -33,7 +33,7 @@ MetaTags.Video = ({ path, type, width, height }) => (
   <Head>
     <meta property="og:video" content={`https://tuzz.tech${path}`} />
     <meta property="og:video:secure_url" content={`https://tuzz.tech${path}`} />
-    <meta property="og:video:type" content={`video/${type}`} />
+    <meta property="og:image:type" content={type} />
     <meta property="og:video:width" content={`${width}`} />
     <meta property="og:video:height" content={`${height}`} />
   </Head>
