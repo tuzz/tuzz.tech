@@ -1,8 +1,10 @@
 import React from "react";
-import Meta from "../../components/meta";
+import { Head } from "react-static";
 
 const Index = () => (
-  <Meta httpEquiv="Refresh" content="0; url=/blog/grappling-with-infinity" />
+  <Head>
+    <meta httpEquiv="Refresh" content="0; url=/blog/grappling-with-infinity" />
+  </Head>
 );
 
 export default Index;

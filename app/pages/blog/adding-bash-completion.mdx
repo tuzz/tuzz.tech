@@ -1,4 +1,4 @@
-import Meta from "../../components/meta";
+import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
@@ -8,19 +8,13 @@ export let r;
 
 export const title = "Adding Bash completion to my tool";
 export const path = "/blog/adding-bash-completion";
+export const type = "article";
 export const description = "In this second article on Bash completion, we’ll see to apply it to a real-world use case: The tuzz automation tool.";
+export const keywords = "Chris Patuzzo,Bash,Ruby,completion,auto-completion,complete,auto-complete,behaviour";
+export const image = { path: "/images/zz-completion.gif", width: 1012, height: 480, type: "gif" };
+export const video = { path: "/videos/zz-completion.mp4", width: 1362, height: 646, type: "mp4" };
 
-<Meta property="og:title" content={title} />
-<Meta property="og:url" content={`https://tuzz.tech${path}`} />
-<Meta property="og:description" content={description} />
-<Meta property="og:type" content="article" />
-
-<Meta name="description" content={description} />
-<Meta name="keywords" content="Chris Patuzzo,Bash,Ruby,completion,auto-completion,complete,auto-complete,behaviour" />
-
-<Meta.Image path="/images/zz-completion.gif" width={1012} height={480} type="gif" />
-<Meta.Video path="/videos/zz-completion.mp4" width={1362} height={646} type="mp4" />
-
+<MetaTags {...{ title, path, type, description, keywords, image, video }} />
 <NavBar path={path} />
 
 <title>{title}</title>

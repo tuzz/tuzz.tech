@@ -1,4 +1,4 @@
-import Meta from "../../components/meta";
+import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
@@ -8,19 +8,13 @@ export let r, r2;
 
 export const title = "How Bash completion works";
 export const path = "/blog/how-bash-completion-works";
+export const type = "article";
 export const description = "Ever wondered how Bash completion works? In this first article on the topic, we’ll look at how it works under the hood.";
+export const keywords = "Chris Patuzzo,Bash,Ruby,Chef,completion,auto-completion,complete,auto-complete,how it works,behaviour,rbenv,nodenv,FizzBuzz";
+export const image = { path: "/images/fizzbuzz-completion.gif", width: 800, height: 630, type: "gif" };
+export const video = { path: "/videos/fizzbuzz-completion.mp4", width: 820, height: 646, type: "mp4" };
 
-<Meta property="og:title" content={title} />
-<Meta property="og:url" content={`https://tuzz.tech${path}`} />
-<Meta property="og:description" content={description} />
-<Meta property="og:type" content="article" />
-
-<Meta name="description" content={description} />
-<Meta name="keywords" content="Chris Patuzzo,Bash,Ruby,Chef,completion,auto-completion,complete,auto-complete,how it works,behaviour,rbenv,nodenv,FizzBuzz" />
-
-<Meta.Image path="/images/fizzbuzz-completion.gif" width={800} height={630} type="gif" />
-<Meta.Video path="/videos/fizzbuzz-completion.mp4" width={820} height={646} type="mp4" />
-
+<MetaTags {...{ title, path, type, description, keywords, image, video }} />
 <NavBar path={path} />
 
 <title>{title}</title>

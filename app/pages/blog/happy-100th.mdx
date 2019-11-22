@@ -1,4 +1,4 @@
-import Meta from "../../components/meta";
+import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
 import { createRef } from "react";
@@ -7,16 +7,11 @@ export let r;
 
 export const title = "Happy 100th, tuzz!";
 export const path = "/blog/happy-100th";
+export const type = "article";
 export const description = "I’ve decided to start a blog to talk about my side projects.";
+export const keywords = "Chris Patuzzo,GitHub,Side Projects,Hobby,Computer Science,Sentient,Neural Network,3D,Game Engine,Puzzle,Problem";
 
-<Meta property="og:title" content={title} />
-<Meta property="og:url" content={`https://tuzz.tech${path}`} />
-<Meta property="og:description" content={description} />
-<Meta property="og:type" content="article" />
-
-<Meta name="description" content={description} />
-<Meta name="keywords" content="Chris Patuzzo,GitHub,Side Projects,Hobby,Computer Science,Sentient,Neural Network,3D,Game Engine,Puzzle,Problem" />
-
+<MetaTags {...{ title, path, type, description, keywords }} />
 <NavBar path={path} />
 
 <title>{title}</title>

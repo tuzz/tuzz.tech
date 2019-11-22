@@ -1,4 +1,4 @@
-import Meta from "../../components/meta";
+import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
@@ -8,19 +8,13 @@ export let r, r2;
 
 export const title = "Grappling with infinity in constraint solvers";
 export const path = "/blog/grappling-with-infinity";
+export const type = "article";
 export const description = "How can we solve constraint-satisfaction problems that deal with infinite structure? This article is about Sentient, a programming language I wrote to solve tricky problems.";
+export const keywords = "Chris Patuzzo,Constraint programming,Constraint solvers,Sentient,Infinity,Approximations,SAT,Satisfiability,NP-hard,Turing completeness,Loop unrolling";
+export const image = { path: "/images/multi-dimensional-space.png", width: 1556, height: 1018, type: "png" };
+export const video = { path: "/videos/sum-of-squares-optimisation.mp4", width: 1218, height: 700, type: "mp4" };
 
-<Meta property="og:title" content={title} />
-<Meta property="og:url" content={`https://tuzz.tech${path}`} />
-<Meta property="og:description" content={description} />
-<Meta property="og:type" content="article" />
-
-<Meta name="description" content={description} />
-<Meta name="keywords" content="Chris Patuzzo,Constraint programming,Constraint solvers,Sentient,Infinity,Approximations,SAT,Satisfiability,NP-hard,Turinglcompleteness,Loop unrolling" />
-
-<Meta.Image path="/images/multi-dimensional-space.png" width={1556} height={1018} type="png" />
-<Meta.Video path="/videos/sum-of-squares-optimisation.mp4" width={1218} height={700} type="mp4" />
-
+<MetaTags {...{ title, path, type, description, keywords, image, video }} />
 <NavBar path={path} />
 
 <title>{title}</title>
