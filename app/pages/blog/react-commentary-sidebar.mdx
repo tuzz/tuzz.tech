@@ -1,4 +1,5 @@
 import { palindromicSuperpermutations, reactCommentarySidebar2 } from "../../helpers/page_listing";
+import formatDate from "../../helpers/format_date";
 import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
@@ -15,6 +16,7 @@ export const description = "How I built one of my favourite features: a commenta
 export const keywords = "Chris Patuzzo,React,commentary,sidebar,aside,hooks,CSS,positioning";
 export const image = { path: "/images/commentary-sidebar.gif", width: 600, height: 478, type: "gif" };
 export const video = { path: "/videos/commentary-sidebar.mp4", width: 1120, height: 892, type: "mp4" };
+export const date = "2019-10-30";
 
 <MetaTags {...{ title, path, type, description, keywords, image, video }} />
 <NavBar previous={palindromicSuperpermutations} next={reactCommentarySidebar2} />
@@ -22,7 +24,7 @@ export const video = { path: "/videos/commentary-sidebar.mp4", width: 1120, heig
 <title>{title}</title>
 <h1>{title}</h1>
 
-<time dateTime="2019-10-30">Published October 30, 2019 by {" "}
+<time dateTime={date}>Published {formatDate(date)} by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
 </time>
 

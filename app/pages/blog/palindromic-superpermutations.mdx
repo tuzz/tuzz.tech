@@ -1,4 +1,5 @@
 import { addingBashCompletion, reactCommentarySidebar } from "../../helpers/page_listing";
+import formatDate from "../../helpers/format_date";
 import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
@@ -14,6 +15,7 @@ export const description = "I wrote a search algorithm to tackle a challenging c
 export const keywords = "Chris Patuzzo,superpermutation,search algorithm,depth first,Chaffin method,palindrome,branch and bound,incremental search,combinatorics";
 export const image = { path: "/images/chaffin-search.gif", width: 800, height: 435, type: "gif" };
 export const video = { path: "/videos/chaffin-search.mp4", width: 1280, height: 696, type: "mp4" };
+export const date = "2019-10-20";
 
 <MetaTags {...{ title, path, type, description, keywords, image, video }} />
 <NavBar previous={addingBashCompletion} next={reactCommentarySidebar} />
@@ -21,7 +23,7 @@ export const video = { path: "/videos/chaffin-search.mp4", width: 1280, height: 
 <title>{title}</title>
 <h1>{title}</h1>
 
-<time dateTime="2019-10-20">Published October 20, 2019 by {" "}
+<time dateTime={date}>Published {formatDate(date)} by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
 </time>
 

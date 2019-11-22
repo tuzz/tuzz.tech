@@ -1,4 +1,5 @@
 import { reactCommentarySidebar2 } from "../../helpers/page_listing";
+import formatDate from "../../helpers/format_date";
 import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
@@ -14,6 +15,7 @@ export const description = "How can we solve constraint-satisfaction problems th
 export const keywords = "Chris Patuzzo,Constraint programming,Constraint solvers,Sentient,Infinity,Approximations,SAT,Satisfiability,NP-hard,Turing completeness,Loop unrolling";
 export const image = { path: "/images/multi-dimensional-space.png", width: 1556, height: 1018, type: "png" };
 export const video = { path: "/videos/sum-of-squares-optimisation.mp4", width: 1218, height: 700, type: "mp4" };
+export const date = "2019-11-17";
 
 <MetaTags {...{ title, path, type, description, keywords, image, video }} />
 <NavBar previous={reactCommentarySidebar2} />
@@ -21,7 +23,7 @@ export const video = { path: "/videos/sum-of-squares-optimisation.mp4", width: 1
 <title>{title}</title>
 <h1>{title}</h1>
 
-<time dateTime="2019-10-17">Published November 17, 2019 by {" "}
+<time dateTime={date}>Published {formatDate(date)} by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
 </time>
 
