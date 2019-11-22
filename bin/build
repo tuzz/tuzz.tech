@@ -3,4 +3,5 @@
 ./bin/clean               && \
 ./bin/compile_scss        && \
 npx react-static build    && \
+./bin/static_files        && \
 ./bin/remove_slash

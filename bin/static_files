@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require "fileutils"
+require "cgi"
+
+Dir.glob("tmp/dist/**/*.html").each do |path|
+  content = File.read(path)
+  next unless content.include?("write-to-static-file")
+
+  content = content.split("write-to-static-file").last
+  content = content.split("<").first.strip
+
+  new_path, content = content.split('">')
+
+  new_path = "tmp/dist#{new_path}"
+  content = CGI.unescapeHTML(content)
+
+  raise "File exists: #{new_path}" if File.exists?(new_path)
+
+  File.write(new_path, content)
+  FileUtils.rm(path)
+
+  directory = File.dirname(path)
+
+  FileUtils.rm("#{directory}/routeInfo.json")
+  FileUtils.rm_r(directory) if Dir.empty?(directory)
+end
