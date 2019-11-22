@@ -1,3 +1,4 @@
+import { howBashCompletionWorks } from "../../helpers/page_listing";
 import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
@@ -12,7 +13,7 @@ export const description = "I’ve decided to start a blog to talk about my side
 export const keywords = "Chris Patuzzo,GitHub,Side Projects,Hobby,Computer Science,Sentient,Neural Network,3D,Game Engine,Puzzle,Problem";
 
 <MetaTags {...{ title, path, type, description, keywords }} />
-<NavBar path={path} />
+<NavBar next={howBashCompletionWorks} />
 
 <title>{title}</title>
 <h1>{title} &nbsp;🎉</h1>
@@ -129,4 +130,4 @@ ideas to pursue. There are hard puzzles and enigmatic problems lurking out of
 sight, conspiring to shut me down and chuckle at my foolish endeavour. I cannot
 wait to meet you.
 
-<NavBar path={path} />
+<NavBar next={howBashCompletionWorks} />

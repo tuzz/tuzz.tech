@@ -1,3 +1,4 @@
+import { reactCommentarySidebar2 } from "../../helpers/page_listing";
 import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
@@ -15,7 +16,7 @@ export const image = { path: "/images/multi-dimensional-space.png", width: 1556,
 export const video = { path: "/videos/sum-of-squares-optimisation.mp4", width: 1218, height: 700, type: "mp4" };
 
 <MetaTags {...{ title, path, type, description, keywords, image, video }} />
-<NavBar path={path} />
+<NavBar previous={reactCommentarySidebar2} />
 
 <title>{title}</title>
 <h1>{title}</h1>
@@ -787,4 +788,4 @@ solving but hopefully there’s more to come. I’ll announce future updates
 [on Twitter](https://twitter.com/chrispatuzzo)
 if you want to hear more. Follows are always appreciated. Thanks.
 
-<NavBar path={path} />
+<NavBar previous={reactCommentarySidebar2} />

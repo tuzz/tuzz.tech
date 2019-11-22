@@ -1,3 +1,4 @@
+import { addingBashCompletion, reactCommentarySidebar } from "../../helpers/page_listing";
 import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
@@ -15,7 +16,7 @@ export const image = { path: "/images/chaffin-search.gif", width: 800, height: 4
 export const video = { path: "/videos/chaffin-search.mp4", width: 1280, height: 696, type: "mp4" };
 
 <MetaTags {...{ title, path, type, description, keywords, image, video }} />
-<NavBar path={path} />
+<NavBar previous={addingBashCompletion} next={reactCommentarySidebar} />
 
 <title>{title}</title>
 <h1>{title}</h1>
@@ -422,4 +423,4 @@ There’s also
 
 </Aside>
 
-<NavBar path={path} />
+<NavBar previous={addingBashCompletion} next={reactCommentarySidebar} />

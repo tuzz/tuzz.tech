@@ -1,3 +1,4 @@
+import { reactCommentarySidebar, grapplingWithInfinity } from "../../helpers/page_listing";
 import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import Aside from "../../components/aside";
@@ -16,7 +17,7 @@ export const image = { path: "/images/commentary-sidebar.gif", width: 600, heigh
 export const video = { path: "/videos/commentary-sidebar.mp4", width: 1120, height: 892, type: "mp4" };
 
 <MetaTags {...{ title, path, type, description, keywords, image, video }} />
-<NavBar path={path} />
+<NavBar previous={reactCommentarySidebar} next={grapplingWithInfinity} />
 
 <title>{title}</title>
 <h1>{title}</h1>
@@ -652,4 +653,4 @@ written, it’s [here](https://github.com/tuzz/tuzz.tech/blob/caa688d1847ae2db7c
 Maybe I should explain how the live code embedding works, too? I’ll save that for another day.
 </p></Aside>
 
-<NavBar path={path} />
+<NavBar previous={reactCommentarySidebar} next={grapplingWithInfinity} />
