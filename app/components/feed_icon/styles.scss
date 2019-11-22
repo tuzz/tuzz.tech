@@ -1,0 +1,17 @@
+@import "../layout/color.scss";
+
+.feed_icon {
+  position: relative;
+  top: 0.5px;
+  float: right;
+  margin-right: 0.2rem;
+
+  * {
+    fill: $neutral_500;
+    opacity: 0.9;
+  }
+
+  &:hover * {
+    fill: orange;
+  }
+}

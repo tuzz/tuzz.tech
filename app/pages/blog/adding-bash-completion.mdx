@@ -2,6 +2,7 @@ import { howBashCompletionWorks, palindromicSuperpermutations } from "../../help
 import formatDate from "../../helpers/format_date";
 import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
+import FeedIcon from "../../components/feed_icon";
 import Aside from "../../components/aside";
 import Figure from "../../components/figure";
 import { createRef } from "react";
@@ -25,6 +26,7 @@ export const date = "2019-10-06";
 
 <time dateTime={date}>Published {formatDate(date)} by {" "}
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
+<FeedIcon />
 </time>
 
 <span ref={r = createRef()} />
