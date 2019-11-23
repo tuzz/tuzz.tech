@@ -1,4 +1,4 @@
 node_modules
-
 /tmp
+/app/helpers/page_listing.js
 /public/examples/**/*.css

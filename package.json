@@ -3,13 +3,9 @@
   "babel": {
     "presets": [
       "react-static/babel-preset.js"
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-export-namespace-from"
     ]
   },
   "dependencies": {
-    "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
     "babel-polyfill": "^6.26.0",
     "dedent": "^0.7.0",
     "prism-react-renderer": "^1.0.2",

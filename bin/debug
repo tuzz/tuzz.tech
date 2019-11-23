@@ -1,7 +1,3 @@
 #!/bin/bash
 
-./bin/clean                       && \
-./bin/compile_scss                && \
-npx react-static build --debug    && \
-./bin/static_files                && \
-./bin/remove_slash
+./bin/build --debug
