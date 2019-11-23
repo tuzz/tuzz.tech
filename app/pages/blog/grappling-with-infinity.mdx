@@ -223,12 +223,12 @@ Sentient finds multiple solutions to problems by repeatedly solving the same
 equation. It introduces a new clause each time to ban the solution it just
 found.
 
-<Aside target={r}><p>
+<Aside target={r}>
 
 Sentient doesn’t solve these equations itself. It delegates to SAT solvers,
 such as [lingeling](http://fmv.jku.at/lingeling/).
 
-</p></Aside>
+</Aside>
 
 **Could we dynamically change the size of representations?**
 
@@ -370,9 +370,9 @@ able to write a program that can solve a broad class of
 I find this <span ref={r=createRef()}>tantalising</span>. It would be a triumph
 of our ability to communicate intention to the machine.
 
-<Aside target={r}>
+<Aside target={r}><p>
 But can it be realised?
-</Aside>
+</p></Aside>
 
 **How does this fit with approximations?**
 
@@ -419,12 +419,12 @@ Integer approximations define regions because `int9` contains `int`, `int7`,
 
 </Aside>
 
-<Aside target={r2}><p>
+<Aside target={r2}>
 
 The size of _this_ space isn’t representative of the search space which doubles
 in size each time we add a single bit to an approximation.
 
-</p></Aside>
+</Aside>
 
 Each time we approximate an integer, this adds a new dimensions to our space. If
 we run a Sentient program multiple times with different approximations, we can
