@@ -1,0 +1,9 @@
+@mixin lighter-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin bolder-smoothing {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}

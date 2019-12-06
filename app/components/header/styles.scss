@@ -1,34 +1,33 @@
 @import "../layout/color.scss";
+@import "../layout/smoothing.scss";
 
 .h1, .h2, .h3 {
   font-family: 'Merriweather', Georgia, serif;
+  line-height: 1.5;
 }
 
 .h1 {
   font-size: 2.45rem;
   padding: 2rem 0 0.5rem 0;
   border-bottom: 1px solid $neutral_300;
-  line-height: 1.4;
+  color: $neutral_900;
+  @include bolder-smoothing;
 }
 
 .h2 {
   font-size: 1.8rem;
   border-left: 0.5rem solid $primary_300;
-  color: $primary_700;
   margin-left: -2.25rem;
   padding-left: 1.75rem;
   margin-top: 3rem;
-  line-height: 1.5;
 }
 
 .h3 {
   font-size: 1.4rem;
   border-left: 0.5rem solid $primary_300;
-  color: $primary_700;
   margin-left: -2.25rem;
   padding-left: 1.75rem;
   margin-top: 2.5rem;
-  line-height: 1.5;
 }
 
 @media screen and (max-width: 955px) {
@@ -51,28 +50,12 @@
     font-size: 3.9vw;
     padding-top: 1.4rem;
   }
-
-  .h2 {
-    font-size: 2.83vw;
-  }
-
-  .h3 {
-    font-size: 2.24vw;
-  }
 }
 
 @media screen and (max-width: 895px) {
   .h1 {
     font-size: 3.8vw;
     padding-top: 1.3rem;
-  }
-
-  .h2 {
-    font-size: 2.76vw;
-  }
-
-  .h3 {
-    font-size: 2.18vw;
   }
 }
 
@@ -82,28 +65,12 @@
     font-size: 3.7vw;
     padding-top: 1.2rem;
   }
-
-  .h2 {
-    font-size: 2.69vw;
-  }
-
-  .h3 {
-    font-size: 2.12vw;
-  }
 }
 
 @media screen and (max-width: 835px) {
   .h1 {
     font-size: 3.55vw;
     padding-top: 1.1rem;
-  }
-
-  .h2 {
-    font-size: 2.62vw;
-  }
-
-  .h3 {
-    font-size: 2.06vw;
   }
 }
 
@@ -129,28 +96,12 @@
     font-size: 5.8vw;
     padding-top: 1.3rem;
   }
-
-  .h2 {
-    font-size: 4.23vw;
-  }
-
-  .h3 {
-    font-size: 3.35vw;
-  }
 }
 
 @media screen and (max-width: 600px) {
   .h1 {
     font-size: 5.7vw;
     padding-top: 1.1rem;
-  }
-
-  .h2 {
-    font-size: 4.16vw;
-  }
-
-  .h3 {
-    font-size: 3.30vw;
   }
 }
 

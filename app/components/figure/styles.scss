@@ -8,16 +8,12 @@
   }
 
   figcaption {
-    color: $neutral_700;
+    color: $neutral_800;
     font-style: italic;
     display: flex;
 
     a {
       opacity: 0.9;
-    }
-
-    code {
-      background: $neutral_200;
     }
 
     p {

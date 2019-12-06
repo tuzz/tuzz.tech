@@ -15,7 +15,7 @@ Layout.Static = ({ children }) => {
 
   return <>
     <Head>
-      <link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i|Source+Code+Pro:400,400i,700,700&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i|Source+Code+Pro:500,500i&display=swap" rel="stylesheet" />
       <link rel="alternate" type="application/rss+xml" title="tuzz.tech" href="/feed.xml" />
       <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 

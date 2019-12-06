@@ -6,7 +6,7 @@
   width: 15rem;
   padding-left: 1.375rem;
   border-left: 0.5rem solid $neutral_300;
-  color: $neutral_700;
+  color: $neutral_800;
   line-height: 1.4;
   opacity: 0;
 
@@ -20,10 +20,10 @@
     &:last-child {
       margin-bottom: 0;
     }
-  }
 
-  strong {
-    color: $neutral_700;
+    strong {
+      color: $neutral_750;
+    }
   }
 
   a {

@@ -1,7 +1,9 @@
 @import "./color.scss";
+@import "./smoothing.scss";
 
 body {
   background-color: $neutral_200;
+  @include lighter-smoothing;
 }
 
 .layout {
@@ -21,7 +23,6 @@ body {
   font-size: 0.9rem;
   line-height: 1.666666666666667;
   box-shadow: 0.5rem 0 0.5rem rgba(0, 0, 0, 0.01);
-  color: $neutral_900;
 
   img, video {
     width: 100%;
@@ -30,7 +31,7 @@ body {
   time {
     display: block;
     margin: 0.5rem 0 3rem 0;
-    color: $neutral_600;
+    color: $neutral_700;
     font-size: 1.05rem;
   }
 
@@ -40,7 +41,7 @@ body {
 
   strong {
     font-weight: bold;
-    color: $neutral_800;
+    color: $neutral_900;
   }
 
   em {
@@ -50,6 +51,7 @@ body {
   a {
     color: $primary_700;
     text-decoration: none;
+    @include bolder-smoothing;
   }
 
   ul {
@@ -69,7 +71,7 @@ body {
         content: counter(c) '.';
         font-weight: bold;
         margin-right: 0.6rem;
-        color: $neutral_800;
+        color: $neutral_900;
       }
     }
   }
@@ -88,7 +90,7 @@ body {
   blockquote {
     border-left: 0.3rem solid $neutral_300;
     padding-left: 0.9rem;
-    color: $neutral_700;
+    color: $neutral_750;
   }
 
   :global(.note) {
@@ -119,7 +121,7 @@ body {
 
     :global(.note) {
       font-size: 0.85rem;
-      padding: 0.4rem 0.5rem;
+      padding: 0.5rem;
       line-height: 1.4;
     }
 

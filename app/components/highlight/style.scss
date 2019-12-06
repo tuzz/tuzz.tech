@@ -1,4 +1,5 @@
 @import "../layout/color.scss";
+@import "../layout/smoothing.scss";
 
 :global {
   @import "./prism.scss";
@@ -7,6 +8,7 @@
   pre[class*="language-"] {
     font-family: 'Source Code Pro', sans-serif;
     font-size: 13px;
+    font-weight: 500;
   }
 
   // Code blocks:
