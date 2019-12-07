@@ -1,0 +1,14 @@
+@import "../layout/color.scss";
+
+:global {
+  .narratable:hover {
+    outline: 0.2rem solid $primary_400;
+    outline-offset: 0.2rem;
+    cursor: pointer;
+  }
+
+  .being_narrated, .being_narrated:hover {
+    outline: 0.2rem solid $primary_600;
+    outline-offset: 0.2rem;
+  }
+}

@@ -4,6 +4,7 @@ import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
 import FeedIcon from "../../components/feed_icon";
 import Aside from "../../components/aside";
+import Narration from "../../components/narration";
 import { createRef } from "react";
 
 export let r;
@@ -25,6 +26,20 @@ export const date = "2019-09-29T12:00Z";
 <a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
 <FeedIcon />
 </time>
+
+<Narration src="/audio/test.m4a">
+  skip;
+  0:01 Happy 100th;
+  0:02 Published;
+  skip;
+  0:03 No, I’m not;
+  0:04 Technically;
+  0:05 In all that time;
+  0:06 Those sleepless;
+  0:07 It’s either;
+  0:08 It saddens;
+  0:09 Well change
+</Narration>
 
 No, I’m not 100 years old. This blog <span ref={r = createRef()}>marks</span>
 [my 100th personal repository](https://github.com/tuzz/tuzz.tech) on GitHub. An
