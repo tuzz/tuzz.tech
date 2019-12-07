@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import parseTimings from "../../helpers/parse_timings";
 import setClass from "../../helpers/set_class";
-import styles from "./styles.scss";
+import css from "./styles.scss";
 
 const Narration = ({ src, children }) => {
   const ref = useRef();
@@ -11,7 +11,7 @@ const Narration = ({ src, children }) => {
   const timings = parseTimings(children);
 
   useEffect(() => {
-    const container = ref.current.parentNode;
+    const container = ref.current.parentNode.parentNode.parentNode;
     const siblings = Array.from(container.children);
 
     setContents(siblings);
@@ -86,12 +86,23 @@ const Narration = ({ src, children }) => {
   };
 
   return (
-    <audio controls
-      ref={ref}
-      src={src}
-      onTimeUpdate={highlightCurrent}
-      onPlay={addHoverHighlights}
-      onPause={removeHighlights} />
+    <div className={css.narration}>
+      <div className={css.inner}>
+        <span className={css.text} onClick={() => ref.current.play()}>
+          Listen:
+        </span>
+
+        <audio className={css.audio} ref={ref} src={src} controls
+          onTimeUpdate={highlightCurrent}
+          onPlay={addHoverHighlights}
+          onPause={removeHighlights} />
+      </div>
+
+      <span className={css.info}>
+        Narrated by the author, available as a
+        {" "} <a href="/coming-soon" target="_blank">podcast</a>.
+      </span>
+    </div>
   );
 };
 
