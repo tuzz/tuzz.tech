@@ -58,15 +58,17 @@
 }
 
 :global {
-  .narratable:hover {
-    outline: 0.2rem dotted #26c0f2;
+  .being_narrated {
+    outline: 0.2rem solid #26c0f2 !important;
     outline-offset: 0.2rem;
-    cursor: pointer;
   }
 
-  .being_narrated, .being_narrated:hover {
-    outline: 0.2rem solid #26c0f2;
-    outline-offset: 0.2rem;
+  @media (hover: hover) {
+    .narratable:hover {
+      outline: 0.2rem dotted #26c0f2;
+      outline-offset: 0.2rem;
+      cursor: pointer;
+    }
   }
 }
 
