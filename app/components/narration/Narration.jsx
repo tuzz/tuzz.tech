@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import parseTimings from "../../helpers/parse_timings";
 import setClass from "../../helpers/set_class";
+import useAudio from "../../hooks/use_audio";
 import css from "./styles.scss";
 
 const Narration = ({ src, children }) => {
-  const ref = useRef();
-
+  const [ref, getTime, setTime] = useAudio();
   const [contents, setContents] = useState([]);
   const [index, setIndex] = useState();
+
   const timings = parseTimings(children);
 
   useEffect(() => {
@@ -44,13 +45,13 @@ const Narration = ({ src, children }) => {
         if (event.target.tagName.toLowerCase() === "a") return;
         if (getSelection().toString().length > 0) return;
 
-        audio.currentTime = timings[i].time;
+        setTime(timings[i].time);
       })
     ))
   );
 
   const highlightCurrent = () => {
-    const playback = ref.current.currentTime;
+    const playback = getTime();
 
     let current;
     for (let i = 0; i < timings.length; i += 1) {
