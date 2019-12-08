@@ -93,7 +93,7 @@ const Narration = ({ src, children }) => {
           Listen:
         </span>
 
-        <audio className={css.audio} ref={ref} src={src} controls
+        <audio className={css.audio} ref={ref} src={src} controls controlsList="nodownload"
           onTimeUpdate={highlightCurrent}
           onPlay={addHoverHighlights}
           onPause={removeHighlights} />
