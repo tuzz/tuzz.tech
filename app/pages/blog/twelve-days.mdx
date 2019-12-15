@@ -1,0 +1,160 @@
+import Head from "next/head";
+import ImageMeta from "../../components/image_meta";
+import VideoMeta from "../../components/video_meta";
+import Layout from "../../components/layout";
+import Aside from "../../components/aside";
+import Figure from "../../components/figure";
+import { createRef } from "react";
+
+export let r;
+
+export const navigation = {
+  breadcrumbs: [
+    { text: "tuzz.tech", href: "/" },
+    { text: "blog", href: "/blog" },
+  ],
+  links: [
+    { text: "← Previous", href: "/blog/adding-bash-completion" },
+    { text: "Next Article →" },
+  ]
+};
+
+export const title = "The Twelve Days of Classification";
+export const path = "/blog/twelve-days-of-classification";
+export const description = "TODO";
+
+<Head>
+  <meta property="og:title" content={title} />
+  <meta property="og:url" content={`https://tuzz.tech${path}`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="article" />
+
+  <meta name="description" content={description} />
+  <meta name="keywords" content="TODO" />
+</Head>
+
+<Layout title={title} navigation={navigation}>
+
+<h1>{title}</h1>
+
+<time dateTime="2019-10-14">Published October 14, 2019 by {" "}
+<a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
+</time>
+
+For the last few years, London Computation Club has held Christmas Show and
+Tells for attendees to celebrate their creations while stuffing mince pies in
+their face.  It's a time to relax, be merry, and draw the year to a close with
+some computer-y fun.
+
+Many talk about their side projects, but others choose instead to build
+something bespoke for the occasion. I prefer this as the
+'Christmas themed' <span ref={r = createRef()}>constraint</span> challenges my
+creativity and I try to build something unique and somewhat ridiculous.
+
+<Aside target={r}><p>
+It sure beats making your own Christmas decorations.
+</p></Aside>
+
+A couple of years ago, I made this:
+
+```
+- live view of snowflake
+  - swipe left and right to go through the words
+    - desktop could add explicit arrows?
+  - tiles appear above and below on mobile (desktop too?)
+```
+
+This unusual contraption is a neural network I trained to classify words from
+'[The Twelve Days of Christmas](https://en.wikipedia.org/wiki/The_Twelve_Days_of_Christmas_(song))' carol.
+It takes as input, the position of word from the carol and decides to which
+'category' it belongs. Tap the arrows to step through the carol.
+
+## What are the inputs?
+
+Strictly speaking, the network takes a **binary number of the index position**
+of a word in the carol. For example, the carol begins 'On the first day of
+Christmas' and the word 'Christmas' appears at index 5 (counting from 0) so we
+activate the '4' and '1' inputs.
+
+In the animation above, the inputs are located in the middle and form a ring
+around the decimal number they represent. At the bottom, you can see a
+highlighted word (in blue) which is the word at that index position in the
+carol.
+
+I used positional inputs because I think there's something inherently
+interesting about the structure of the 'Twelve days of Christmas'. It's full
+of repetition as each verse reiterates the accumulating list of gifts. I wanted
+to teach this to a neural network.
+
+## What are the outputs?
+
+I arbitrary decided on fourteen categories for each word in the carol:
+
+- One category **per gift**: 'partridge', 'pear', 'tree' belong to the 'Partridge' category
+- One category for 'Numeric' words: 'first', 'second', 'two', 'third', 'three', ...
+- One category for 'Miscellaneous' words: 'on', 'the', 'and', 'gave', 'to', 'me', ...
+
+Each of these categories has an output node that's activated by the network
+when it thinks the word under consideration belongs to that category. Unlike
+input nodes where activation is binary (either 'on' or 'off'), output nodes are
+less certain, they're activated in proportion to the network's confidence in
+its answer.
+
+The category whose output node is most active - the one the network is most
+confident about, is taken as the network's 'guess'. This 'guess' is shown in
+the animation above. In our case, we know what the answer should be since we
+decide the categories ourselves, so the correct 'answer' is also shown.
+
+## What are the other nodes?
+
+The nodes in between the inputs and outputs form something called a 'hidden
+layer'. This network is relatively simple in that it has a single hidden layer
+but most networks contain a few. In our case, these nodes aren't hidden at all!
+We can clearly see how active they are, just as we can with inputs and outputs.
+
+The behaviour of the neural network is entirely determined by this hidden
+layer. It's our only degree of freedom to control how its classifies input.
+Every node in the hidden layer is connected to every input and output node. The
+only thing the varies are the weights we associate with each of these
+connections.
+
+These weights are set by the training process. Even though we understand how
+the maths works, it's not all obvious how this network operates. This is a
+characteristic feature of neural networks. They are often 'black boxes' that
+reveal little about how they work at a high level. Our human nature craves an
+explanation.
+
+## Why are they in that shape?
+
+Because it's Christmas! Or, at least it was at the time and snowflakes are
+Christmas-y. Specifically, the shape of the hidden layer is based on the second
+iteration of the [Koch snowflake](https://en.wikipedia.org/wiki/Koch_snowflake)
+fractal. This starts with a triangle and at each iteration, we add a smaller
+one jutting out from the middle of each edge.
+
+... gif from wikipedia ...
+
+I also made the snowflake rotate slightly while maintaining its connection to
+the input and output nodes. Meanwhile, the input layer rotates slightly in the
+opposite direction. The connecting lines create some interesting interference
+patterns as they overlap. The effect is dramatized by [speeding up the
+animation](link).
+
+### How well does it perform?
+
+TODO: need to re-train the network with the F1 function then evaluate
+
+### How did you build it?
+
+That will be the subject of my next few articles:
+
+- Part 2: TODO
+- Part 3: TODO
+- ...
+
+Oh, and there's always a twist! I decided to try and use seven different
+programming languages for my project since the London Computation Club had just
+decided on its next book: 'Seven More Languages in Seven Weeks'. It only seemed
+appropriate. Whether or not I succeeded is debatable.
+
+</Layout>
