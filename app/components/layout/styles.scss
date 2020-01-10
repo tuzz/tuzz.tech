@@ -2,7 +2,7 @@
 @import "./smoothing.scss";
 
 body {
-  background-color: $neutral_200;
+  background: url(/images/background.png) fixed;
   @include lighter-smoothing;
 }
 
@@ -12,7 +12,7 @@ body {
   margin: auto;
   background: $neutral_100;
   border-top: none;
-  box-shadow: 0rem 0 1rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0rem 0 2rem rgba(0, 0, 0, 0.3);
   position: relative;
 }
 
