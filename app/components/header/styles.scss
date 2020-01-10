@@ -16,17 +16,17 @@
 
 .h2 {
   font-size: 1.8rem;
-  border-left: 0.5rem solid $primary_300;
-  margin-left: -2.25rem;
-  padding-left: 1.75rem;
+  border-left: 0.5rem dashed $primary_400;
+  margin-left: -1.75rem;
+  padding-left: 1.25rem;
   margin-top: 3rem;
 }
 
 .h3 {
   font-size: 1.4rem;
-  border-left: 0.5rem solid $primary_300;
-  margin-left: -2.25rem;
-  padding-left: 1.75rem;
+  border-left: 0.5rem dotted $primary_400;
+  margin-left: -1.75rem;
+  padding-left: 1.25rem;
   margin-top: 2.5rem;
 }
 
@@ -41,7 +41,7 @@
   }
 
   .h3 {
-    font-size: 2.3vw;
+    font-size: 2.5vw;
   }
 }
 
