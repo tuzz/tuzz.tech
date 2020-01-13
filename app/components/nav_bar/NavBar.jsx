@@ -4,7 +4,7 @@ import A from "../anchor";
 import css from "./styles.scss";
 
 const NavBar = ({ previous, next }) => {
-  const latest = "/blog/grappling-with-infinity";
+  const latest = "/blog/pair-programming-in-sentient";
 
   return <>
     <Head>

@@ -1,0 +1,111 @@
+import { grapplingWithInfinity } from "../../helpers/page_listing";
+import formatDate from "../../helpers/format_date";
+import MetaTags from "../../components/meta_tags";
+import NavBar from "../../components/nav_bar";
+import FeedIcon from "../../components/feed_icon";
+import Aside from "../../components/aside";
+import YouTube from "../../components/youtube";
+import Figure from "../../components/figure";
+import { createRef } from "react";
+
+export let r;
+
+export const title = "Pair programming with Dmitry in Sentient";
+export const path = "/blog/pair-programming-in-sentient";
+export const type = "article";
+export const description = "A rare opportunity to pair program in Sentient: a programming language I wrote a few years ago for solving constraint-based problems.";
+export const keywords = "Chris Patuzzo,Sentient,pair programming,screencast,pairing,programming,constraint solving,boolean satisfiability,SAT";
+export const image = { path: "/images/pair-programming-in-sentient.png", width: 1200, height: 659, bytes: 118972, type: "image/png" };
+export const date = "2020-01-13T12:00Z";
+
+<MetaTags {...{ title, path, type, description, keywords, image }} />
+<NavBar previous={grapplingWithInfinity} />
+
+<title>{title}</title>
+<h1>{title}</h1>
+
+<time dateTime={date}>Published {formatDate(date)} by {" "}
+<a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
+<FeedIcon />
+</time>
+
+A few weeks ago I spent a pleasant evening pair programming with my friend
+[Dmitry](https://twitter.com/dmitrykandalov) for [his YouTube
+channel](https://www.youtube.com/channel/UCsTlWmqtrIc3PrClVbb_9ZA). We worked
+on a couple of problems in [Sentient](https://sentient-lang.org/), which is a
+language I wrote a few years ago. The first of these videos is here:
+
+<span ref={r = createRef()} />
+
+<Figure>
+<YouTube id="zrgwzP_duLA" />
+A gentle (but hands on) introduction to the language
+</Figure>
+
+<Aside target={r} moveDown={90}>
+
+Towards the end (around 23:00), I bravely try to run our code in a browser but
+it fails. :-(
+
+It turns out, the Sentient website is actually running a slightly out of date
+version of the compiler. Oops!
+
+</Aside>
+
+In the second video, we tackled the more difficult problem of finding a Knight’s
+Tour around a chessboard. It still turned out to be pretty easy, though:
+
+<span ref={r = createRef()} />
+
+<Figure>
+<YouTube id="Lm72bI_sYbw" />
+A more challenging problem: finding a Knight’s Tour
+</Figure>
+
+<Aside target={r} moveDown={90}>
+
+I only mention it in passing, but you can
+[compile](https://sentient-lang.org/cli/compile) and
+[optimise](https://sentient-lang.org/cli/optimise) programs which makes them
+run _much_ faster.
+
+You can also set the [machine](https://sentient-lang.org/solvers/overview) which
+can result in another order of magnitude speed up!
+
+</Aside>
+
+## In conclusion
+
+A few years <span ref={r = createRef()}>ago</span>, [I tried to
+produce](https://makercasts.org/) screencasts of my own but ended up hating
+everything I recorded. Perhaps this experience will spur me on to try again.
+
+<Aside target={r}><p>
+At some point I’ll shut down that site and move its content to this one.
+</p></Aside>
+
+By the sounds of it, Dmitry had a similar experience. Sitting alone in a
+darkened room trying to narrate while you code is challenging. Not so much the
+technical side of it, but its vacuous nature. You have no feedback to guide what
+you’re doing.
+
+That’s why I think this format works so well. Pair programming is more informal.
+It’s like the day job. There’s <span ref={r = createRef()}>expectation</span>
+you’ll make mistakes and break off in the middle of sentences. When you do,
+there’s someone there to pick up the thread.
+
+<Aside target={r}><p>
+Both videos were recorded in a single take, near Angel in London.
+</p></Aside>
+
+I genuinely hope you enjoy(ed) the videos. They firmly fit in the category of
+_"try to share more of what you’re doing, tuzz"_. If you have any questions or
+comments, add <span ref={r = createRef()}>them</span> on YouTube or [tweet at
+me](https://twitter.com/chrispatuzzo) - and/or follow me for more computer-y
+goodness.
+
+<Aside target={r}><p>
+Ahh, the YouTube comments section, aka. a dumpster fire.
+</p></Aside>
+
+<NavBar previous={grapplingWithInfinity} />

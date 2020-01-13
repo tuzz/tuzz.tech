@@ -1,4 +1,4 @@
-import { reactCommentarySidebar2 } from "../../helpers/page_listing";
+import { reactCommentarySidebar2, pairProgrammingInSentient } from "../../helpers/page_listing";
 import formatDate from "../../helpers/format_date";
 import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
@@ -19,7 +19,7 @@ export const video = { path: "/videos/sum-of-squares-optimisation.mp4", width: 1
 export const date = "2019-11-17T12:00Z";
 
 <MetaTags {...{ title, path, type, description, keywords, image, video }} />
-<NavBar previous={reactCommentarySidebar2} />
+<NavBar previous={reactCommentarySidebar2} next={pairProgrammingInSentient} />
 
 <title>{title}</title>
 <h1>{title}</h1>
@@ -792,4 +792,4 @@ solving but hopefully there’s more to come. I’ll announce future updates
 [on Twitter](https://twitter.com/chrispatuzzo)
 if you want to hear more. Follows are always appreciated. Thanks.
 
-<NavBar previous={reactCommentarySidebar2} />
+<NavBar previous={reactCommentarySidebar2} next={pairProgrammingInSentient} />
