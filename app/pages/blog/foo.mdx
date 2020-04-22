@@ -1,0 +1,123 @@
+import { pairProgrammingInSentient } from "../../helpers/page_listing";
+import formatDate from "../../helpers/format_date";
+import MetaTags from "../../components/meta_tags";
+import NavBar from "../../components/nav_bar";
+import FeedIcon from "../../components/feed_icon";
+import Aside from "../../components/aside";
+import Figure from "../../components/figure";
+import Tweet from "../../components/tweet";
+
+export let r;
+
+export const title = "The tweet that counts itself, and its program output";
+export const path = "/blog/TODO";
+export const type = "article";
+export const description = "TODO";
+export const keywords = "Chris Patuzzo,TODO";
+export const date = "2020-04-22T12:00Z";
+
+<MetaTags {...{ title, path, type, description, keywords }} />
+<NavBar previous={pairProgrammingInSentient} />
+
+<title>{title}</title>
+<h1>{title}</h1>
+
+<time dateTime={date}>Published {formatDate(date)} by {" "}
+<a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
+<FeedIcon />
+</time>
+
+<span ref={r = createRef()} />
+
+Yesterday I tweeted this:
+
+<Tweet id="1252703924315926528" />
+
+As you can see, it contains two tallies:
+
+1. The number of characters in the tweet
+2. The number of characters in the program output
+
+In both cases I'm not counting whitespace, but I am counting all the <span
+ref={r = createRef()}>extra gubbins</span> like the chevrons and the bits
+at the top of the program output. If you go to the trouble to verify this
+tweet's claim, you will see that it is indeed correct. Actually, let's do that.
+
+<Aside target={r}><p>
+The cursor flashes so we won't count that. Hence its special treatment in the tweet.
+</p></Aside>
+
+## Checking the tweet
+
+```ruby
+$ irb
+> tweet = '10 PRINT "@bbcmicrobot This tweet contains one hundred and seventy-three characters and its full output, when run on BBC Micro Bot, contains three hundred and forty-six characters and a flashing cursor."'
+> tweet.gsub(/\s/, "").length
+=> 173
+```
+
+Ok, so far so good. The program output's more difficult to check because its an
+image, but we can faithfully reproduce it easily enough:
+
+```bash
+$ cat << EOF > program-output
+  BBC Computer 32K
+
+  Acorn DFS
+
+  BASIC
+
+  >10 PRINT " This tweet contains one hundred and seventy-three characters and its full output, when run on BBC Micro Bot, contains three hundred and forty-six characters and a flashing cursor."
+  >RUN
+   This tweet contains one hundred and seventy-three characters and its full output, when run on BBC Micro Bot, contains three hundred and forty-six characters and a flashing cursor.
+  >
+EOF
+
+$ irb
+> File.read("program-output").gsub(/\s/, "").length
+=> 346
+```
+
+Things seem to check out! Although, I could have cheated and dropped a
+character or two without you noticing, so feel free to double check. Finally,
+and most importantly, if you'd like to verify the cursor does indeed flash, you
+can click on the video above. :-)
+
+## Why it's hard
+
+You may be looking at that tweet and wondering what's so special about it? It's
+a clever trick but is it really that hard to find? Perhaps not... you should
+try!
+
+It does have a rather challenging property, though: it's self-referential. The
+character counts are written out in full, using English words. That leads to a
+rather chaotic situation where changing one count throws the other off and vice
+versa.
+
+What's more, the counts appear twice in the program output which (maybe?) makes
+it more difficult and harder to reason about. Finally, the way to properly test
+a sentence is to actually tweet it check the result is what you expect, which
+is kind of inconvenient.
+
+## How it was found
+
+If you're familiar with the popular Internet meme of "How To Draw an Owl", it's
+a bit like that, except in my case, the hard bit was _at the start_ rather than
+the end.
+
+<a href="https://knowyourmeme.com/memes/how-to-draw-an-owl">
+  <img src="/images/how-to-draw-an-owl.jpg" alt="How To Draw an Owl" className="more_space" />
+</a>
+
+My version of this was to:
+
+<span ref={r = createRef()} />
+
+1. Write a programming language tailored to solving problems like these
+2. Solve this problem using the language
+
+<Aside target={r}><p>
+Perhaps there should be a step 0. to first invent some convoluted problem no one cares about.
+</p></Aside>
+
+<NavBar previous={pairProgrammingInSentient} />

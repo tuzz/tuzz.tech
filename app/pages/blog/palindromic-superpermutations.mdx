@@ -250,11 +250,7 @@ _entirety_ of the string.
 That means **we can check the tail of the string a second time**. If we’ve seen
 its reversal before we can backtrack as well. This pre-empts the repetition
 that _would occur_ when the string is glued later. This lets us eliminate even
-more <span ref={r = createRef()}>strings!</span>
-
-<Aside target={r}>
-We can see the future.
-</Aside>
+more strings!
 
 Here’s what the code might look like:
 
@@ -348,7 +344,7 @@ bound](https://en.wikipedia.org/wiki/Branch_and_bound).
 
 For <span ref={r = createRef()}>example</span>, when solving W=1, if we’ve seen
 ‘12312132’ which contains five permutations, there’s no point expanding ‘1232’
-because we know from W=0 this string is doomed to failure. It can’t possible
+because we know from W=0 this string is doomed to failure. It can’t possibly
 beat the string with five permutations.
 
 <Aside target={r}>
