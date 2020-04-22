@@ -1,4 +1,3 @@
-import ReactGA from "react-ga";
 import Markdown from "../markdown";
 import Footer from "../footer";
 import NavBar from "../nav_bar";
@@ -8,8 +7,6 @@ import "../../../public/styles/reset.css";
 const Layout = {};
 
 Layout.Static = ({ children }) => {
-  ReactGA.initialize("UA-148955810-1");
-
   return <>
     <Head>
       <link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i|Source+Code+Pro:500,500i&display=swap" rel="stylesheet" />
@@ -37,7 +34,6 @@ Layout.Dynamic = ({ location, children }) => {
   const pageId = pathname + search;
 
   useEffect(() => window.scrollTo(0, 0), [pathname]);
-  useEffect(() => { ReactGA.pageview(pageId); }, [pageId]);
 
   return children;
 };
