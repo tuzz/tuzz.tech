@@ -30,10 +30,12 @@ Layout.Static = ({ children }) => {
 };
 
 Layout.Dynamic = ({ location, children }) => {
-  const { pathname, search } = location;
+  const { pathname, search, hash } = location;
   const pageId = pathname + search;
 
-  useEffect(() => window.scrollTo(0, 0), [pathname]);
+  useEffect(() => {
+    if (!hash) window.scrollTo(0, 0);
+  }, [pathname]);
 
   return children;
 };

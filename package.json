@@ -15,7 +15,8 @@
     "react-static-plugin-reach-router": "^7.0.0",
     "react-static-plugin-scss-modules": "^1.0.4",
     "react-static-plugin-sitemap": "^7.0.0",
-    "react-static-plugin-source-filesystem": "^7.0.0"
+    "react-static-plugin-source-filesystem": "^7.0.0",
+    "react-tweet-embed": "^1.2.2"
   },
   "devDependencies": {
     "serve": "10.1.2"
