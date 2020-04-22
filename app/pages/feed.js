@@ -1,5 +1,3 @@
-import React from "react";
-import dedent from "dedent";
 import Static from "../components/static";
 import Highlight from "../components/highlight";
 import * as listing from "../helpers/page_listing";

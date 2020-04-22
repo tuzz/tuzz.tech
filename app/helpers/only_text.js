@@ -1,6 +1,5 @@
 // https://github.com/fernandopasik/react-children-utilities/blob/master/src/lib/onlyText.ts
 
-import { Children, isValidElement, ReactNode, ReactText } from "react";
 import hasChildren from "./has_children";
 
 const childToString = (child) => {

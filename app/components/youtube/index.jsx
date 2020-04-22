@@ -1,5 +1,3 @@
-import React from "react";
-import { Head } from "react-static";
 import css from "./styles.scss";
 
 const YouTube = ({ id }) => (

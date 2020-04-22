@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-
 const useDelays = (callback, delays, dependencies = []) => {
   useEffect(() => {
     const timeouts = delays.map(d => window.setTimeout(callback, d));

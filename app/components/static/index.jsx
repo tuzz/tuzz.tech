@@ -1,4 +1,3 @@
-import React from "react";
 import css from "./styles.scss";
 import onlyText from "../../helpers/only_text";
 

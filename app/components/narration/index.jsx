@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
 import parseTimings from "../../helpers/parse_timings";
 import setClass from "../../helpers/set_class";
-import useAudio from "../../hooks/use_audio";
 import css from "./styles.scss";
 
 const Narration = ({ src, children }) => {

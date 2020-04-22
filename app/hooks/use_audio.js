@@ -1,4 +1,3 @@
-import React, { useState, useRef } from "react";
 const epsilon = 0.001;
 
 // Abstract away an iOS bug:

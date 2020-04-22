@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-
 const useResize = (callback) => {
   useEffect(() => {
     const listener = window.addEventListener("resize", callback);

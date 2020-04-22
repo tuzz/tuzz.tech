@@ -1,8 +1,6 @@
 // Full credit to Tom Stuart and Paul Mucur for this masterpiece:
 // https://gist.github.com/mudge/eb9178a4b6d595ffde8f9cb31744afcf
 
-import React, { useState, useEffect, useRef } from "react";
-
 const useDebounce = (callback, delay) => {
   const latestCallback = useRef();
   const [lastCalledAt, setLastCalledAt] = useState(null);

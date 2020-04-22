@@ -1,9 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
 import css from "./styles.scss";
-
-import useDebounce from "../../hooks/use_debounce";
-import useResize from "../../hooks/use_resize";
-import useDelays from "../../hooks/use_delays";
 
 const MAX_WIDTH = 560;
 

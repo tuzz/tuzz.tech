@@ -1,7 +1,4 @@
-import React, { useEffect } from "react"
-import { Head } from "react-static";
 import ReactGA from "react-ga";
-
 import Markdown from "../markdown";
 import Footer from "../footer";
 import NavBar from "../nav_bar";

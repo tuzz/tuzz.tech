@@ -1,6 +1,3 @@
-import React from "react";
-import { Head } from "react-static";
-
 const MetaTags = ({ image, video, ...props }) => <>
   <MetaTags.Page {...props} />
   {image && <MetaTags.Image {...image} />}

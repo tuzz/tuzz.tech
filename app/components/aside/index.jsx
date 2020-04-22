@@ -1,10 +1,4 @@
-import React, { useState, useEffect } from "react";
 import css from "./styles.scss";
-
-import usePrint from "../../hooks/use_print";
-import useDebounce from "../../hooks/use_debounce";
-import useResize from "../../hooks/use_resize";
-import useDelays from "../../hooks/use_delays";
 
 const Aside = ({ target, children, moveDown = 0 }) => {
   const [style, setStyle] = useState(null);

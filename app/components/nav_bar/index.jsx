@@ -1,5 +1,3 @@
-import React from "react";
-import { Head } from "react-static";
 import A from "../anchor";
 import css from "./styles.scss";
 
