@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <style>
+      #color-changer {
+        position: absolute;
+        top: 0; bottom: 0;
+        left: 0; right: 0;
+        background: black;
+      }
+
+      #fps {
+        color: white;
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        font-size: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="color-changer"></div>
+    <div id="fps"></div>
+
+    <script>
+      const div = document.getElementById("color-changer");
+      const fps = document.getElementById("fps");
+      const colors = ["black", "#004"];
+
+      let i = 0;
+
+      let prev = performance.now();
+      let rates = [];
+      let cursor = 0;
+
+      const changeColor = () => {
+        const time = performance.now();
+        const rate = 1000 / (time - prev);
+
+        rates[cursor] = rate;
+        cursor += 1;
+        cursor %= 10;
+
+        const mean = rates.reduce((sum, r) => sum + r) / 10;
+        fps.innerText = `${Math.round(mean)} fps (avg over last 10 frames)`;
+        prev = time;
+
+        div.style.background = colors[i];
+
+        i += 1;
+        i %= colors.length;
+
+        requestAnimationFrame(changeColor);
+      };
+
+      requestAnimationFrame(changeColor);
+    </script>
+  </body>
+</html>
