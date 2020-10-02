@@ -1,0 +1,36 @@
+{
+  "game_ticks": 79065,
+  "checkpoint": {
+    "level": 2,
+    "position": null
+  },
+  "waypoint": null,
+  "gravity_cloak": true,
+  "torch": null,
+  "literals": {
+    "sets": [
+      [],
+      [],
+      [],
+      [
+        -2,
+        -1,
+        7,
+        6,
+        4,
+        -3,
+        -5
+      ],
+      []
+    ]
+  },
+  "eclipses": [
+    1
+  ],
+  "stars": [],
+  "events": [
+    0,
+    1,
+    5
+  ]
+}

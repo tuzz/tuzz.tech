@@ -1,0 +1,43 @@
+//---- The code from the article:
+
+main {
+  max-width: 50%;         // Article width
+  padding-right: 50%;     // Sidebar width
+  background: #eee;       // Sidebar color
+  position: relative;
+
+  article {
+    padding: 1rem;
+    background: white;
+  }
+
+  aside {
+    position: absolute;
+    right: 1rem;
+    width: calc(50% - 2rem);
+  }
+}
+
+
+
+//---- A few additional rules:
+
+body {
+  line-height: 1.4;
+}
+
+p:first-child {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 460px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  body {
+    font-size: 13px;
+  }
+}
