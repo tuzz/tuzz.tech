@@ -1,0 +1,37 @@
+main {
+  max-width: 50%;
+  padding-right: 50%;
+  background: #eee;
+  position: relative;
+}
+
+main article {
+  padding: 1rem;
+  background: white;
+}
+
+main aside {
+  position: absolute;
+  right: 1rem;
+  width: calc(50% - 2rem);
+}
+
+body {
+  line-height: 1.4;
+}
+
+p:first-child {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 460px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  body {
+    font-size: 13px;
+  }
+}

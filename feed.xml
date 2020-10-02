@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+  <title>tuzz.tech</title>
+  <link>https://tuzz.tech</link>
+  <description>All publications from tuzz.tech</description>
+  <language>en-gb</language>
+  <copyright>© 2020 Chris Patuzzo</copyright>
+  <pubDate>Fri, 02 Oct 2020 12:00:00 GMT</pubDate>
+  
+  <item>
+    <title>Happy 100th, tuzz!</title>
+    <link>https://tuzz.tech/blog/happy-100th</link>
+    <guid>https://tuzz.tech/blog/happy-100th</guid>
+    <description>I’ve decided to start a blog to talk about my side projects.</description>
+    <pubDate>Sun, 29 Sep 2019 12:00:00 GMT</pubDate>
+    <source url="https://tuzz.tech/feed.xml">tuzz.tech</source>
+    <category>Technology</category>
+    <!-- No image -->
+    <!-- No video -->
+  </item>
+
+  <item>
+    <title>How Bash completion works</title>
+    <link>https://tuzz.tech/blog/how-bash-completion-works</link>
+    <guid>https://tuzz.tech/blog/how-bash-completion-works</guid>
+    <description>Ever wondered how Bash completion works? In this first article on the topic, we’ll look at how it works under the hood.</description>
+    <pubDate>Sun, 06 Oct 2019 12:00:00 GMT</pubDate>
+    <source url="https://tuzz.tech/feed.xml">tuzz.tech</source>
+    <category>Technology</category>
+    <enclosure url="https://tuzz.tech/images/fizzbuzz-completion.gif" type="image/gif" length="245983" />
+    <enclosure url="https://tuzz.tech/videos/fizzbuzz-completion.mp4" type="video/mp4" length="129214" />
+  </item>
+
+  <item>
+    <title>Adding Bash completion to my tool</title>
+    <link>https://tuzz.tech/blog/adding-bash-completion</link>
+    <guid>https://tuzz.tech/blog/adding-bash-completion</guid>
+    <description>In this second article on Bash completion, we’ll see to apply it to a real-world use case: The tuzz automation tool.</description>
+    <pubDate>Sun, 06 Oct 2019 12:01:00 GMT</pubDate>
+    <source url="https://tuzz.tech/feed.xml">tuzz.tech</source>
+    <category>Technology</category>
+    <enclosure url="https://tuzz.tech/images/zz-completion.gif" type="image/gif" length="165186" />
+    <enclosure url="https://tuzz.tech/videos/zz-completion.mp4" type="video/mp4" length="89935" />
+  </item>
+
+  <item>
+    <title>Searching for palindromic superpermutations</title>
+    <link>https://tuzz.tech/blog/palindromic-superpermutations</link>
+    <guid>https://tuzz.tech/blog/palindromic-superpermutations</guid>
+    <description>I wrote a search algorithm to tackle a challenging combinatorial problem.</description>
+    <pubDate>Sun, 20 Oct 2019 12:00:00 GMT</pubDate>
+    <source url="https://tuzz.tech/feed.xml">tuzz.tech</source>
+    <category>Technology</category>
+    <enclosure url="https://tuzz.tech/images/chaffin-search.gif" type="image/gif" length="350969" />
+    <enclosure url="https://tuzz.tech/videos/chaffin-search.mp4" type="video/mp4" length="237393" />
+  </item>
+
+  <item>
+    <title>Building a commentary sidebar in React</title>
+    <link>https://tuzz.tech/blog/react-commentary-sidebar</link>
+    <guid>https://tuzz.tech/blog/react-commentary-sidebar</guid>
+    <description>How I built one of my favourite features: a commentary sidebar, written in React.</description>
+    <pubDate>Wed, 30 Oct 2019 12:00:00 GMT</pubDate>
+    <source url="https://tuzz.tech/feed.xml">tuzz.tech</source>
+    <category>Technology</category>
+    <enclosure url="https://tuzz.tech/images/commentary-sidebar.gif" type="image/gif" length="904040" />
+    <enclosure url="https://tuzz.tech/videos/commentary-sidebar.mp4" type="video/mp4" length="531454" />
+  </item>
+
+  <item>
+    <title>Building a commentary sidebar in React (cont.)</title>
+    <link>https://tuzz.tech/blog/react-commentary-sidebar-2</link>
+    <guid>https://tuzz.tech/blog/react-commentary-sidebar-2</guid>
+    <description>Part two of building a commentary sidebar in React: taking a deeper look at the code.</description>
+    <pubDate>Wed, 30 Oct 2019 12:01:00 GMT</pubDate>
+    <source url="https://tuzz.tech/feed.xml">tuzz.tech</source>
+    <category>Technology</category>
+    <enclosure url="https://tuzz.tech/images/commentary-sidebar.gif" type="image/gif" length="904040" />
+    <enclosure url="https://tuzz.tech/videos/commentary-sidebar.mp4" type="video/mp4" length="531454" />
+  </item>
+
+  <item>
+    <title>Grappling with infinity in constraint solvers</title>
+    <link>https://tuzz.tech/blog/grappling-with-infinity</link>
+    <guid>https://tuzz.tech/blog/grappling-with-infinity</guid>
+    <description>How can we solve constraint-satisfaction problems that deal with infinite structure? This article is about Sentient, a programming language I wrote to solve tricky problems.</description>
+    <pubDate>Sun, 17 Nov 2019 12:00:00 GMT</pubDate>
+    <source url="https://tuzz.tech/feed.xml">tuzz.tech</source>
+    <category>Technology</category>
+    <enclosure url="https://tuzz.tech/images/multi-dimensional-space.png" type="image/png" length="13652" />
+    <enclosure url="https://tuzz.tech/videos/sum-of-squares-optimisation.mp4" type="video/mp4" length="307345" />
+  </item>
+
+  <item>
+    <title>Pair programming with Dmitry in Sentient</title>
+    <link>https://tuzz.tech/blog/pair-programming-in-sentient</link>
+    <guid>https://tuzz.tech/blog/pair-programming-in-sentient</guid>
+    <description>A rare opportunity to pair program in Sentient: a programming language I wrote a few years ago for solving constraint-based problems.</description>
+    <pubDate>Mon, 13 Jan 2020 12:00:00 GMT</pubDate>
+    <source url="https://tuzz.tech/feed.xml">tuzz.tech</source>
+    <category>Technology</category>
+    <enclosure url="https://tuzz.tech/images/pair-programming-in-sentient.png" type="image/png" length="118972" />
+    <!-- No video -->
+  </item>
+
+  <item>
+    <title>GameDev Notes 1: Taking the Plunge</title>
+    <link>https://tuzz.tech/blog/taking-the-plunge</link>
+    <guid>https://tuzz.tech/blog/taking-the-plunge</guid>
+    <description>How I added swimming to my indie platform game.</description>
+    <pubDate>Fri, 02 Oct 2020 12:00:00 GMT</pubDate>
+    <source url="https://tuzz.tech/feed.xml">tuzz.tech</source>
+    <category>Technology</category>
+    <enclosure url="https://tuzz.tech/images/gamedev-1/cloak-fin.gif" type="image/gif" length="1021461" />
+    <enclosure url="https://tuzz.tech/videos/cloak-fin.mp4" type="video/mp4" length="254449" />
+  </item>
+
+</channel>
+</rss>

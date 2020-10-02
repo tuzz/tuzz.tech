@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Game</title>
+  <style>
+    html, body {
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      margin: 0;
+    }
+
+    .loading {
+      color: #444;
+      font-size: 2.5rem;
+      font-family: Arial, sans-serif;
+      z-index: 1;
+      padding: 1rem;
+    }
+
+    .loaded {
+      display: none;
+    }
+
+    .failed {
+      color: #ccc;
+      font-size: 1.8rem;
+      line-height: 2.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="loading"><p>Loading...</p></div>
+  <script src="./index.js"></script>
+  <script>
+    wasm_bindgen("./index.wasm").catch(() => {
+      var loading = document.getElementsByClassName("loading")[0];
+
+      loading.className += " failed";
+      loading.children[0].innerText = "Not supported on this device, sorry. Please try again from a laptop.";
+    });
+  </script>
+</body>
+</html>

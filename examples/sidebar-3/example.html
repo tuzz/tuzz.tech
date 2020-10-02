@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sidebar example</title>
+    <link rel="stylesheet" href="/styles/reset.css" />
+
+    <link rel="stylesheet" href="../sidebar-1/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+
+    <main>
+      <article>
+        <aside>A comment on the paragraph.</aside>
+        <div id="fake-image">Loading image...</div>
+        <p>A paragraph in the article.</p>
+      </article>
+    </main>
+
+    <script>
+      // This is a quick and dirty prototype, not the real thing.
+
+      function align () {
+        var p = document.getElementsByTagName("p")[0];
+        var aside = document.getElementsByTagName("aside")[0];
+        aside.style.top = window.scrollY + p.getBoundingClientRect().top + "px";
+      }
+
+      align();
+
+      var div = document.getElementsByTagName("div")[0];
+      var loading = true;
+
+      window.setInterval(function () {
+        if (loading) {
+          div.style.height = "6rem";
+          div.style.background = "#e5f4ff";
+          div.innerText = "An image";
+        } else {
+          div.style.height = "1.5rem";
+          div.innerText = "Loading image...";
+          div.style.background = "#eee";
+        }
+
+        if (window.location.search.includes("align")) {
+          align();
+        }
+
+        loading = !loading;
+      }, 3000);
+    </script>
+  </body>
+</html>
