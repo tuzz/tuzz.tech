@@ -1,0 +1,520 @@
+import { pairProgrammingInSentient } from "../../helpers/page_listing";
+import formatDate from "../../helpers/format_date";
+import MetaTags from "../../components/meta_tags";
+import NavBar from "../../components/nav_bar";
+import FeedIcon from "../../components/feed_icon";
+import Aside from "../../components/aside";
+import Figure from "../../components/figure";
+
+export let r;
+
+export const title = "GameDev Notes 1: Taking the Plunge";
+export const path = "/blog/taking-the-plunge";
+export const type = "article";
+export const description = "TODO";
+export const keywords = "Chris Patuzzo,TODO";
+export const image = { path: "/images/TODO.png", width: 1200, height: 659, bytes: 118972, type: "image/png" };
+export const video = { path: "/videos/commentary-sidebar.mp4", width: 1120, height: 892, bytes: 531454, type: "video/mp4" };
+export const date = "2020-10-02T12:00Z";
+
+<MetaTags {...{ title, path, type, description, keywords, image, video }} />
+<NavBar previous={pairProgrammingInSentient} />
+
+<title>{title}</title>
+<h1>{title}</h1>
+
+<time dateTime={date}>Published {formatDate(date)} by {" "}
+<a href="https://twitter.com/chrispatuzzo">Chris Patuzzo</a>
+<FeedIcon />
+</time>
+
+For the past few months I've been writing my first ever indie game (in Rust).
+It's a 2D <span ref={r=createRef()}>puzzle-platformer</span> that I'm super
+happy with so far. I think it's pretty unique and I'm excited to see where it
+goes. I'm quite stubborn and like things done a particular way so I'm not using
+an off-the-shelf engine like Unity and I'm writing almost everything myself
+except for some of the low-level libraries. It's challenging and fun.
+
+<Aside target={r}>
+
+I haven't named my game yet.
+
+</Aside>
+
+Anyway, some friends suggested I share what I've been doing. Until now, I've
+been reluctant to because I already have heaps to do but I think it would be a
+shame if this knowledge is lost (because I'll inevitably forget). Therefore,
+I'm going to try and write occasional gamedev notes and publish them here. I
+don't guarantee they'll all make sense without extra context. I'm hoping to
+refer back to them later, e.g. if I turn them into YouTube videos or something.
+
+Most recently (the last few days) I've been working on adding water and
+swimming to the game. Currently the player character is land-based and I wanted
+to expand that out to add variety and a new set of constraints for the player
+to grapple with. There are story reasons as well, but I won't spoil it. Before
+diving(!) in, here's a quick demo of what I made this week:
+
+[video of swimming]
+
+It probably doesn't look much compared to AAA games but I added a few niceties
+to make it visually interesting and fun to navigate. The first thing I worked
+on was a new component called `Liquid` that I can attach to a game entity. I
+decided to use the more general term 'liquid' rather than 'water' because I
+already use the term 'solid' and it seemed to fit better with the language of
+my engine.
+
+## Liquids
+
+Here are the properties I can currently set on a liquid:
+
+```rust
+Liquid {
+    direction_of_flow: Vector2f::new(0.2, 0.),
+    default_buoyancy: Buoyancy {
+      upthrust: 1.0,
+      drag_coefficients: (0.15, 3.),
+      jump_scale_factor: 0.4,
+      waterline: 0.3,
+      settle_rate: 0.01,
+    },
+}
+```
+
+Before I can do anything interesting with these properties, I first need to
+know which entities are 'submerged' in the liquid. I created a resource called
+`SubmergedEntities` that tracks this and a system that incrementally keeps this
+resource up to date based on which entities have moved since the last update. I
+consider an entity 'submerged' if its bounding box overlaps with the liquid,
+even slightly. In other parts of the code I need to distinguish 'partially'
+versus 'fully' submerged, but I check this as needed.
+
+With that out of the way, I wrote a `LiquidPhysics` system that applies these
+properties to submerged entities. I made it so this only applies to those that
+have a `Mass` component so that static geometry (e.g. the floor) isn't
+affected. I initially tried to make `LiquidPhysics` work in harmony with my
+existing `GravityPhysics` system but that turned out to be really fiddly so I
+abandoned that. Instead, it's one or the other: if an entity is submerged,
+`LiquidPhysics` handles it. If it is not, `GravityPhysics` does.
+
+Here's a quick summary of what each properties does:
+
+- **direction_of_flow:** controls the direction/speed entities move in the liquid
+- **upthrust:** the same as above but only for the y-direction
+- **drag_coefficients:** controls how rapidly an entity reaches the flow velocity when it's not moving at that velocity, e.g. if the player jumps into some water, they will initially be travelling much faster than it
+- **jump_scale_factor:** when an entity is 'walking underwater', i.e. it is standing on the ground in liquid, this parameter reduces the velocity applied when it jumps
+- **waterline:** when an entity is floating at the top of the liquid, this parameter controls how high it naturally sits above the liquid, as a fraction of height
+- **settle rate:** when an entity isn't sitting at its waterline, this parameter controls how quickly it converges to it
+
+
+There's quite a lot going on here but `LiquidPhysics` didn't turn out too
+complicated, only 100 lines or so. I did a bunch of reading about [terminal
+velocity](https://en.wikipedia.org/wiki/Terminal_velocity) and
+[drag](https://en.wikipedia.org/wiki/Drag_(physics)) before writing it which
+helped. The reason most of the properties are nested in a `default_buoyancy`
+field is so I can override them on a per-entity basis. For example, I might
+want something to float on the surface while everything else sinks or to set a
+lower waterline for a pirate ship.
+
+## Swimming
+
+I probably spent most of my time working on the swimming controls. I watched a
+few videos of how swimming is typically handled in 2D games. In [Super
+Mario](https://youtu.be/1wR8x5b_ExM?t=298), the swimming is a bit like jumping.
+The player constantly sinks and swims up by jumping. They stay upright at all
+times. I eventually got a nostalgia trip watching how swimming works in [Ecco
+the Dolphin](https://youtu.be/lSbLrWRLWl4?t=51). I never really understood what
+to do in that game but I remember it being fun to play. I like that the
+character rotates to face the direction they're heading. The boost is fun, too.
+
+Currently, the on-land controls of my game are very responsive - you can
+immediately switch directions. I figured it would be a nice change to introduce
+some delay in water so you first have to turn to face the direction you want to
+go, perhaps bumping into a wall along the way. You effectively always move in
+the direction your head is pointing and turn at some arbitrary rate I can
+control. Most people are better on land than in water so this fits well with
+reality. Another minor reason for choosing this was that my engine works with
+arbitrary transforms - it's richer than a tile-based engine, which many 2D
+games are built on, so I figured I may as well make use of this capability. If
+I add analogue controller support, I can see it working well with that, too.
+
+<span ref={r = createRef()} />
+
+The way this works is by mapping the direction you're pressing to one of the
+eight intercardinal directions. I use the nautical term
+'[course](https://en.wikipedia.org/wiki/Course_(navigation))' for this. I then
+get the angle the player is current facing which I call its
+'[heading](https://en.wikipedia.org/wiki/Heading_(navigation))' and figure out
+which direction to turn to get there soonest. This is a bit fiddly because
+angles wrap around and are usually in the range -PI to PI (from the
+[`atan2`](https://en.wikipedia.org/wiki/Atan2) function). Rust has a
+[`rem_euclid`](https://doc.rust-lang.org/std/primitive.f32.html#method.rem_euclid)
+function that helps with this. In the case when the player switches to the
+opposite direction (e.g. left to right), either direction works. I decided to
+arbitrarily* turn counter-clockwise.
+
+
+<Aside target={r}>
+
+My very weak argument for turning counter-clockwise is that historically,
+levels go from left to right so it seems likely you'd reach some goal at the
+end of the level on the right. If you then want to return to 'return home',
+you'd probably prefer to head up towards the surface, rather than down farther
+into the water.
+
+</Aside>
+
+Some things I added later were 'hold space to boost' (inspired by Ecco) and
+automatic uprighting. If the player is idle, it seemed a bit weird to just
+leave them hanging upside down in water so after a couple of seconds, I rotate
+them back to their upright position. I quite liked the possibility of using
+this for some tricky puzzle later in the game. Maybe there's a spike-ridden
+section that requires very fine turns and requires you to rotate back to your
+upright position, rather than holding up and turning in a wider arc. That's
+pretty contrived, though.
+
+One thing that caused me a headache was what to do at the surface of the water.
+What was basically happening was the player was swimming past the waterline and
+out of the liquid. They were then falling back down again when `GravityPhysics`
+kicked in, flipping between the two. It was very glitchy. My solution to this
+was to introduce some logic for
+'[bobbing](https://ell.stackexchange.com/questions/95478/bobbing-in-the-water)'
+on the water. I tried a few variations but eventually settled on a simple
+approach that allowed the player to keep swimming up for a small amount of time
+above their waterline but at a greatly reduced speed. After which, they'd drop
+down (at the same speed) until below the waterline where they could 'bob up'
+again.
+
+To control the swim speed and rate they turn in water, I added `swim_speed` and
+`turn_rate` to my pre-existing `Agility` component that controls things like
+the player's foot speed and width of their jump arc.
+
+## Walking underwater
+
+I decided I wanted the player to be able to walk at the bottom of the liquid.
+That's kind of how it works in reality and it didn't _seem_ like it would be
+hard to add. I basically distinguish between being 'suspended' in the liquid
+and not (e.g. when walking at the bottom). When you're not suspended, the
+player controls fall through to the already existing walking/jumping controls
+but with a few changes, mostly just slowing the player down and reducing their
+jump velocity (using the `jump_scale_factor` I mentioned earlier). You also
+can't boost to go faster.
+
+The slight difficulty here is that normally, gravity is pushing down on you,
+which keeps you on the ground. If you swim down to the ground but then stop
+pressing down, it doesn't know you're still 'touching' the ground because
+there's nothing pushing you into it each update (unless the liquid has negative
+flow in the y-direction). Maybe this isn't a problem for better engines than
+mine, but my fix was to basically constantly apply a negative velocity of the
+player's swim speed to keep them anchored on the ground after reaching it. I
+like this solution because it means if the liquid has a lot of upthrust - more
+than the player's swim speed - they won't be able to 'cheat' and stick to the
+ground when they shouldn't be able to. Similarly, my solution for bobbing on
+the water has a similar property. Once you're pushed under the water, its flow
+takes over and out-paces your swim speed.
+
+A problem I ran into at this point was with accidentally killing the player.
+When walking on the ground, i first reset the player's rotation so they're
+upright, but if they're too close to the ground (swimming parallel to it), this
+can sometimes place the player entity inside the ground. I have some code that
+tries to detect if the player has been crushed based on the magnitude of
+collision response. This can sometimes trip and kill the player. Not good!
+
+My solution (read: hack) for this is to give the player a 'free pass' from the
+grim reaper for a single frame - the exact moment their rotation is reset. I
+also re-position the player slightly to reduce the size of this collision and
+hopefully prevent any obscure/unlikely out-of-bounds problems this behaviour
+could cause. From testing, this seems to work fine, although there are still
+some weird things around locking on to ladders I need to look into when I have
+some debugging energy.
+
+Speaking of ladders, you can climb ladders underwater, too! Again, I made the
+controls fall through to the existing code (the `LadderControl` system) when it
+detects you're trying to climb. The only real difference is I don't allow the
+player to jump up from a ladder at all. They just 'drop' and go back to
+swimming which seemed most natural.
+
+Speaking of doors (oh, no one mentioned doors?), you can go through doors
+underwater, too! Again, I made the controls " " " " " " ... you get the
+idea. One thing to be slightly careful of is the 'up' key is now overloaded in
+that the player uses it to <span ref={r=createRef()}>swim</span> up and to go
+through doors. Underwater, it only activates the door if the 'up' key is
+pressed and released again within half a second.
+
+<Aside target={r}>
+
+This was slightly
+inspired by Vim's leader key timeout. Whether it'll feel ok in practice remains
+to be seen.
+
+</Aside>
+
+Fortunately, all of the above Just Works with another feature I have in the
+engine: **moving platforms**. This glues entities to platforms if they're
+'grounded' on them. They inherit the velocity of the platform, which gives the
+illusion they're being moved by it. I'm glad this still works underwater
+because I could see this being useful to move the player through water more
+quickly than they can swim. One minor difference underwater is that I made the
+player lose their momentum as soon as they leave the platform which seems more
+realistic due to the increased drag of the water. On land, the player preserves
+this momentum since the drag from air is negligible almost all the time (unless
+you're moving really quickly).
+
+Finally, a slightly weird thing, as far as visuals are concerned is that the
+player immediately flips to their upright position as soon as they touch the
+ground. This looks strange if you're swimming directly down and then are
+flipped upright in the blink of an eye, but I won't lose sleep over it.
+
+## Animation
+
+I'm [trying to
+draw](https://twitter.com/chrispatuzzo/status/1276154571027550209) the game
+assets myself. It takes me forever but I basically use Procreate (like a
+complete beginner) on my iPad Pro to draw individual sprites and then schedule
+them using a `SpriteAnimation` component in my engine. Here's how I set up the
+timings for the `SWIM_RIGHT` animation:
+
+```rust
+Sequence::looping(vec![
+    (0.15, SWIM_RIGHT_1), (0.25, SWIM_RIGHT_2), (0.15, SWIM_RIGHT_3),
+    (0.1, SWIM_RIGHT_4), (0.15, SWIM_RIGHT_5), (0.4, SWIM_RIGHT_6),
+    (0.1, SWIM_RIGHT_7), (0.1, SWIM_RIGHT_8),
+])
+```
+
+The `SWIM_RIGHT_6` frame is the one where the player character has his arms by
+his side after performing a stroke of swimming. It's supposed to look like
+they're gliding through the water for a brief moment before taking another
+stroke. My drawing skills are not very good though. I really struggled to find
+good side-on examples of people doing breast stroke (which I arbitrary decided
+on). I found some [reference
+videos](https://www.youtube.com/watch?v=9K1hcdvTLAk) on YouTube that helped a
+lot.
+
+My treading water animation is even worse and I _might_ replace it later, or
+just get rid of it entirely but it'll do for now. It kicks in when the player
+is fully upright and not pressing a directional key in the water. It was
+supposed to look like they were lifting their feet back a bit and leaning down
+into the water, but it just looks like their legs are contorting awkwardly. Oh
+well!
+
+After setting up an animation (like the one above), I have to schedule it to
+play at the right time (and speed) based on what the player is doing. The logic
+for this gets really hairy as you sometimes need to transition between
+animations based on time delays, which animation was playing previously, which
+direction the player was most recently facing, etc. My very painful way of
+handling this is a giant `match` statement that is a kind of state machine.
+
+I originally wanted the player to fall into the water using their normal
+falling animation before switching to the swimming animations after pressing a
+directional key but I spent several frustrated hours trying to get this to work
+properly. I eventually gave up and did a much simpler thing. Here are the lines
+I added to my `match` statement, which barely even use the conditions of the
+match statement besides being `suspended` (in liquid):
+
+<Figure>
+
+```rust
+let (state, speed) = match (climbing, grounded, suspended, x_dir, y_dir, previous, *previous_x, time) {
+    (_, _, true, _, _, _, _, _) if swimming == UP    => (SWIM_UP, 0.),
+    (_, _, true, _, _, _, _, _) if swimming == DOWN  => (SWIM_DOWN, 0.),
+    (_, _, true, _, _, _, _, _) if swimming == LEFT  => (SWIM_LEFT, swim_speed * SWIM_SPEED),
+    (_, _, true, _, _, _, _, _) if swimming == RIGHT => (SWIM_RIGHT, swim_speed * SWIM_SPEED),
+
+    (_, _, true, _, _, _, _, _) if facing == UP    => (TREAD_WATER, TREAD_SPEED),
+    (_, _, true, _, _, _, _, _) if facing == DOWN  => (SWIM_DOWN, 0.),
+    (_, _, true, _, _, _, _, _) if facing == LEFT  => (UPRIGHT_LEFT, 1.),
+    (_, _, true, _, _, _, _, _) if facing == RIGHT => (UPRIGHT_RIGHT, 1.),
+
+    // ... 50 much more horrible and order-dependent lines
+};
+```
+
+Scheduling the swimming animations to play at the right time
+
+</Figure>
+
+The `SWIM_DOWN`, `UPRIGHT_LEFT` and `UPRIGHT_RIGHT` animations are just static
+frames with the player facing in each of those directions. I tried and failed
+for two or three hours to draw animations for swim up/down with the player
+facing the camera. Eventually I gave and up decided to solve the problem the
+way I know best, by layering on some programming to make the behaviour look
+'intentional' rather than due to my hopelessness at drawing (see 'Visual
+delights' below).
+
+I decided to make the player face the camera when swimming up and have their
+back to the player when swimming down. I partly did this for variety, but this
+feels intuitively right to me for some reason and I don't know why. Maybe
+because when you're swimming down, there's less light so you can't really see
+where you're going. I don't know. What weird thing is going on in that head of
+mine?
+
+## Sprite scaling
+
+Fun fact: the character in the swimming sprites is actually slightly smaller
+than the rest of the sprites (e.g. when walking). This is because I needed to
+scale it down to fit the extended arms and legs in. This really messed me up
+and made the animation process more infuriating. I really didn't want to change
+the player's transform size depending on which animation frame they were on, so
+I implemented something I've wanted/needed in my engine for a while which is
+'sprite scaling'.
+
+This basically allows you to scale the sprite of an entity to be larger (or
+smaller) than its collider so that it can be displayed at one size, but it's
+treated in the engine at a different size - at least for the purpose of
+collision detection / resolution, etc. I don't know why I didn't add this
+sooner as it was really easy to add (10 minutes). It just never seemed high
+enough priority, I guess.
+
+The reason I've wanted this for a while is so I can stop the player hovering in
+the air so much when they inch off a platform. There's additional horizontal
+space in the walking animation sprites that's wider than the player's feet. If
+the collider is sized to the full width of the largest sprite, it means the
+player can effectively stand on thin air when there's the tiniest overlap at
+the edge that meets the platform. With the updated size, you still can but to a
+lesser extent than before:
+
+[collider vs sprite image]
+
+After adding sprite scaling, I decided to take a bit of time out to size the
+on-land sprites correctly first. I guess I just needed a break from the
+swimming stuff for a few hours. This was a bit fiddly because many of the
+triggers (e.g. when to move the camera) are activated when the player's
+collision box bumps into them. With that being slightly smaller, they ALL
+needed to be moved by a smidgen. Mindless work but my frazzled brain didn't
+mind. I also made some of the puzzles easier by widening some platforms that
+were a bit hard to land on with the reduced collider size. Here's an example:
+
+[before and after image]
+
+With sprite scaling in place, I could scale the swimming sprites up (a whopping
+8%). You can see this slight scaling at the edges of the water where the
+player's head overlaps the wall a bit:
+
+[hands overlap wall image]
+
+## Visual delights
+
+With all the functional stuff out of the way, I decided to try and make things
+pretty. The first thing I wanted to do something about were the static
+animations I was using for swimming up and down. These are still frames where
+the player is facing the camera or has his back to the camera. Kind of naff. My
+ingenious/ridiculous plan was to use the black cloak/smoke-y creature as a kind
+of fish tail to make it look like it was propelling the player up or down. This
+is the kind of thing I mean when I put "creative problem solver" on my CV.
+
+This was actually quite easy to implement. My particle system already supports
+many of the features I need to emit particles relative to some rotated
+direction (that oscillates back and forth). I made it so the 'cloak' is
+attached to the player's feet when swimming up or down and the rate of
+oscillation and range of angles change when boosting (may as well add this). It
+looks a bit goofy but it's unique and I like it. It subtly reinforces the
+notion this creature is there to help you, which may or may not be true. WHO
+KNOWS!?
+
+While I worked on that part of the code, I made a few changes that meant the
+player wouldn't have to wait around so much in other parts of the game.
+Previously, the cloak's behaviour was, for all intents and purposes, completely
+random. Now it will do something potentially helpful with a configurable
+probability. I can use this to tune the pace of the game for some of the
+puzzles which might frustrate the player if they have to wait around too long.
+Sorry I'm being so vague about all this, I don't want to give _all_ my secrets
+away.
+
+<span ref={r = createRef()}></span>
+
+For the player, I added two emitters while swimming: `AIR_BUBBLES` and
+`PROPULSION_BUBBLES`. The former is active all the time while the player is
+submerged, whereas the latter activates while the player is submerged AND
+pressing a directional key. My particle system is getting pretty fancy/mature
+at this point which made adding emitters really easy. They're basically just a
+big bag of magic numbers. Here's how `AIR_BUBBLES` is set up:
+
+<Figure>
+
+```rust
+Emitter {
+    enabled: true,
+    spawn_rate: 2.0.into(),                       // On average, emit two particles per second using a Poisson distribution.
+    texture: (BUBBLE as f32).into(),
+    color_map: (&[STANDARD] as &[usize]).into(),
+    opacity: (0.5..1.0).into(),                   // Randomly choose an opacity between 0.5 and 1.0.
+    duration: (1.0..2.0).into(),
+    scale: (0.05..0.07).into(),                   // Randomly choose a uniform size.
+    rotation: (0.0..2. * PI).into(),
+    position: (-0.1..0.1, 0.75..0.95).into(),     // Position the bubbles approximately where the player's face is.
+    velocity: (-1.0..1.0, 0.5..1.5).into(),       // Bubbles should generally travel upwards.
+    fade_time: (0.).into(),                       // Don't fade out bubbles, make them pop.
+    z_index: 1.0.into(),                          // Place bubbles in front the entity they're attached to (the player).
+    lit: 1.0.into(),                              // These particles are subject to lighting.
+    relative: Relative {
+        velocity_rotation: false,                 // Bubbles should always travel upwards, regardless of player rotation.
+        ..Relative::default()                     // (many other settings are hidden in here)
+    }
+}
+```
+
+The particle emitter that produces air bubbles
+</Figure>
+
+<Aside target={r}>
+
+
+I switch off the emitters as the player reaches the surface as I didn't want
+bubbles to travel above the liquid. This was fairly easy to introspect based on
+the parameters of the emitter and the bounding boxes of the player and liquid.
+
+</Aside>
+
+Finally, I added one more emitter: this time to the liquid. Currently, I just
+render a pure blue sprite in front of the player with some a small opacity (0.3
+or so). I wanted to try and convey the  (combined) `direction_of_flow` and
+`upthrust` of the liquid to the player. I basically render some blurry black
+and white particles that travel in the direction of flow (thin end first). It
+took me some experimenting to settle on this approach. I first tried some
+textured water sprites, but the particle approach looks pretty good I think and
+is built from stuff I already have which I like.
+
+If the liquid doesn't have flow, I just randomly rotate the particles instead
+(as seen in the video). I reduce the opacity a bit to place less emphasis on
+the liquid's (non-existent) flow since I guess I want the player to not be
+subconsciously confused by it. Here's that emitter:
+
+<Figure>
+
+```rust
+Emitter {
+    enabled: true,
+    spawn_rate: (scale.x * scale.y * 10.).into(),             // The number of particles is proportional to the liquid's area.
+    texture: (&[WHITE_BLUR, BLACK_BLUR] as &[usize]).into(),  // Add highlights and lowlights.
+    color_map: (&[STANDARD] as &[usize]).into(),
+    opacity: opacity,
+    duration: (1.0..5.0).into(),
+    scale: (0.2..1.0, 0.1..0.5).into(),                       // Randomly choose a non-uniform size (there are two ranges).
+    rotation: angle.into(),
+    position: (-scale.x..scale.x, -scale.y..scale.y).into(),  // Particles emit uniformly from the entire region of the liquid.
+    velocity: (x_vel, y_vel).into(),                          // Match the flow of the water.
+    fade_time: (0.5..1.0).into(),
+    z_index: (-3.0..0.0).into(),                              // Place some particles in front and some behind submerged entities.
+    lit: (1.0).into(),
+    relative: Relative::default(),
+}.into()
+```
+
+Emitting particles in the direction of the liquid's flow
+</Figure>
+
+### Summary
+
+In summary, it turned out to be a surprising amount of work to add water and
+swimming to my engine/game, but I'm fairly happy with the result. There's
+plenty that could be improved (e.g. hire an actual artist) but I probably
+over-engineered things to a greater extent than I'll ever need for most
+scenarios. It took almost a full week of long days to figure all this out and
+get it working the way I wanted.
+
+Hopefully you got something out of this. I'll announce more of these on
+[twitter](https://twitter.com/chrispatuzzo) so please follow me there.
+Eventually I'll open things up to playtesters so let me know there if that
+appeals to you.
+
+<NavBar previous={pairProgrammingInSentient} />
