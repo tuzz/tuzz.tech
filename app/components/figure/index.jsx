@@ -17,8 +17,8 @@ const Figure = ({ children, href, className }) => {
   );
 };
 
-Figure.Video = ({ children, src, ...props }) => (
-  <Figure href={src} {...props}>
+Figure.Video = ({ children, href, src, ...props }) => (
+  <Figure href={href || src} {...props}>
     <video muted autoPlay playsInline loop>
       <source src={src} type="video/mp4" />
     </video>
@@ -27,8 +27,8 @@ Figure.Video = ({ children, src, ...props }) => (
   </Figure>
 );
 
-Figure.Image = ({ children, src, alt, ...props }) => (
-  <Figure href={src} {...props}>
+Figure.Image = ({ children, href, src, alt, ...props }) => (
+  <Figure href={href || src} {...props}>
     <img src={src} alt={alt} />
 
     {children}

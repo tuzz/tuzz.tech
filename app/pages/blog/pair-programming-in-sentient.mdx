@@ -1,4 +1,4 @@
-import { grapplingWithInfinity } from "../../helpers/page_listing";
+import { grapplingWithInfinity, takingThePlunge } from "../../helpers/page_listing";
 import formatDate from "../../helpers/format_date";
 import MetaTags from "../../components/meta_tags";
 import NavBar from "../../components/nav_bar";
@@ -18,7 +18,7 @@ export const image = { path: "/images/pair-programming-in-sentient.png", width: 
 export const date = "2020-01-13T12:00Z";
 
 <MetaTags {...{ title, path, type, description, keywords, image }} />
-<NavBar previous={grapplingWithInfinity} />
+<NavBar previous={grapplingWithInfinity} next={takingThePlunge} />
 
 <title>{title}</title>
 <h1>{title}</h1>
@@ -109,4 +109,4 @@ goodness.
 Ahh, the YouTube comments section, aka. a dumpster fire.
 </p></Aside>
 
-<NavBar previous={grapplingWithInfinity} />
+<NavBar previous={grapplingWithInfinity} next={takingThePlunge} />
